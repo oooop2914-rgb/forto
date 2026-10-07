@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0A1128">
+  
+  <!-- SEO -->
+  <title>Wahyu Nugroho — Fullstack Developer & Founder ZuriHost</title>
+  <meta name="description" content="Portfolio Wahyu Nugroho, 15 y/o Fullstack Developer & Founder ZuriHost. Menguasai JavaScript, Golang, Next.js, Python, C++. Building bold web experiences & reliable hosting infrastructure.">
+  <meta name="keywords" content="Wahyu Nugroho, ZuriHost, Fullstack Developer, Next.js, Golang, JavaScript, Portfolio Indonesia">
+  <meta name="author" content="Wahyu Nugroho">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%232563EB' width='100' height='100'/><text x='50' y='50' font-size='60' fill='white' text-anchor='middle' dominant-baseline='central' font-family='Arial' font-weight='900'>WN</text></svg>">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  
+  <style>
+    /* ============================
+       CSS VARIABLES & BASE
+       ============================ */
+    :root {
+      --dark-blue: #0A1128;
+      --deep-navy: #001F54;
+      --electric-blue: #2563EB;
+      --sky: #3B82F6;
+      --white: #FFFFFF;
+      --jet-black: #0B0B0B;
+      --glass: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.15);
+    }
+    
+    * { -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark-blue);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+    body.loading { overflow: hidden; }
+    
+    /* ANIMASI TRANSISI MODE (LIGHT/DARK) HALUS */
+    body.theme-transitioning, body.theme-transitioning * {
+        transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out, border-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out !important;
+    }
+    
+    #themeToggle i, #themeToggleMobile i {
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    h1, h2, h3, h4, h5, h6, .font-heading {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    
+    .font-mono {
+        font-family: 'Fira Code', monospace;
+    }
+    
+    /* Noise overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    
+    /* Grid background */
+    .bg-grid {
+      background-image: 
+        linear-gradient(rgba(37, 99, 235, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37, 99, 235, 0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* ============================
+       NEUBRUTALISM UTILITIES
+       ============================ */
+    .brutal-border { border: 3px solid var(--white); }
+    .brutal-border-thick { border: 4px solid var(--white); }
+    .brutal-border-black { border: 3px solid var(--jet-black); }
+    
+    .brutal-shadow { box-shadow: 8px 8px 0 var(--jet-black); }
+    .brutal-shadow-blue { box-shadow: 8px 8px 0 var(--electric-blue); }
+    
+    .brutal-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.875rem 1.75rem; font-weight: 700;
+      font-family: 'Space Grotesk', sans-serif;
+      border: 3px solid var(--white);
+      background: var(--electric-blue); color: var(--white);
+      box-shadow: 6px 6px 0 var(--jet-black);
+      transition: all 0.15s ease; cursor: pointer;
+      text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.875rem;
+    }
+    .brutal-btn:hover { transform: translate(3px, 3px); box-shadow: 3px 3px 0 var(--jet-black); }
+    .brutal-btn:active { transform: translate(6px, 6px); box-shadow: 0 0 0 var(--jet-black); }
+    .brutal-btn-outline { background: transparent; color: var(--white); }
+    .brutal-btn-white { background: var(--white); color: var(--jet-black); border-color: var(--jet-black); }
+    
+    /* Glassmorphism */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    /* ============================
+       CONSOLE LOADING SCREEN
+       ============================ */
+    #loading-screen {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #000;
+      display: flex; flex-direction: column; justify-content: flex-start;
+      padding: 2rem;
+      transition: opacity 0.5s, transform 0.5s;
+      overflow: hidden;
+    }
+    #loading-screen.hide { opacity: 0; pointer-events: none; }
+    
+    #console-output {
+        color: #10B981;
+        font-family: 'Fira Code', monospace;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        white-space: pre-wrap;
+        flex-grow: 1;
+        overflow-y: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        margin-bottom: 2rem;
+    }
+
+    .log-line { margin: 0; opacity: 0; animation: fadeInLog 0.1s forwards; }
+    .log-line.error { color: #EF4444; }
+    .log-line.warn { color: #FACC15; }
+    .log-line.info { color: #3B82F6; }
+
+    @keyframes fadeInLog { to { opacity: 1; } }
+
+    .console-loader-bar-container {
+        width: 100%;
+        max-width: 600px;
+        margin-top: auto;
+    }
+    .console-loader-bar-track {
+        border: 2px solid #10B981;
+        padding: 2px;
+        background: transparent;
+    }
+    #console-loader-bar {
+        height: 16px;
+        background: #10B981;
+        width: 0%;
+        transition: width 0.1s linear;
+    }
+    .console-loader-meta {
+        display: flex; justify-content: space-between; margin-top: 0.5rem;
+        font-family: 'Fira Code', monospace; font-size: 0.75rem; color: #10B981;
+    }
+
+    .blinking-cursor {
+        display: inline-block; width: 10px; height: 1em; background: #10B981;
+        animation: blink 1s step-end infinite; vertical-align: bottom;
+    }
+
+    /* ============================
+       NAVBAR
+       ============================ */
+    #navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; transition: all 0.3s; }
+    .navbar-inner {
+      display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem;
+      background: rgba(10, 17, 40, 0.6); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    #navbar.scrolled .navbar-inner { padding: 0.75rem 1.5rem; background: rgba(10, 17, 40, 0.9); }
+    .nav-logo { font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 1.5rem; padding: 0.5rem 1rem; background: var(--electric-blue); border: 3px solid var(--white); box-shadow: 4px 4px 0 var(--jet-black); transition: all 0.15s; }
+    .nav-logo:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--jet-black); }
+    .nav-link { position: relative; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.5rem 0; color: rgba(255, 255, 255, 0.7); transition: color 0.2s; }
+    .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px; background: var(--electric-blue); transition: width 0.3s; }
+    .nav-link:hover, .nav-link.active { color: var(--white); }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+    
+    #bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; display: none; background: rgba(10, 17, 40, 0.95); backdrop-filter: blur(20px); border-top: 3px solid var(--white); padding: 0.5rem; }
+    .bottom-nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.25rem; padding: 0.5rem; color: rgba(255, 255, 255, 0.6); transition: all 0.2s; font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; }
+    .bottom-nav-item.active { color: var(--electric-blue); transform: translateY(-4px); }
+
+    /* ============================
+       UTILITIES & ANIMATIONS
+       ============================ */
+    #scroll-progress { position: fixed; top: 0; left: 0; height: 4px; background: var(--electric-blue); z-index: 200; width: 0%; transition: width 0.1s linear; box-shadow: 0 0 20px var(--electric-blue); }
+    .typing-cursor { display: inline-block; width: 3px; height: 1em; background: var(--electric-blue); margin-left: 4px; animation: blink 1s infinite; vertical-align: middle; }
+    @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+    
+    .marquee { overflow: hidden; white-space: nowrap; border-top: 3px solid var(--white); border-bottom: 3px solid var(--white); background: var(--electric-blue); padding: 1rem 0; }
+    .marquee-content { display: inline-block; animation: marquee 25s linear infinite; font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 1.25rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    .marquee:hover .marquee-content { animation-play-state: paused; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    
+    .pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: #10B981; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); animation: pulse-green 2s infinite; }
+    @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
+    
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s, transform 0.6s; }
+    .reveal.show { opacity: 1; transform: translateY(0); }
+    
+    .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; pointer-events: none; z-index: 0; }
+    .blob-blue { background: var(--electric-blue); }
+    .blob-sky { background: var(--sky); }
+    
+    /* Interactive Image Styles */
+    #interactive-img-mobile {
+        touch-action: none; /* Cegah scroll saat memutar gambar */
+        cursor: grab;
+        will-change: transform;
+    }
+    #interactive-img-mobile:active {
+        cursor: grabbing;
+    }
+    
+    /* Cursor - Aktif via class JS */
+    .cursor-dot, .cursor-ring { position: fixed; pointer-events: none; z-index: 9998; mix-blend-mode: difference; display: none; }
+    .cursor-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--white); transform: translate(-50%, -50%); }
+    .cursor-ring { width: 40px; height: 40px; border: 2px solid var(--white); border-radius: 50%; transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s; }
+    .cursor-ring.hover { width: 60px; height: 60px; }
+    body.custom-cursor-active * { cursor: none !important; }
+    body.custom-cursor-active .cursor-dot, body.custom-cursor-active .cursor-ring { display: block; }
+
+    /* Custom Scrollbar for Horizontal Journey */
+    .journey-scroll-container::-webkit-scrollbar { height: 8px; display: none; }
+    .journey-scroll-container::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); }
+    .journey-scroll-container::-webkit-scrollbar-thumb { background: #2563EB; border: 2px solid var(--dark-blue); }
+    
+    @media (min-width: 1024px) {
+        .journey-scroll-container::-webkit-scrollbar { display: block; }
+    }
+    
+    @media (max-width: 1023px) {
+      #bottom-nav { display: flex; }
+      body { padding-bottom: 70px; }
+      #navbar .nav-menu, #navbar .nav-cta { display: none; }
+      body.custom-cursor-active * { cursor: auto !important; }
+      /* Snap for mobile journey */
+      .journey-scroll-container {
+          scroll-snap-type: x mandatory;
+          -webkit-overflow-scrolling: touch;
+      }
+      .journey-card { scroll-snap-align: center; }
+    }
+
+    /* ============================
+       LIGHT MODE FIX (OVERRIDES)
+       ============================ */
+    body.light { background: #F8FAFC; color: var(--jet-black); }
+    body.light .text-white:not(.keep-white) { color: #0F172A !important; }
+    body.light .text-blue-100\/80, body.light .text-blue-200, body.light .text-blue-300 { color: #334155 !important; }
+    
+    body.light .bg-\[\#001F54\], body.light section[style*="background: #001F54;"] { background: #E2E8F0 !important; }
+    body.light .bg-\[\#0A1128\], body.light section[style*="background: #0A1128;"] { background: #FFFFFF !important; border-color: var(--jet-black) !important; }
+    
+    body.light .brutal-border { border-color: var(--jet-black) !important; }
+    body.light .brutal-border-thick { border-color: var(--jet-black) !important; }
+    
+    body.light .glass, body.light .glass-card { background: rgba(255, 255, 255, 0.85) !important; border-color: rgba(0, 0, 0, 0.15) !important; }
+    body.light .nav-link { color: rgba(0, 0, 0, 0.6) !important; }
+    body.light .nav-link:hover, body.light .nav-link.active { color: var(--jet-black) !important; }
+    body.light .navbar-inner { background: rgba(248, 250, 252, 0.8); border-bottom-color: rgba(0,0,0,0.1); }
+    body.light #bottom-nav { background: rgba(248, 250, 252, 0.95); border-top-color: var(--jet-black); }
+    body.light .bottom-nav-item { color: rgba(0, 0, 0, 0.5); }
+    body.light .bottom-nav-item.active { color: var(--electric-blue); }
+    
+    body.light .bg-grid { background-image: linear-gradient(rgba(37, 99, 235, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(37, 99, 235, 0.06) 1px, transparent 1px) !important; }
+    
+    /* Prevent light mode from breaking buttons and colored badges */
+    body.light .brutal-btn, body.light .bg-\[\#2563EB\], body.light .bg-\[\#10B981\], body.light .bg-\[\#0EA5E9\], body.light .bg-\[\#FACC15\] { border-color: var(--jet-black) !important; }
+    body.light .brutal-btn .text-white, body.light .bg-\[\#2563EB\] .text-white, body.light .bg-\[\#10B981\] .text-white, body.light .bg-\[\#0EA5E9\] .text-white { color: #FFFFFF !important; }
+    body.light .brutal-btn-outline { color: var(--jet-black) !important; border-color: var(--jet-black) !important; }
+    body.light .marquee { border-color: var(--jet-black); }
+  </style>
+</head>
+<body class="loading">
+
+  <!-- ============================
+       CONSOLE LOADING SCREEN
+       ============================ -->
+  <div id="loading-screen">
+    <div id="console-output"></div>
+    <div class="console-loader-bar-container">
+      <div class="console-loader-bar-track">
+        <div id="console-loader-bar"></div>
+      </div>
+      <div class="console-loader-meta">
+        <span>SYS.BOOT_SEQ</span>
+        <span id="console-percent">0%</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="scroll-progress"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ============================
+       NAVBAR
+       ============================ -->
+  <nav id="navbar">
+    <div class="navbar-inner">
+      <a href="#hero" class="nav-logo text-white keep-white">WN</a>
+      
+      <div class="nav-menu hidden lg:flex items-center gap-8">
+        <a href="#hero" class="nav-link active">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#journey" class="nav-link">Journey</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </div>
+      
+      <div class="nav-cta hidden lg:flex items-center gap-3">
+        <button id="themeToggle" class="brutal-btn brutal-btn-outline text-white keep-white" style="padding: 0.5rem;" aria-label="Toggle theme">
+          <i data-lucide="moon" style="width:18px;height:18px;"></i>
+        </button>
+        <a href="https://t.me/ZuriHostingBot" target="_blank" class="brutal-btn text-white keep-white">
+          <i data-lucide="send" style="width:16px;height:16px;"></i> Hire Me
+        </a>
+      </div>
+      
+      <button id="themeToggleMobile" class="lg:hidden brutal-btn brutal-btn-outline text-white keep-white" style="padding: 0.5rem;" aria-label="Toggle theme">
+        <i data-lucide="moon" style="width:18px;height:18px;"></i>
+      </button>
+    </div>
+  </nav>
+
+  <nav id="bottom-nav">
+    <a href="#hero" class="bottom-nav-item active" data-section="hero"><i data-lucide="home" style="width:20px;height:20px;"></i><span>Home</span></a>
+    <a href="#about" class="bottom-nav-item" data-section="about"><i data-lucide="user" style="width:20px;height:20px;"></i><span>About</span></a>
+    <a href="#projects" class="bottom-nav-item" data-section="projects"><i data-lucide="folder-code" style="width:20px;height:20px;"></i><span>Work</span></a>
+    <a href="#journey" class="bottom-nav-item" data-section="journey"><i data-lucide="map" style="width:20px;height:20px;"></i><span>Journey</span></a>
+    <button class="bottom-nav-item open-sheet" aria-label="Hire Me"><i data-lucide="mail" style="width:20px;height:20px;"></i><span>Hire Me</span></button>
+  </nav>
+
+  <!-- ============================
+       HERO SECTION
+       ============================ -->
+  <section id="hero" class="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden bg-grid">
+    <div class="blob blob-blue" style="width:400px;height:400px;top:10%;left:-100px;"></div>
+    <div class="blob blob-sky" style="width:300px;height:300px;bottom:10%;right:-80px;"></div>
+    
+    <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
+      <div class="grid lg:grid-cols-5 gap-12 items-center">
+        
+        <!-- MOBILE IMAGE (Ditempatkan Pertama Agar Muncul di Atas pada HP) -->
+        <div class="lg:hidden flex flex-col items-center justify-center mb-6 reveal pt-8">
+          <div class="relative">
+            <!-- Container ber-ID untuk script interaktif -->
+            <div id="interactive-img-mobile" class="brutal-border-thick brutal-shadow overflow-hidden rounded-full" style="width: 180px; height: 180px; background: linear-gradient(135deg, #2563EB, #001F54);">
+              <img src="https://files.catbox.moe/2ygvmz.jpg" alt="Wahyu" class="block w-full h-full object-cover pointer-events-none" />
+            </div>
+            <!-- Badge Tidak ikut berputar (di luar div interaktif) -->
+            <div class="absolute bottom-2 right-2 brutal-border bg-[#10B981] px-2 py-1 text-xs font-bold flex items-center gap-1 text-white keep-white pointer-events-none" style="box-shadow: 3px 3px 0 var(--jet-black); z-index: 10;">
+              <div class="pulse-dot" style="width:6px;height:6px;"></div><span>OPEN</span>
+            </div>
+          </div>
+          <!-- Teks Petunjuk Interaksi -->
+          <div class="text-[10px] text-blue-300 font-bold mt-4 text-center flex items-center justify-center gap-1 opacity-80 animate-pulse tracking-widest uppercase bg-[#0A1128]/50 px-3 py-1 rounded-full border border-blue-500/30">
+            <i data-lucide="rotate-cw" style="width:12px;height:12px;"></i> Sentuh & Putar Gambarnya!
+          </div>
+        </div>
+        
+        <!-- TEXT CONTENT -->
+        <div class="lg:col-span-3 reveal">
+          <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] px-4 py-2 mb-6" style="box-shadow: 4px 4px 0 var(--jet-black);">
+            <i data-lucide="rocket" class="text-white keep-white" style="width:16px;height:16px;"></i>
+            <span class="font-heading font-bold text-sm tracking-widest text-white keep-white">15 Y/O FOUNDER</span>
+          </div>
+          
+          <h1 class="font-heading text-white leading-[0.95] mb-4" style="font-size: clamp(2.75rem, 7vw, 6rem);">
+            WAHYU<br><span style="color: #2563EB;">NUGROHO</span>
+          </h1>
+          
+          <div class="mb-6 min-h-[2rem]">
+            <span id="typingText" class="text-lg md:text-xl text-blue-200 font-medium"></span><span class="typing-cursor"></span>
+          </div>
+          
+          <!-- Dashboard Overview Panel -->
+          <div class="glass-card brutal-border p-5 mb-8 max-w-xl reveal show" style="box-shadow: 6px 6px 0 var(--jet-black); border-color: rgba(255, 255, 255, 0.5);">
+            <div class="flex items-center gap-2 mb-4 border-b border-white/20 pb-3">
+              <i data-lucide="terminal" style="width:18px;height:18px;color:#2563EB;"></i>
+              <span class="text-xs font-bold tracking-widest text-blue-300">SYSTEM.PROFILE_OVERVIEW</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 text-sm">
+              <div>
+                <div class="text-white/50 font-bold tracking-wider text-[10px] mb-1">IDENTITAS</div>
+                <div class="font-semibold text-white text-base">Wahyu Nugroho</div>
+              </div>
+              <div>
+                <div class="text-white/50 font-bold tracking-wider text-[10px] mb-1">UMUR</div>
+                <div class="font-semibold text-white text-base">15 Tahun</div>
+              </div>
+              <div>
+                <div class="text-white/50 font-bold tracking-wider text-[10px] mb-1">SPESIALISASI</div>
+                <div class="font-semibold text-white text-base">Fullstack & Cloud Infra</div>
+              </div>
+              <div>
+                <div class="text-white/50 font-bold tracking-wider text-[10px] mb-1">SYSTEM STATUS</div>
+                <div class="font-semibold text-[#10B981] flex items-center gap-2 text-base">
+                  <div class="pulse-dot"></div> Online & Ready
+                </div>
+              </div>
+            </div>
+            <p class="text-sm text-blue-100/80 mt-4 pt-4 border-t border-white/20 leading-relaxed">
+              Membangun infrastruktur hosting berkinerja tinggi (ZuriHost) yang andal untuk developer & bisnis di seluruh Indonesia.
+            </p>
+          </div>
+          
+          <div class="flex flex-wrap gap-4 mb-8">
+            <a href="#projects" class="brutal-btn text-white keep-white"><i data-lucide="folder-code" style="width:18px;height:18px;"></i> Lihat Project</a>
+            <button class="brutal-btn brutal-btn-outline open-sheet"><i data-lucide="download" style="width:18px;height:18px;"></i> Hubungi Saya</button>
+          </div>
+        </div>
+        
+        <!-- DESKTOP IMAGE -->
+        <div class="lg:col-span-2 reveal hidden lg:block">
+          <div class="relative inline-block" style="transform: rotate(-3deg); transition: transform 0.3s;" id="desktop-img-hover">
+            <div class="brutal-border-thick brutal-shadow-blue overflow-hidden" style="background: linear-gradient(135deg, #2563EB, #001F54);">
+              <img src="https://files.catbox.moe/2ygvmz.jpg" alt="Wahyu Nugroho" loading="lazy" class="block w-[320px] h-[380px] object-cover" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 320 380%22><rect width=%22320%22 height=%22380%22 fill=%22%232563EB%22/></svg>';" />
+            </div>
+            <div class="absolute -top-4 -right-4 brutal-border bg-[#2563EB] px-3 py-1 font-heading font-bold text-sm text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);">15 Y/O</div>
+            <div class="absolute -bottom-4 -left-4 glass-card px-3 py-2 flex items-center gap-2 text-sm font-bold text-white"><i data-lucide="crown" style="width:16px;height:16px;color:#FACC15;"></i> Founder</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee">
+    <div class="marquee-content text-white keep-white">
+      FULLSTACK DEVELOPER ★ FOUNDER @ZURIHOST ★ 15 Y/O ★ JAVASCRIPT ★ GOLANG ★ NEXT.JS ★ PYTHON ★ C++ ★ FULLSTACK DEVELOPER ★ FOUNDER @ZURIHOST ★ 15 Y/O ★ JAVASCRIPT ★ GOLANG ★ NEXT.JS ★ PYTHON ★ C++ ★ 
+    </div>
+  </div>
+
+  <!-- ============================
+       BIRTHDAY SECTION
+       ============================ -->
+  <section id="birthday" class="relative py-24 bg-grid overflow-hidden" style="background: #001F54;">
+    <div class="blob blob-blue" style="width:400px;height:400px;top:20%;right:-100px;opacity:0.2;"></div>
+    <div class="relative z-10 max-w-6xl mx-auto px-6 text-center">
+      <div class="reveal">
+        <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] px-4 py-2 mb-6 text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="cake" style="width:16px;height:16px;"></i><span class="font-heading font-bold text-sm tracking-widest">BIRTHDAY MODE</span></div>
+        <h2 class="font-heading text-white mb-4" style="font-size: clamp(2rem, 5vw, 4rem);">COUNTDOWN TO MY BIRTHDAY</h2>
+        <p class="text-lg text-blue-300 mb-12">Menuju umur 16 tahun — <span class="font-bold text-white">15 Juni</span></p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
+        <div class="glass-card brutal-border reveal p-6 md:p-8" style="box-shadow: 6px 6px 0 var(--jet-black);"><i data-lucide="calendar-days" class="mx-auto mb-3" style="width:32px;height:32px;color:#2563EB;"></i><div id="cd-days" class="font-heading font-black text-white" style="font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1;">00</div><div class="text-xs text-blue-300 mt-3 tracking-[0.3em] font-bold">HARI</div></div>
+        <div class="glass-card brutal-border reveal p-6 md:p-8" style="box-shadow: 6px 6px 0 var(--jet-black);"><i data-lucide="clock" class="mx-auto mb-3" style="width:32px;height:32px;color:#2563EB;"></i><div id="cd-hours" class="font-heading font-black text-white" style="font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1;">00</div><div class="text-xs text-blue-300 mt-3 tracking-[0.3em] font-bold">JAM</div></div>
+        <div class="glass-card brutal-border reveal p-6 md:p-8" style="box-shadow: 6px 6px 0 var(--jet-black);"><i data-lucide="timer" class="mx-auto mb-3" style="width:32px;height:32px;color:#2563EB;"></i><div id="cd-minutes" class="font-heading font-black text-white" style="font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1;">00</div><div class="text-xs text-blue-300 mt-3 tracking-[0.3em] font-bold">MENIT</div></div>
+        <div class="glass-card brutal-border reveal p-6 md:p-8" style="box-shadow: 6px 6px 0 var(--jet-black);"><i data-lucide="zap" class="mx-auto mb-3" style="width:32px;height:32px;color:#2563EB;"></i><div id="cd-seconds" class="font-heading font-black text-white" style="font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1;">00</div><div class="text-xs text-blue-300 mt-3 tracking-[0.3em] font-bold">DETIK</div></div>
+      </div>
+
+      <div class="reveal max-w-2xl mx-auto">
+        <div class="flex justify-between text-sm font-bold text-blue-300 mb-3 tracking-widest"><span>PROGRESS MENUJU ULANG TAHUN</span><span id="progress-percent">0%</span></div>
+        <div class="brutal-border p-1 bg-[#0A1128]" style="box-shadow: 6px 6px 0 var(--jet-black);"><div id="birthday-progress" class="h-4 bg-[#2563EB] transition-all duration-1000" style="width: 0%;"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       ABOUT SECTION
+       ============================ -->
+  <section id="about" class="relative py-24 overflow-hidden bg-grid">
+    <div class="blob blob-sky" style="width:400px;height:400px;bottom:0;left:-100px;"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16 reveal">
+        <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] px-4 py-2 mb-4 text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="user" style="width:16px;height:16px;"></i><span class="font-heading font-bold text-sm tracking-widest">ABOUT ME</span></div>
+        <h2 class="font-heading text-white" style="font-size: clamp(2rem, 5vw, 4rem);">SIAPA <span style="color:#2563EB;">WAHYU?</span></h2>
+      </div>
+
+      <div class="grid lg:grid-cols-5 gap-12 items-center">
+        <div class="lg:col-span-2 reveal">
+          <div class="relative inline-block mx-auto" style="transform: rotate(2deg);">
+            <div class="brutal-border-thick brutal-shadow overflow-hidden" style="background: linear-gradient(135deg, #2563EB, #001F54);">
+              <img src="https://files.catbox.moe/2ygvmz.jpg" alt="Wahyu Nugroho" class="block w-full max-w-[400px] aspect-[4/5] object-cover" />
+            </div>
+            <div class="absolute -bottom-4 -right-4 brutal-border bg-[#FACC15] text-black px-4 py-2 font-heading font-bold" style="box-shadow: 4px 4px 0 var(--jet-black);">FOUNDER</div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-3 reveal">
+          <div class="glass-card brutal-border p-8 md:p-10" style="box-shadow: 8px 8px 0 var(--jet-black);">
+            <p class="text-base md:text-lg text-blue-100/90 leading-relaxed mb-5">Halo! Saya <span class="font-bold text-white">Wahyu Nugroho</span>, developer <span class="bg-[#2563EB] px-2 py-0.5 font-bold text-white keep-white">15 tahun</span> dari Indonesia yang passionate di dunia <span class="font-bold text-white">web development</span> dan <span class="font-bold text-white">infrastructure</span>.</p>
+            <p class="text-base md:text-lg text-blue-100/90 leading-relaxed mb-5">Saya Founder & Creator utama <span class="bg-[#2563EB] px-2 py-0.5 font-bold text-white keep-white">ZuriHost</span> — platform layanan hosting yang saya bangun dari nol untuk membantu developer Indonesia punya akses hosting berkualitas dengan harga terjangkau.</p>
+            <p class="text-base md:text-lg text-blue-100/90 leading-relaxed">Perjalanan saya dimulai dari tahun 2019 saat masih iseng belajar coding. Dari rasa penasaran, sekarang jadi passion yang membawa saya membangun perusahaan sendiri.</p>
+
+            <div class="flex flex-wrap gap-3 mt-8">
+              <a href="https://t.me/ZuriHostingBot" target="_blank" class="brutal-btn text-white keep-white"><i data-lucide="send" style="width:16px;height:16px;"></i> Telegram</a>
+              <a href="mailto:ythprofryuga@gmail.com" class="brutal-btn brutal-btn-outline"><i data-lucide="mail" style="width:16px;height:16px;"></i> Email</a>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+            <div class="brutal-border bg-[#2563EB] p-4 text-center text-white keep-white" style="box-shadow: 5px 5px 0 var(--jet-black);"><div class="font-heading font-black text-3xl md:text-4xl text-white keep-white">15</div><div class="text-xs text-blue-100 mt-1 tracking-widest font-bold">YEARS OLD</div></div>
+            <div class="brutal-border bg-[#0A1128] p-4 text-center" style="box-shadow: 5px 5px 0 var(--jet-black);"><div class="font-heading font-black text-3xl md:text-4xl text-white">3+</div><div class="text-xs text-blue-300 mt-1 tracking-widest font-bold">PROJECTS</div></div>
+            <div class="brutal-border bg-[#0A1128] p-4 text-center" style="box-shadow: 5px 5px 0 var(--jet-black);"><div class="font-heading font-black text-3xl md:text-4xl text-white">1</div><div class="text-xs text-blue-300 mt-1 tracking-widest font-bold">COMPANY</div></div>
+            <div class="brutal-border bg-[#0A1128] p-4 text-center" style="box-shadow: 5px 5px 0 var(--jet-black);"><div class="font-heading font-black text-3xl md:text-4xl text-white">5</div><div class="text-xs text-blue-300 mt-1 tracking-widest font-bold">LANGUAGES</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       SKILLS SECTION
+       ============================ -->
+  <section id="skills" class="relative py-24 overflow-hidden bg-grid" style="background: #001F54;">
+    <div class="blob blob-blue" style="width:400px;height:400px;top:20%;right:-100px;opacity:0.2;"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16 reveal">
+        <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] px-4 py-2 mb-4 text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="code-2" style="width:16px;height:16px;"></i><span class="font-heading font-bold text-sm tracking-widest">TECH STACK</span></div>
+        <h2 class="font-heading text-white mb-4" style="font-size: clamp(2rem, 5vw, 4rem);">SKILLS & <span style="color:#2563EB;">TOOLS</span></h2>
+      </div>
+
+      <div class="mb-16">
+        <h3 class="font-heading text-white text-xl md:text-2xl mb-6 flex items-center gap-3 reveal"><i data-lucide="terminal" style="width:24px;height:24px;color:#2563EB;"></i> LANGUAGES</h3>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-lg mb-3">JavaScript</div><div class="flex justify-center gap-1"><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div></div></div>
+          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-lg mb-3">TypeScript</div><div class="flex justify-center gap-1"><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-slate-400/50"></div></div></div>
+          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-lg mb-3">Golang</div><div class="flex justify-center gap-1"><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-slate-400/50"></div></div></div>
+          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-lg mb-3">Python</div><div class="flex justify-center gap-1"><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-slate-400/50"></div><div class="w-2 h-2 bg-slate-400/50"></div></div></div>
+          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-lg mb-3">C++</div><div class="flex justify-center gap-1"><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-slate-400/50"></div><div class="w-2 h-2 bg-slate-400/50"></div></div></div>
+        </div>
+      </div>
+      
+      <div>
+        <h3 class="font-heading text-white text-xl md:text-2xl mb-6 flex items-center gap-3 reveal"><i data-lucide="wrench" style="width:24px;height:24px;color:#2563EB;"></i> FRAMEWORKS & TOOLS</h3>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-sm">Next.js</div></div>
+          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-sm">React</div></div>
+          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-sm">Node.js</div></div>
+          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-sm">Tailwind</div></div>
+          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-sm">Git</div></div>
+          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-sm">Linux</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       PROJECTS SECTION
+       ============================ -->
+  <section id="projects" class="relative py-24 bg-grid overflow-hidden">
+    <div class="blob blob-blue" style="width:400px;height:400px;top:10%;left:-100px;"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16 reveal">
+        <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] px-4 py-2 mb-4 text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="folder-code" style="width:16px;height:16px;"></i><span class="font-heading font-bold text-sm tracking-widest">MY WORK</span></div>
+        <h2 class="font-heading text-white mb-4" style="font-size: clamp(2rem, 5vw, 4rem);">FEATURED <span style="color:#2563EB;">PROJECTS</span></h2>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8">
+        
+        <article class="project-card glass-card brutal-border reveal overflow-hidden flex flex-col" style="box-shadow: 8px 8px 0 var(--jet-black);">
+          <div class="relative h-64 overflow-hidden shrink-0" style="background: linear-gradient(135deg, #2563EB, #001F54);">
+            <div class="absolute inset-0 bg-grid opacity-30"></div>
+            <div class="absolute inset-0 flex items-center justify-center"><i data-lucide="server" style="width:96px;height:96px;color:white;opacity:0.9;"></i></div>
+            <div class="absolute top-4 left-4 brutal-border bg-[#2563EB] px-3 py-1.5 font-heading font-bold text-xs text-white keep-white" style="box-shadow: 3px 3px 0 var(--jet-black);">WEB HOSTING</div>
+          </div>
+          <div class="p-8 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-heading text-3xl text-white mb-2">ZuriHost</h3>
+              <p class="text-sm text-blue-300 font-bold mb-4 flex items-center gap-2"><i data-lucide="crown" style="width:14px;height:14px;color:#FACC15;"></i>Founder & Lead</p>
+              <p class="text-blue-100/80 mb-6 leading-relaxed">Platform layanan web hosting premium dengan fokus pada performa, uptime 99.9%, dan harga terjangkau.</p>
+            </div>
+            <div class="flex gap-3 mt-auto">
+              <a href="https://zurihost.biz.id" target="_blank" class="brutal-btn text-white keep-white" style="padding: 0.625rem 1.25rem; font-size: 0.75rem;"><i data-lucide="external-link" style="width:14px;height:14px;"></i>Live Demo</a>
+              <button class="brutal-btn brutal-btn-outline project-details" data-project="zurihost" style="padding: 0.625rem 1.25rem; font-size: 0.75rem;"><i data-lucide="info" style="width:14px;height:14px;"></i>Details</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card glass-card brutal-border reveal overflow-hidden flex flex-col" style="box-shadow: 8px 8px 0 var(--jet-black);">
+          <div class="relative h-64 overflow-hidden shrink-0" style="background: linear-gradient(135deg, #10B981, #064E3B);">
+            <div class="absolute inset-0 bg-grid opacity-30"></div>
+            <div class="absolute inset-0 flex items-center justify-center"><i data-lucide="gift" style="width:96px;height:96px;color:white;opacity:0.9;"></i></div>
+            <div class="absolute top-4 left-4 brutal-border bg-[#10B981] px-3 py-1.5 font-heading font-bold text-xs text-white keep-white" style="box-shadow: 3px 3px 0 var(--jet-black);">FREE HOSTING</div>
+          </div>
+          <div class="p-8 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-heading text-3xl text-white mb-2">ZuriFreeHost</h3>
+              <p class="text-sm text-blue-300 font-bold mb-4 flex items-center gap-2"><i data-lucide="crown" style="width:14px;height:14px;color:#FACC15;"></i>Founder & Dev</p>
+              <p class="text-blue-100/80 mb-6 leading-relaxed">Layanan hosting GRATIS untuk developer pemula yang ingin deploy project tanpa biaya.</p>
+            </div>
+            <div class="flex gap-3 mt-auto">
+              <a href="https://freehost.zurihost.my.id" target="_blank" class="brutal-btn text-white keep-white" style="padding: 0.625rem 1.25rem; font-size: 0.75rem;"><i data-lucide="external-link" style="width:14px;height:14px;"></i>Live Demo</a>
+              <button class="brutal-btn brutal-btn-outline project-details" data-project="zurifreehost" style="padding: 0.625rem 1.25rem; font-size: 0.75rem;"><i data-lucide="info" style="width:14px;height:14px;"></i>Details</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card glass-card brutal-border reveal overflow-hidden lg:col-span-2 lg:max-w-3xl lg:mx-auto w-full flex flex-col md:flex-row" style="box-shadow: 8px 8px 0 var(--jet-black);">
+          <div class="relative h-64 md:h-auto md:w-1/2 overflow-hidden shrink-0" style="background: linear-gradient(135deg, #0EA5E9, #0C4A6E);">
+            <div class="absolute inset-0 bg-grid opacity-30"></div>
+            <div class="absolute inset-0 flex items-center justify-center"><i data-lucide="bot" style="width:96px;height:96px;color:white;opacity:0.9;"></i></div>
+            <div class="absolute top-4 left-4 brutal-border bg-[#0EA5E9] px-3 py-1.5 font-heading font-bold text-xs text-white keep-white" style="box-shadow: 3px 3px 0 var(--jet-black);">TELEGRAM BOT</div>
+          </div>
+          <div class="p-8 md:w-1/2 flex flex-col justify-between">
+            <div>
+              <h3 class="font-heading text-3xl text-white mb-2">ZuriHostingBot</h3>
+              <p class="text-sm text-blue-300 font-bold mb-4 flex items-center gap-2"><i data-lucide="code" style="width:14px;height:14px;color:#FACC15;"></i>Creator & Maintainer</p>
+              <p class="text-blue-100/80 mb-6 leading-relaxed">Bot Telegram all-in-one untuk manajemen layanan ZuriHost. Order hosting, cek status server, dari Telegram.</p>
+            </div>
+            <div class="flex gap-3 mt-auto">
+              <a href="https://t.me/ZuriHostingBot" target="_blank" class="brutal-btn text-white keep-white" style="padding: 0.625rem 1.25rem; font-size: 0.75rem;"><i data-lucide="send" style="width:14px;height:14px;"></i>Open Bot</a>
+              <button class="brutal-btn brutal-btn-outline project-details" data-project="zuribot" style="padding: 0.625rem 1.25rem; font-size: 0.75rem;"><i data-lucide="info" style="width:14px;height:14px;"></i>Details</button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       EXPERIENCE SECTION
+       ============================ -->
+  <section id="experience" class="relative py-24 bg-grid overflow-hidden" style="background: #001F54;">
+    <div class="blob blob-sky" style="width:400px;height:400px;top:20%;right:-100px;opacity:0.2;"></div>
+    <div class="relative z-10 max-w-4xl mx-auto px-6">
+      <div class="text-center mb-16 reveal">
+        <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] px-4 py-2 mb-4 text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="briefcase" style="width:16px;height:16px;"></i><span class="font-heading font-bold text-sm tracking-widest">EXPERIENCE</span></div>
+        <h2 class="font-heading text-white" style="font-size: clamp(2rem, 5vw, 4rem);">WHERE I'VE <span style="color:#2563EB;">WORKED</span></h2>
+      </div>
+
+      <div class="relative">
+        <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-white -translate-x-1/2"></div>
+        
+        <div class="relative mb-12 reveal">
+          <div class="grid md:grid-cols-2 gap-8 items-center">
+            <div class="md:text-right md:pr-12 pl-12 md:pl-0">
+              <div class="glass-card brutal-border p-6 inline-block md:text-right text-left w-full" style="box-shadow: 6px 6px 0 var(--jet-black);">
+                <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] text-white keep-white px-3 py-1 mb-3 text-xs font-bold" style="box-shadow: 2px 2px 0 var(--jet-black);"><i data-lucide="calendar" style="width:12px;height:12px;"></i>2024 — 2026</div>
+                <h3 class="font-heading text-xl md:text-2xl text-white mb-1">Founder & Lead Developer</h3>
+                <p class="text-blue-300 font-bold text-sm mb-3">ZuriHost</p>
+                <p class="text-blue-100/80 text-sm leading-relaxed">Membangun platform hosting dari fondasi awal hingga siap edar (production). Mengelola arsitektur server, manajemen database, dan optimisasi performa operasional.</p>
+              </div>
+            </div>
+            <div class="hidden md:block"></div>
+          </div>
+          <div class="absolute left-4 md:left-1/2 top-6 -translate-x-1/2 brutal-border bg-[#2563EB] w-5 h-5" style="box-shadow: 3px 3px 0 var(--jet-black);"></div>
+        </div>
+
+        <div class="relative mb-12 reveal">
+          <div class="grid md:grid-cols-2 gap-8 items-center">
+            <div class="hidden md:block"></div>
+            <div class="md:pl-12 pl-12">
+              <div class="glass-card brutal-border p-6 w-full" style="box-shadow: 6px 6px 0 var(--jet-black);">
+                <div class="inline-flex items-center gap-2 brutal-border bg-[#0EA5E9] text-white keep-white px-3 py-1 mb-3 text-xs font-bold" style="box-shadow: 2px 2px 0 var(--jet-black);"><i data-lucide="calendar" style="width:12px;height:12px;"></i>2024</div>
+                <h3 class="font-heading text-xl md:text-2xl text-white mb-1">Automation Developer</h3>
+                <p class="text-blue-300 font-bold text-sm mb-3">ZuriHostingBot</p>
+                <p class="text-blue-100/80 text-sm leading-relaxed">Merekayasa sistem *bot* Telegram interaktif untuk otomatisasi layanan *backend* ZuriHost, terintegrasi secara *real-time* dengan *payment gateway*.</p>
+              </div>
+            </div>
+          </div>
+          <div class="absolute left-4 md:left-1/2 top-6 -translate-x-1/2 brutal-border bg-[#0EA5E9] w-5 h-5" style="box-shadow: 3px 3px 0 var(--jet-black);"></div>
+        </div>
+
+        <div class="relative reveal">
+          <div class="grid md:grid-cols-2 gap-8 items-center">
+            <div class="md:text-right md:pr-12 pl-12 md:pl-0">
+              <div class="glass-card brutal-border p-6 inline-block md:text-right text-left w-full" style="box-shadow: 6px 6px 0 var(--jet-black);">
+                <div class="inline-flex items-center gap-2 brutal-border bg-[#FACC15] text-black px-3 py-1 mb-3 text-xs font-bold" style="box-shadow: 2px 2px 0 var(--jet-black);"><i data-lucide="calendar" style="width:12px;height:12px;"></i>2023 — 2024</div>
+                <h3 class="font-heading text-xl md:text-2xl text-white mb-1">Self-Taught Developer</h3>
+                <p class="text-blue-300 font-bold text-sm mb-3">Personal Journey</p>
+                <p class="text-blue-100/80 text-sm leading-relaxed">Mempelajari fundamental arsitektur *web development* tingkat lanjut (Golang, Python, C++) melalui metodologi otodidak dan implementasi proyek independen.</p>
+              </div>
+            </div>
+            <div class="hidden md:block"></div>
+          </div>
+          <div class="absolute left-4 md:left-1/2 top-6 -translate-x-1/2 brutal-border bg-[#FACC15] w-5 h-5" style="box-shadow: 3px 3px 0 var(--jet-black);"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       JOURNEY SECTION
+       ============================ -->
+  <section id="journey" class="relative py-24 bg-grid overflow-hidden">
+    <div class="blob blob-blue" style="width:500px;height:500px;top:20%;left:-150px;"></div>
+    
+    <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
+      <div class="text-center mb-16 reveal">
+        <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] px-4 py-2 mb-4 text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="map" style="width:16px;height:16px;"></i><span class="font-heading font-bold text-sm tracking-widest">MY JOURNEY</span></div>
+        <h2 class="font-heading text-white mb-4" style="font-size: clamp(2rem, 5vw, 4rem);">FROM ZERO <span style="color:#2563EB;">TO HERO</span></h2>
+        <p class="text-blue-200 max-w-2xl mx-auto">Dari fondasi awal hingga membangun infrastruktur berskala besar (2019 - 2026).</p>
+      </div>
+
+      <!-- HORIZONTAL SWIPE CONTAINER (Mobile & Desktop) -->
+      <div class="reveal w-full">
+        <div id="journey-scroll" class="journey-scroll-container flex gap-6 overflow-x-auto pb-8 cursor-grab active:cursor-grabbing w-full">
+          
+          <div class="journey-card glass-card brutal-border p-6 flex-shrink-0 w-[85vw] md:w-80 relative" style="box-shadow: 8px 8px 0 var(--jet-black);">
+            <div class="absolute -top-4 -left-4 brutal-border bg-[#2563EB] px-4 py-2 font-heading font-black text-2xl text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);">2019</div>
+            <div class="mt-8">
+              <div class="inline-flex items-center justify-center brutal-border bg-white text-black p-3 mb-4" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="layout" style="width:24px;height:24px;"></i></div>
+              <h3 class="font-heading text-xl text-white mb-3">Fundamental Web Dev</h3>
+              <p class="text-blue-100/80 text-sm leading-relaxed">Menguasai fondasi arsitektur web modern (HTML, CSS). Membangun logika dasar pemrograman dan pemahaman struktur awal sebuah website.</p>
+            </div>
+          </div>
+
+          <div class="journey-card glass-card brutal-border p-6 flex-shrink-0 w-[85vw] md:w-80 relative" style="box-shadow: 8px 8px 0 var(--jet-black); border-color: #FACC15;">
+            <div class="absolute -top-4 -left-4 brutal-border bg-[#FACC15] text-black px-4 py-2 font-heading font-black text-2xl" style="box-shadow: 4px 4px 0 var(--jet-black);">2020</div>
+            <div class="mt-8">
+              <div class="inline-flex items-center justify-center brutal-border bg-white text-black p-3 mb-4" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="lightbulb" style="width:24px;height:24px;"></i></div>
+              <h3 class="font-heading text-xl text-white mb-3">ZuriHost Concept & System Arch</h3>
+              <p class="text-blue-100/80 text-sm leading-relaxed">Mendalami JavaScript dan *Backend*. Menemukan masalah aksesabilitas *hosting* di Indonesia, yang memicu tercetusnya ide infrastruktur <b>ZuriHost</b>.</p>
+            </div>
+          </div>
+
+          <div class="journey-card glass-card brutal-border p-6 flex-shrink-0 w-[85vw] md:w-80 relative" style="box-shadow: 8px 8px 0 var(--jet-black);">
+            <div class="absolute -top-4 -left-4 brutal-border bg-[#2563EB] px-4 py-2 font-heading font-black text-2xl text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);">2021</div>
+            <div class="mt-8">
+              <div class="inline-flex items-center justify-center brutal-border bg-white text-black p-3 mb-4" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="server-cog" style="width:24px;height:24px;"></i></div>
+              <h3 class="font-heading text-xl text-white mb-3">Backend Engineering</h3>
+              <p class="text-blue-100/80 text-sm leading-relaxed">Mempelajari *low-level engineering* (C++, Python). Merancang topologi server awal dan proses otomatisasi sistem *deployment* skala kecil.</p>
+            </div>
+          </div>
+
+          <div class="journey-card glass-card brutal-border p-6 flex-shrink-0 w-[85vw] md:w-80 relative" style="box-shadow: 8px 8px 0 var(--jet-black);">
+            <div class="absolute -top-4 -left-4 brutal-border bg-[#2563EB] px-4 py-2 font-heading font-black text-2xl text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);">2022</div>
+            <div class="mt-8">
+              <div class="inline-flex items-center justify-center brutal-border bg-white text-black p-3 mb-4" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="globe" style="width:24px;height:24px;"></i></div>
+              <h3 class="font-heading text-xl text-white mb-3">Modern Cloud Deployment</h3>
+              <p class="text-blue-100/80 text-sm leading-relaxed">Eksplorasi ekosistem React, Node.js, dan lingkungan *production*. Berhasil menguji sistem *deployment* mandiri pada infrastruktur VPS independen.</p>
+            </div>
+          </div>
+
+          <div class="journey-card glass-card brutal-border p-6 flex-shrink-0 w-[85vw] md:w-80 relative" style="box-shadow: 8px 8px 0 var(--jet-black);">
+            <div class="absolute -top-4 -left-4 brutal-border bg-[#2563EB] px-4 py-2 font-heading font-black text-2xl text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);">2023</div>
+            <div class="mt-8">
+              <div class="inline-flex items-center justify-center brutal-border bg-white text-black p-3 mb-4" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="zap" style="width:24px;height:24px;"></i></div>
+              <h3 class="font-heading text-xl text-white mb-3">High-Performance Systems</h3>
+              <p class="text-blue-100/80 text-sm leading-relaxed">Mengadopsi Golang untuk konurensi tingkat tinggi. Mengintegrasikan optimalisasi *web server* (Nginx) & *load balancing* untuk infrastruktur peluncuran.</p>
+            </div>
+          </div>
+
+          <div class="journey-card glass-card brutal-border p-6 flex-shrink-0 w-[85vw] md:w-80 relative" style="box-shadow: 8px 8px 0 var(--jet-black);">
+            <div class="absolute -top-4 -left-4 brutal-border bg-[#2563EB] px-4 py-2 font-heading font-black text-2xl text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);">2024</div>
+            <div class="mt-8">
+              <div class="inline-flex items-center justify-center brutal-border bg-white text-black p-3 mb-4" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="rocket" style="width:24px;height:24px;"></i></div>
+              <h3 class="font-heading text-xl text-white mb-3">Official Launch ZuriHost</h3>
+              <p class="text-blue-100/80 text-sm leading-relaxed">Peluncuran *alpha/beta* platform ZuriHost. Merilis *Telegram Bot* yang terintegrasi secara *native* dengan API manajemen server layanan otomatis.</p>
+            </div>
+          </div>
+
+          <div class="journey-card glass-card brutal-border p-6 flex-shrink-0 w-[85vw] md:w-80 relative" style="box-shadow: 8px 8px 0 var(--jet-black);">
+            <div class="absolute -top-4 -left-4 brutal-border bg-[#2563EB] px-4 py-2 font-heading font-black text-2xl text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);">2025</div>
+            <div class="mt-8">
+              <div class="inline-flex items-center justify-center brutal-border bg-white text-black p-3 mb-4" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="network" style="width:24px;height:24px;"></i></div>
+              <h3 class="font-heading text-xl text-white mb-3">Scaling & Enterprise</h3>
+              <p class="text-blue-100/80 text-sm leading-relaxed">Difokuskan pada penanganan lalu lintas data skala masif, mengeksekusi arsitektur *high-availability*, dan memperbaiki stabilitas *uptime* menjadi 99.99%.</p>
+            </div>
+          </div>
+
+          <div class="journey-card glass-card brutal-border p-6 flex-shrink-0 w-[85vw] md:w-80 relative" style="box-shadow: 8px 8px 0 var(--jet-black); border-color: #2563EB;">
+            <div class="absolute -top-4 -left-4 brutal-border bg-[#2563EB] px-4 py-2 font-heading font-black text-2xl text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);">2026</div>
+            <div class="mt-8">
+              <div class="inline-flex items-center justify-center brutal-border bg-[#2563EB] text-white keep-white p-3 mb-4" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="cpu" style="width:24px;height:24px;"></i></div>
+              <h3 class="font-heading text-xl text-white mb-3">Advanced Cloud Ecosystem</h3>
+              <p class="text-blue-100/80 text-sm leading-relaxed">Ekspansi arsitektur layanan lebih mutakhir. Fokus pada inovasi infrastruktur server generasi terbaru dan memperluas integrasi ekosistem *developer* aktif.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flex items-center justify-center gap-3 mt-4 text-blue-300 text-xs font-bold tracking-widest">
+          <i data-lucide="mouse-pointer-2" class="hidden md:block" style="width:16px;height:16px;"></i>
+          <i data-lucide="move-horizontal" class="md:hidden" style="width:16px;height:16px;"></i>
+          <span class="hidden md:inline">DRAG UNTUK EXPLORE</span>
+          <span class="md:hidden">GESER UNTUK EXPLORE</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================
+       CONTACT SECTION
+       ============================ -->
+  <section id="contact" class="relative py-24 bg-grid overflow-hidden" style="background: #0A1128;">
+    <div class="blob blob-blue" style="width:400px;height:400px;top:10%;right:-100px;opacity:0.2;"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16 reveal">
+        <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] px-4 py-2 mb-4 text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="mail" style="width:16px;height:16px;"></i><span class="font-heading font-bold text-sm tracking-widest">CONTACT</span></div>
+        <h2 class="font-heading text-white mb-4" style="font-size: clamp(2rem, 5vw, 4rem);">LET'S WORK <span style="color:#2563EB;">TOGETHER</span></h2>
+      </div>
+
+      <div class="grid lg:grid-cols-5 gap-8">
+        <div class="lg:col-span-2 space-y-4 reveal">
+          <a href="mailto:ythprofryuga@gmail.com" class="glass-card brutal-border p-5 flex items-center gap-4 hover:translate-x-1 transition-transform" style="box-shadow: 6px 6px 0 var(--jet-black); text-decoration: none;">
+            <div class="brutal-border bg-[#2563EB] p-3 shrink-0" style="box-shadow: 3px 3px 0 var(--jet-black);"><i data-lucide="mail" class="text-white keep-white" style="width:20px;height:20px;"></i></div>
+            <div class="min-w-0 flex-1"><div class="text-xs text-blue-300 font-bold tracking-widest mb-1">EMAIL</div><div class="text-white font-semibold text-sm truncate">ythprofryuga@gmail.com</div></div>
+          </a>
+          
+          <div class="brutal-border bg-[#2563EB] p-5 text-white keep-white mt-4" style="box-shadow: 6px 6px 0 var(--jet-black);">
+            <div class="flex items-center gap-3 mb-3"><div class="pulse-dot bg-white"></div><span class="font-heading font-bold tracking-widest text-sm">AVAILABLE NOW</span></div>
+            <p class="text-white/90 text-sm leading-relaxed">Siap kolaborasi untuk diskusi proyek tingkat lanjut, konsultasi arsitektur cloud, atau peluang *partnership* lainnya.</p>
+          </div>
+        </div>
+
+        <div class="lg:col-span-3 reveal">
+          <form id="contact-form" class="glass-card brutal-border p-6 md:p-8" style="box-shadow: 8px 8px 0 var(--jet-black);">
+            <div class="grid md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label class="block text-xs font-bold text-blue-300 tracking-widest mb-2">NAMA</label>
+                <input type="text" name="name" required class="brutal-border w-full px-4 py-3 bg-transparent text-white placeholder-gray-400 focus:outline-none focus:border-[#2563EB] transition-colors" style="box-shadow: 4px 4px 0 var(--jet-black);" placeholder="Nama Anda">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-blue-300 tracking-widest mb-2">EMAIL</label>
+                <input type="email" name="email" required class="brutal-border w-full px-4 py-3 bg-transparent text-white placeholder-gray-400 focus:outline-none focus:border-[#2563EB] transition-colors" style="box-shadow: 4px 4px 0 var(--jet-black);" placeholder="email@domain.com">
+              </div>
+            </div>
+            <div class="mb-6">
+              <label class="block text-xs font-bold text-blue-300 tracking-widest mb-2">PESAN</label>
+              <textarea name="message" required rows="4" class="brutal-border w-full px-4 py-3 bg-transparent text-white placeholder-gray-400 focus:outline-none focus:border-[#2563EB] transition-colors resize-none" style="box-shadow: 4px 4px 0 var(--jet-black);" placeholder="Ketik pesan Anda..."></textarea>
+            </div>
+            <button type="submit" class="brutal-btn w-full justify-center text-white keep-white"><i data-lucide="send" style="width:16px;height:16px;"></i>KIRIM PESAN</button>
+            
+            <div id="form-success" class="hidden mt-4 brutal-border bg-[#10B981] p-4 text-center text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);">
+              PESAN TERKIRIM! Saya akan merespons melalui e-mail.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       FOOTER & MODALS
+       ============================ -->
+  <footer class="relative bg-black border-t-4 border-white pt-16 pb-8 mt-8">
+    <div class="max-w-7xl mx-auto px-6 text-center text-white keep-white">
+      <h2 class="font-heading font-black text-3xl mb-4">WAHYU NUGROHO</h2>
+      <p class="text-sm opacity-80 mb-6">Building scalable web experiences from Indonesia.</p>
+      <div class="border-t-2 border-white/20 pt-6 mt-8 text-xs opacity-70">© 2026 Wahyu Nugroho. All Rights Reserved.</div>
+    </div>
+  </footer>
+
+  <button id="back-to-top" class="fixed bottom-24 lg:bottom-8 right-6 brutal-border bg-[#2563EB] p-3 z-50 opacity-0 pointer-events-none transition-all text-white keep-white" style="box-shadow: 6px 6px 0 var(--jet-black);" aria-label="Back to top">
+    <i data-lucide="arrow-up" style="width:24px;height:24px;"></i>
+  </button>
+
+  <!-- MODAL PROJECT DETAILS -->
+  <div id="project-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center p-4">
+    <div id="modal-bg" class="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-pointer"></div>
+    <div id="modal-panel" class="relative w-full max-w-lg glass-card brutal-border p-6 md:p-8 z-10 transform scale-95 opacity-0 transition-all duration-300" style="box-shadow: 8px 8px 0 var(--jet-black);">
+      <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] px-3 py-1 mb-4 text-xs font-bold text-white keep-white" style="box-shadow: 2px 2px 0 var(--jet-black);"><i data-lucide="info" style="width:14px;height:14px;"></i> INFO PROJECT</div>
+      <h3 id="modal-title" class="font-heading text-2xl md:text-3xl text-white mb-3">Project Title</h3>
+      <p id="modal-desc" class="text-blue-100/90 text-sm md:text-base leading-relaxed mb-6">Description loading...</p>
+      <button id="modal-close" class="brutal-btn w-full justify-center text-white keep-white">TUTUP KEMBALI</button>
+    </div>
+  </div>
+
+  <!-- BOTTOM SHEET MOBILE HIRE ME -->
+  <div id="bottom-sheet" class="fixed inset-0 z-[9999] hidden lg:hidden">
+    <div id="sheet-overlay" class="absolute inset-0 bg-black/70 opacity-0 transition-opacity"></div>
+    <div id="sheet-content" class="absolute bottom-0 left-0 right-0 glass-card brutal-border border-b-0 p-6 translate-y-full transition-transform" style="border-radius: 0;">
+      <h3 class="font-heading text-xl text-white mb-4 text-center">HUBUNGI SAYA</h3>
+      <div class="space-y-3">
+        <a href="mailto:ythprofryuga@gmail.com" class="brutal-btn w-full justify-center brutal-btn-white"><i data-lucide="mail" style="width:16px;height:16px;"></i> Email Sekarang</a>
+        <a href="https://t.me/ZuriHostingBot" target="_blank" class="brutal-btn w-full justify-center text-white keep-white"><i data-lucide="send" style="width:16px;height:16px;"></i> Chat di Telegram</a>
+        <button id="close-sheet-btn" class="brutal-btn brutal-btn-outline w-full justify-center"><i data-lucide="x" style="width:16px;height:16px;"></i> Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 1. Inisialisasi Icon Lucide
+    function initIcons() { if (typeof lucide !== 'undefined') lucide.createIcons(); }
+
+    // 2. CONSOLE LOADING SCREEN (15 Seconds)
+    window.addEventListener('load', () => {
+        const screen = document.getElementById('loading-screen');
+        const output = document.getElementById('console-output');
+        const bar = document.getElementById('console-loader-bar');
+        const percent = document.getElementById('console-percent');
+        
+        const logs = [
+            { text: "> Initializing system core...", delay: 500, type: "info" },
+            { text: "OK: Kernel loaded successfully.", delay: 800, type: "info" },
+            { text: "> Mounting virtual file systems...", delay: 400, type: "info" },
+            { text: "OK: /dev, /proc, /sys mounted.", delay: 600, type: "info" },
+            { text: "> Loading environment variables...", delay: 300, type: "info" },
+            { text: "WARN: WN_API_KEY is not set. Using fallback.", delay: 700, type: "warn" },
+            { text: "> Connecting to database cluster...", delay: 1200, type: "info" },
+            { text: "OK: Connection established (45ms).", delay: 500, type: "info" },
+            { text: "> Starting ZuriHost microservices...", delay: 1500, type: "info" },
+            { text: "ERR: Service 'legacy_auth' failed to start.", delay: 800, type: "error" },
+            { text: "> Restarting 'legacy_auth' module...", delay: 1000, type: "info" },
+            { text: "OK: Service running on port 8080.", delay: 600, type: "info" },
+            { text: "> Compiling UI assets...", delay: 1200, type: "info" },
+            { text: "OK: Bundling complete (2.1s).", delay: 400, type: "info" },
+            { text: "> Fetching user profile: Wahyu Nugroho...", delay: 900, type: "info" },
+            { text: "OK: Profile loaded.", delay: 300, type: "info" },
+            { text: "> Establishing secure connection...", delay: 1100, type: "info" },
+            { text: "OK: SSL handshake verified.", delay: 500, type: "info" },
+            { text: "> Launching interface sequence...", delay: 800, type: "info" },
+            { text: "SYSTEM READY.", delay: 400, type: "info" }
+        ];
+
+        let totalTime = 15000; // 15 seconds
+        let elapsed = 0;
+        let logIndex = 0;
+        
+        const updateInterval = 50; 
+        const progressTimer = setInterval(() => {
+            elapsed += updateInterval;
+            let currentPercent = (elapsed / totalTime) * 100;
+            if (currentPercent > 100) currentPercent = 100;
+            
+            bar.style.width = currentPercent + '%';
+            percent.textContent = Math.floor(currentPercent) + '%';
+            
+            if (elapsed >= totalTime) {
+                clearInterval(progressTimer);
+                finishLoading();
+            }
+        }, updateInterval);
+
+        function printNextLog() {
+            if (logIndex < logs.length) {
+                const log = logs[logIndex];
+                const p = document.createElement('p');
+                p.className = `log-line ${log.type}`;
+                
+                const cursor = document.createElement('span');
+                cursor.className = 'blinking-cursor';
+                
+                let charIndex = 0;
+                const typingSpeed = log.delay / log.text.length;
+                
+                output.appendChild(p);
+                p.appendChild(cursor);
+
+                function typeChar() {
+                    if (charIndex < log.text.length) {
+                        p.insertBefore(document.createTextNode(log.text.charAt(charIndex)), cursor);
+                        charIndex++;
+                        output.scrollTop = output.scrollHeight; 
+                        setTimeout(typeChar, typingSpeed * 0.5); 
+                    } else {
+                        p.removeChild(cursor); 
+                        logIndex++;
+                        if (logIndex < logs.length) {
+                             setTimeout(printNextLog, logs[logIndex].delay * 0.7);
+                        }
+                    }
+                }
+                typeChar();
+            }
+        }
+        
+        printNextLog();
+
+        function finishLoading() {
+            screen.classList.add('hide');
+            document.body.classList.remove('loading');
+            setTimeout(() => {
+                screen.remove();
+                initIcons();
+                startTypingEffect();
+                initInteractiveImageMobile(); // panggil script interaktif gambar HP
+                
+                if (window.matchMedia('(min-width: 1024px)').matches && !('ontouchstart' in window)) {
+                    document.body.classList.add('custom-cursor-active');
+                    initCursor();
+                }
+            }, 500);
+        }
+    });
+
+    // 3. Custom Cursor Logic
+    function initCursor() {
+      const dot = document.getElementById('cursorDot');
+      const ring = document.getElementById('cursorRing');
+      let mx = 0, my = 0, rx = 0, ry = 0;
+      
+      document.addEventListener('mousemove', (e) => {
+        mx = e.clientX; my = e.clientY;
+        dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+      });
+      function animateCursor() {
+        rx += (mx - rx) * 0.2; ry += (my - ry) * 0.2;
+        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+      
+      document.querySelectorAll('a, button, .project-card, .journey-card, #interactive-img-mobile').forEach(el => {
+        el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+        el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+      });
+    }
+
+    // 3.5 MOBILE INTERACTIVE IMAGE (PUTER-PUTERIN)
+    function initInteractiveImageMobile() {
+        const imgContainer = document.getElementById('interactive-img-mobile');
+        if (!imgContainer) return;
+
+        let isDragging = false;
+        let currentAngle = 0;
+        let startAngle = 0;
+        let center = { x: 0, y: 0 };
+
+        function getCenter(element) {
+            const rect = element.getBoundingClientRect();
+            return {
+                x: rect.left + rect.width / 2,
+                y: rect.top + rect.height / 2
+            };
+        }
+
+        function onStart(e) {
+            // Hanya aktif jika menyentuh div gambar langsung
+            if (e.target !== imgContainer && !imgContainer.contains(e.target)) return;
+            isDragging = true;
+            center = getCenter(imgContainer);
+            
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            
+            const x = clientX - center.x;
+            const y = clientY - center.y;
+            startAngle = Math.atan2(y, x) * (180 / Math.PI) - currentAngle;
+            
+            imgContainer.style.transition = 'none'; // hapus transisi agar responsif
+            if(e.type === 'touchstart') e.preventDefault(); // cegah scroll
+        }
+
+        function onMove(e) {
+            if (!isDragging) return;
+            e.preventDefault(); // cegah scroll/pull-to-refresh saat memutar
+            
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            
+            const x = clientX - center.x;
+            const y = clientY - center.y;
+            const angle = Math.atan2(y, x) * (180 / Math.PI);
+            currentAngle = angle - startAngle;
+            
+            imgContainer.style.transform = `rotate(${currentAngle}deg)`;
+        }
+
+        function onEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            // Fisika: bounce halus saat dilepas
+            imgContainer.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        }
+
+        imgContainer.addEventListener('mousedown', onStart);
+        document.addEventListener('mousemove', onMove, { passive: false });
+        document.addEventListener('mouseup', onEnd);
+        
+        imgContainer.addEventListener('touchstart', onStart, { passive: false });
+        document.addEventListener('touchmove', onMove, { passive: false });
+        document.addEventListener('touchend', onEnd);
+    }
+
+    // 4. Typing Effect Hero
+    function startTypingEffect() {
+      const el = document.getElementById('typingText');
+      const phrases = ["Fullstack Developer", "Founder @ ZuriHost", "15 y/o Tech Enthusiast"];
+      let pIdx = 0, cIdx = 0, del = false;
+      function type() {
+        const cur = phrases[pIdx];
+        if (!del) {
+          el.textContent = cur.substring(0, cIdx + 1); cIdx++;
+          if (cIdx === cur.length) { del = true; setTimeout(type, 2000); return; }
+        } else {
+          el.textContent = cur.substring(0, cIdx - 1); cIdx--;
+          if (cIdx === 0) { del = false; pIdx = (pIdx + 1) % phrases.length; }
+        }
+        setTimeout(type, del ? 40 : 80);
+      }
+      type();
+    }
+
+    // 5. Observer & Scroll (Nav/Reveal)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if(e.isIntersecting) {
+          document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+          document.querySelectorAll('.bottom-nav-item[data-section]').forEach(l => l.classList.toggle('active', l.dataset.section === e.target.id));
+        }
+      });
+    }, { rootMargin: '-40% 0px -40% 0px' });
+    document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+
+    window.addEventListener('scroll', () => {
+      const sp = document.getElementById('scroll-progress');
+      if(sp) sp.style.width = ((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100) + '%';
+      if(window.scrollY > 50) document.getElementById('navbar').classList.add('scrolled');
+      else document.getElementById('navbar').classList.remove('scrolled');
+      
+      const btt = document.getElementById('back-to-top');
+      if(window.scrollY > 500) { btt.style.opacity = '1'; btt.style.pointerEvents = 'auto'; }
+      else { btt.style.opacity = '0'; btt.style.pointerEvents = 'none'; }
+    });
+
+    const revObserver = new IntersectionObserver(ents => ents.forEach((e, i) => {
+      if(e.isIntersecting) { setTimeout(() => e.target.classList.add('show'), i * 80); revObserver.unobserve(e.target); }
+    }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => revObserver.observe(el));
+    document.getElementById('back-to-top').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // 6. Theme Toggle Dark/Light Mode Animasi Halus
+    function toggleTheme() {
+        document.body.classList.add('theme-transitioning');
+        
+        // Putar Ikon Senter
+        const icons = document.querySelectorAll('#themeToggle i, #themeToggleMobile i');
+        icons.forEach(i => i.style.transform = 'rotate(360deg)');
+        
+        document.body.classList.toggle('light');
+        const isLight = document.body.classList.contains('light');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        
+        // Ubah Ikon di tengah putaran
+        setTimeout(() => {
+            icons.forEach(i => {
+                i.setAttribute('data-lucide', isLight ? 'moon' : 'sun');
+                initIcons();
+                i.style.transform = 'rotate(0deg)'; // reset rotasi
+            });
+        }, 200);
+
+        setTimeout(() => {
+            document.body.classList.remove('theme-transitioning');
+        }, 450);
+    }
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+    document.getElementById('themeToggleMobile').addEventListener('click', toggleTheme);
+    if(localStorage.getItem('theme') === 'light') document.body.classList.add('light');
+
+    // 7. Modal Project Details
+    const modal = document.getElementById('project-modal');
+    const modalPanel = document.getElementById('modal-panel');
+    const projectData = {
+      'zurihost': { title: 'ZuriHost Premium', desc: 'Platform hosting dengan uptime tinggi, teknologi terdepan dan dukungan pelanggan maksimal yang saya kelola sepenuhnya sejak 2024.'},
+      'zurifreehost': { title: 'ZuriFreeHost', desc: 'Versi gratis dari ZuriHost, didesain untuk komunitas developer dan pelajar agar dapat bereksperimen mendeploy website mereka ke internet.'},
+      'zuribot': { title: 'ZuriHosting Telegram Bot', desc: 'Bot otomatisasi via Telegram yang terintegrasi dengan backend API untuk pemesanan, pengecekan, dan manajemen server.'}
+    };
+
+    function openModal(projectKey) {
+      const data = projectData[projectKey] || { title: 'Info', desc: 'Detail akan segera hadir.' };
+      document.getElementById('modal-title').textContent = data.title;
+      document.getElementById('modal-desc').textContent = data.desc;
+      modal.classList.remove('hidden'); modal.classList.add('flex');
+      setTimeout(() => { modalPanel.classList.remove('scale-95', 'opacity-0'); modalPanel.classList.add('scale-100', 'opacity-100'); }, 10);
+    }
+    
+    function closeModal() {
+      modalPanel.classList.remove('scale-100', 'opacity-100'); modalPanel.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
+    }
+
+    document.querySelectorAll('.project-details').forEach(btn => btn.addEventListener('click', () => openModal(btn.dataset.project)));
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    document.getElementById('modal-bg').addEventListener('click', closeModal);
+
+    // 8. Mobile Bottom Sheet
+    const sheet = document.getElementById('bottom-sheet');
+    const sheetContent = document.getElementById('sheet-content');
+    const sheetOverlay = document.getElementById('sheet-overlay');
+
+    document.querySelectorAll('.open-sheet').forEach(btn => {
+      btn.addEventListener('click', () => {
+        sheet.classList.remove('hidden');
+        setTimeout(() => { sheetContent.style.transform = 'translateY(0)'; sheetOverlay.style.opacity = '1'; }, 10);
+      });
+    });
+
+    function closeSheet() {
+      sheetContent.style.transform = 'translateY(100%)'; sheetOverlay.style.opacity = '0';
+      setTimeout(() => sheet.classList.add('hidden'), 300);
+    }
+    sheetOverlay.addEventListener('click', closeSheet);
+    document.getElementById('close-sheet-btn').addEventListener('click', closeSheet);
+
+    // 9. Journey Drag Scroll Desktop
+    const journeyScroll = document.getElementById('journey-scroll');
+    if(journeyScroll && window.matchMedia('(min-width: 1024px)').matches) {
+      let isDown = false, startX, scrollLeft;
+      journeyScroll.addEventListener('mousedown', (e) => {
+        isDown = true; journeyScroll.style.cursor = 'grabbing';
+        startX = e.pageX - journeyScroll.offsetLeft; scrollLeft = journeyScroll.scrollLeft;
+      });
+      journeyScroll.addEventListener('mouseleave', () => { isDown = false; journeyScroll.style.cursor = 'grab'; });
+      journeyScroll.addEventListener('mouseup', () => { isDown = false; journeyScroll.style.cursor = 'grab'; });
+      journeyScroll.addEventListener('mousemove', (e) => {
+        if(!isDown) return; e.preventDefault();
+        const x = e.pageX - journeyScroll.offsetLeft; const walk = (x - startX) * 1.5;
+        journeyScroll.scrollLeft = scrollLeft - walk;
+      });
+    }
+
+    // 11. Formulir Kontak Interaktif
+    document.getElementById('contact-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('form-success').classList.remove('hidden');
+      e.target.reset();
+      setTimeout(() => document.getElementById('form-success').classList.add('hidden'), 5000);
+    });
+
+    // 12. Countdown Timer Otomatis (Mendukung Dynamic Year)
+    function initCountdown() {
+      const dEl = document.getElementById('cd-days');
+      const hEl = document.getElementById('cd-hours');
+      const mEl = document.getElementById('cd-minutes');
+      const sEl = document.getElementById('cd-seconds');
+      const prog = document.getElementById('birthday-progress');
+      const pctTxt = document.getElementById('progress-percent');
+      
+      if (!dEl) return;
+
+      function updateTimer() {
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        let targetBday = new Date(currentYear, 5, 15, 0, 0, 0); 
+        
+        if (now.getTime() > targetBday.getTime()) {
+          targetBday = new Date(currentYear + 1, 5, 15, 0, 0, 0);
+        }
+        
+        const diff = targetBday.getTime() - now.getTime();
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const minutes = Math.floor((diff % 3600000) / 60000);
+        const seconds = Math.floor((diff % 60000) / 1000);
+        
+        const pad = n => String(n).padStart(2, '0');
+        
+        dEl.textContent = pad(days);
+        hEl.textContent = pad(hours);
+        mEl.textContent = pad(minutes);
+        sEl.textContent = pad(seconds);
+        
+        let lastBday = new Date(currentYear, 5, 15, 0, 0, 0);
+        if (now.getTime() < lastBday.getTime()) {
+            lastBday = new Date(currentYear - 1, 5, 15, 0, 0, 0);
+        }
+        
+        const total = targetBday.getTime() - lastBday.getTime();
+        const elapsed = now.getTime() - lastBday.getTime();
+        const pct = Math.min(100, (elapsed / total) * 100);
+        
+        if (prog) prog.style.width = pct.toFixed(2) + '%';
+        if (pctTxt) pctTxt.textContent = Math.floor(pct) + '%';
+      }
+      
+      updateTimer();
+      setInterval(updateTimer, 1000);
+    }
+    initCountdown();
+
+  </script>
+</body>
+</html>
