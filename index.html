@@ -4,1281 +4,1678 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0A1128">
-  
-  <!-- SEO -->
   <title>Wahyu Nugroho — Fullstack Developer & Founder ZuriHost</title>
-  <meta name="description" content="Portfolio Wahyu Nugroho, 15 y/o Fullstack Developer & Founder ZuriHost. Menguasai JavaScript, Golang, Next.js, Python, C++. Building bold web experiences & reliable hosting infrastructure.">
-  <meta name="keywords" content="Wahyu Nugroho, ZuriHost, Fullstack Developer, Next.js, Golang, JavaScript, Portfolio Indonesia">
-  <meta name="author" content="Wahyu Nugroho">
+  <meta name="description" content="15 y/o developer crafting bold web experiences & reliable hosting infrastructure.">
   
-  <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%232563EB' width='100' height='100'/><text x='50' y='50' font-size='60' fill='white' text-anchor='middle' dominant-baseline='central' font-family='Arial' font-weight='900'>WN</text></svg>">
-  
-  <!-- Google Fonts -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CDN -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'dark-blue': '#0A1128',
+            'electric-blue': '#2563EB',
+            'sky': '#3B82F6',
+            'cream': '#FEF3C7',
+            'yellow': '#FACC15',
+            'jet-black': '#0B0B0B',
+            'purple': '#8B5CF6',
+            'amber': '#F59E0B',
+            'green': '#10B981',
+          },
+          fontFamily: {
+            heading: ['Space Grotesk', 'sans-serif'],
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
   
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  
+
   <style>
-    /* ============================
-       CSS VARIABLES & BASE
-       ============================ */
+    /* =========================================
+       CSS VARIABLES & BASE SETUP
+       ========================================= */
     :root {
       --dark-blue: #0A1128;
-      --deep-navy: #001F54;
       --electric-blue: #2563EB;
       --sky: #3B82F6;
+      --cream: #FEF3C7;
+      --yellow: #FACC15;
       --white: #FFFFFF;
       --jet-black: #0B0B0B;
-      --glass: rgba(255, 255, 255, 0.08);
-      --glass-border: rgba(255, 255, 255, 0.15);
+      
+      --purple: #8B5CF6;
+      --amber: #F59E0B;
+      --green: #10B981;
     }
-    
-    * { -webkit-tap-highlight-color: transparent; }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--dark-blue);
+      background-color: var(--dark-blue);
       color: var(--white);
       overflow-x: hidden;
+      transition: background-color 0.3s, color 0.3s;
     }
     body.loading { overflow: hidden; }
     
-    /* ANIMASI TRANSISI MODE (LIGHT/DARK) HALUS */
-    body.theme-transitioning, body.theme-transitioning * {
-        transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out, border-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out !important;
-    }
+    /* Light Mode Overrides */
+    body.light { background-color: #F8FAFC; color: var(--jet-black); }
+    body.light nav#navbar { background-color: rgba(248, 250, 252, 0.9); border-color: rgba(0,0,0,0.1); }
+    body.light .text-white:not(.keep-white) { color: var(--jet-black) !important; }
+    body.light .text-white\/80, body.light .text-white\/70, body.light .text-white\/60, body.light .text-white\/50 { color: rgba(11, 11, 11, 0.7) !important; }
+    body.light .brutal-border-white { border-color: var(--jet-black) !important; }
+    body.light .brutal-shadow-white { box-shadow: 6px 6px 0px var(--jet-black) !important; }
+    body.light .bg-dark-blue:not(.keep-dark) { background-color: #FFFFFF !important; border-color: var(--jet-black) !important; }
+    body.light .bg-white\/5 { background-color: #FFFFFF !important; border: 3px solid var(--jet-black) !important; box-shadow: 4px 4px 0px var(--jet-black); }
     
-    #themeToggle i, #themeToggleMobile i {
-        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    h1, h2, h3, h4, h5, h6, .font-heading {
+    h1, h2, h3, h4, .font-heading {
       font-family: 'Space Grotesk', sans-serif;
-      font-weight: 900;
-      letter-spacing: -0.02em;
-    }
-    
-    .font-mono {
-        font-family: 'Fira Code', monospace;
-    }
-    
-    /* Noise overlay */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.04;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    }
-    
-    /* Grid background */
-    .bg-grid {
-      background-image: 
-        linear-gradient(rgba(37, 99, 235, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(37, 99, 235, 0.08) 1px, transparent 1px);
-      background-size: 40px 40px;
+      letter-spacing: -0.03em;
     }
 
-    /* ============================
-       NEUBRUTALISM UTILITIES
-       ============================ */
-    .brutal-border { border: 3px solid var(--white); }
-    .brutal-border-thick { border: 4px solid var(--white); }
-    .brutal-border-black { border: 3px solid var(--jet-black); }
-    
-    .brutal-shadow { box-shadow: 8px 8px 0 var(--jet-black); }
-    .brutal-shadow-blue { box-shadow: 8px 8px 0 var(--electric-blue); }
+    /* =========================================
+       PLAYFUL BRUTALISM UTILITIES
+       ========================================= */
+    .brutal-border { border: 3px solid var(--jet-black); }
+    .brutal-border-white { border: 3px solid var(--white); }
+    .brutal-shadow { box-shadow: 6px 6px 0px var(--jet-black); }
+    .brutal-shadow-sm { box-shadow: 3px 3px 0px var(--jet-black); }
+    .brutal-shadow-white { box-shadow: 6px 6px 0px var(--white); }
     
     .brutal-btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.875rem 1.75rem; font-weight: 700;
-      font-family: 'Space Grotesk', sans-serif;
-      border: 3px solid var(--white);
-      background: var(--electric-blue); color: var(--white);
-      box-shadow: 6px 6px 0 var(--jet-black);
-      transition: all 0.15s ease; cursor: pointer;
-      text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.875rem;
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; font-weight: 700; font-family: 'Space Grotesk', sans-serif;
+      border: 3px solid var(--jet-black); transition: transform 0.15s, box-shadow 0.15s;
+      text-transform: uppercase; cursor: pointer;
     }
-    .brutal-btn:hover { transform: translate(3px, 3px); box-shadow: 3px 3px 0 var(--jet-black); }
-    .brutal-btn:active { transform: translate(6px, 6px); box-shadow: 0 0 0 var(--jet-black); }
-    .brutal-btn-outline { background: transparent; color: var(--white); }
-    .brutal-btn-white { background: var(--white); color: var(--jet-black); border-color: var(--jet-black); }
+    .brutal-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--jet-black); }
+    .brutal-btn:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px var(--jet-black); }
+
+    .sticker-badge {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      background: var(--cream); color: var(--jet-black);
+      border: 2px solid var(--jet-black); border-radius: 999px;
+      padding: 0.35rem 0.85rem; font-weight: 800; font-family: 'Space Grotesk', sans-serif;
+      box-shadow: 3px 3px 0 var(--jet-black); transform: rotate(-2deg);
+    }
     
-    /* Glassmorphism */
-    .glass-card {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+    .highlight-yellow {
+      position: relative; display: inline-block; z-index: 1; color: var(--jet-black) !important;
+      padding: 0 0.25rem;
+    }
+    .highlight-yellow::before {
+      content: ''; position: absolute; inset: -2px -6px; background: var(--yellow);
+      z-index: -1; border-radius: 4px; transform: rotate(-1deg);
+      border: 2px solid var(--jet-black); box-shadow: 3px 3px 0 var(--jet-black);
     }
 
-    /* ============================
-       CONSOLE LOADING SCREEN
-       ============================ */
-    #loading-screen {
-      position: fixed; inset: 0; z-index: 9999;
-      background: #000;
-      display: flex; flex-direction: column; justify-content: flex-start;
-      padding: 2rem;
-      transition: opacity 0.5s, transform 0.5s;
-      overflow: hidden;
-    }
-    #loading-screen.hide { opacity: 0; pointer-events: none; }
-    
-    #console-output {
-        color: #10B981;
-        font-family: 'Fira Code', monospace;
-        font-size: 0.875rem;
-        line-height: 1.5;
-        white-space: pre-wrap;
-        flex-grow: 1;
-        overflow-y: hidden;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        margin-bottom: 2rem;
+    .wavy-underline {
+      text-decoration: underline;
+      text-decoration-style: wavy;
+      text-decoration-color: var(--yellow);
+      text-decoration-thickness: 4px;
+      text-underline-offset: 8px;
     }
 
-    .log-line { margin: 0; opacity: 0; animation: fadeInLog 0.1s forwards; }
-    .log-line.error { color: #EF4444; }
-    .log-line.warn { color: #FACC15; }
-    .log-line.info { color: #3B82F6; }
-
-    @keyframes fadeInLog { to { opacity: 1; } }
-
-    .console-loader-bar-container {
-        width: 100%;
-        max-width: 600px;
-        margin-top: auto;
-    }
-    .console-loader-bar-track {
-        border: 2px solid #10B981;
-        padding: 2px;
-        background: transparent;
-    }
-    #console-loader-bar {
-        height: 16px;
-        background: #10B981;
-        width: 0%;
-        transition: width 0.1s linear;
-    }
-    .console-loader-meta {
-        display: flex; justify-content: space-between; margin-top: 0.5rem;
-        font-family: 'Fira Code', monospace; font-size: 0.75rem; color: #10B981;
+    /* =========================================
+       CUSTOM CURSOR (SAFE MODE)
+       ========================================= */
+    #cursor-dot, #cursor-ring { display: none; pointer-events: none; position: fixed; z-index: 9999; transform: translate(-50%, -50%); }
+    #cursor-dot { width: 10px; height: 10px; background: var(--yellow); border-radius: 50%; border: 1px solid var(--jet-black); }
+    #cursor-ring { width: 40px; height: 40px; border: 2px solid var(--yellow); border-radius: 50%; transition: width 0.2s, height 0.2s, background 0.2s; z-index: 9998; }
+    
+    @media (min-width: 1024px) and (pointer: fine) {
+      body.custom-cursor-ready #cursor-dot, body.custom-cursor-ready #cursor-ring { display: block; }
+      body.cursor-hover #cursor-ring { width: 60px; height: 60px; background: rgba(250, 204, 21, 0.15); border-color: var(--white); }
     }
 
-    .blinking-cursor {
-        display: inline-block; width: 10px; height: 1em; background: #10B981;
-        animation: blink 1s step-end infinite; vertical-align: bottom;
+    /* =========================================
+       ANIMATIONS
+       ========================================= */
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(5deg); }
+    }
+    .animate-float { animation: float 5s ease-in-out infinite; }
+    .animate-float-delayed { animation: float 6s ease-in-out infinite 1.5s; }
+    
+    @keyframes spin-slow { 100% { transform: rotate(360deg); } }
+    .animate-spin-slow { animation: spin-slow 20s linear infinite; }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .marquee-track { display: flex; width: max-content; animation: marquee 25s linear infinite; }
+    .marquee-track:hover { animation-play-state: paused; }
+
+    /* =========================================
+       SPECIFIC SECTIONS
+       ========================================= */
+    .bg-grid {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    }
+    body.light .bg-grid {
+      background-image: 
+        linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
     }
 
-    /* ============================
-       NAVBAR
-       ============================ */
-    #navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; transition: all 0.3s; }
-    .navbar-inner {
-      display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem;
-      background: rgba(10, 17, 40, 0.6); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    /* ID Card Physics */
+    #id-card-wrapper { perspective: 1200px; }
+    #id-card { 
+      transform-origin: top center; will-change: transform;
+      background: linear-gradient(135deg, rgba(37,99,235,0.2), rgba(10,17,40,0.9));
+      backdrop-filter: blur(12px);
+      user-select: none; -webkit-user-select: none; touch-action: none;
     }
-    #navbar.scrolled .navbar-inner { padding: 0.75rem 1.5rem; background: rgba(10, 17, 40, 0.9); }
-    .nav-logo { font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 1.5rem; padding: 0.5rem 1rem; background: var(--electric-blue); border: 3px solid var(--white); box-shadow: 4px 4px 0 var(--jet-black); transition: all 0.15s; }
-    .nav-logo:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--jet-black); }
-    .nav-link { position: relative; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.5rem 0; color: rgba(255, 255, 255, 0.7); transition: color 0.2s; }
-    .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px; background: var(--electric-blue); transition: width 0.3s; }
-    .nav-link:hover, .nav-link.active { color: var(--white); }
-    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
-    
-    #bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; display: none; background: rgba(10, 17, 40, 0.95); backdrop-filter: blur(20px); border-top: 3px solid var(--white); padding: 0.5rem; }
-    .bottom-nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.25rem; padding: 0.5rem; color: rgba(255, 255, 255, 0.6); transition: all 0.2s; font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; }
-    .bottom-nav-item.active { color: var(--electric-blue); transform: translateY(-4px); }
+    body.light #id-card {
+      background: linear-gradient(135deg, #2563EB, #1E3A8A);
+    }
+    #lanyard {
+      position: absolute; top: -80px; left: 50%; width: 16px; height: 90px;
+      background: repeating-linear-gradient(45deg, var(--yellow), var(--yellow) 10px, #0B0B0B 10px, #0B0B0B 20px);
+      transform-origin: top center; z-index: -1; margin-left: -8px;
+      border: 2px solid var(--jet-black);
+    }
 
-    /* ============================
-       UTILITIES & ANIMATIONS
-       ============================ */
-    #scroll-progress { position: fixed; top: 0; left: 0; height: 4px; background: var(--electric-blue); z-index: 200; width: 0%; transition: width 0.1s linear; box-shadow: 0 0 20px var(--electric-blue); }
-    .typing-cursor { display: inline-block; width: 3px; height: 1em; background: var(--electric-blue); margin-left: 4px; animation: blink 1s infinite; vertical-align: middle; }
-    @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
-    
-    .marquee { overflow: hidden; white-space: nowrap; border-top: 3px solid var(--white); border-bottom: 3px solid var(--white); background: var(--electric-blue); padding: 1rem 0; }
-    .marquee-content { display: inline-block; animation: marquee 25s linear infinite; font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 1.25rem; letter-spacing: 0.1em; text-transform: uppercase; }
-    .marquee:hover .marquee-content { animation-play-state: paused; }
-    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    
-    .pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: #10B981; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); animation: pulse-green 2s infinite; }
-    @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
-    
-    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s, transform 0.6s; }
-    .reveal.show { opacity: 1; transform: translateY(0); }
-    
-    .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; pointer-events: none; z-index: 0; }
-    .blob-blue { background: var(--electric-blue); }
-    .blob-sky { background: var(--sky); }
-    
-    /* Interactive Image Styles */
-    #interactive-img-mobile {
-        touch-action: none; /* Cegah scroll saat memutar gambar */
-        cursor: grab;
-        will-change: transform;
+    /* Tech Cloud Folder */
+    .tech-icon {
+      position: absolute; top: 0; left: 0; border-radius: 12px; background: var(--white);
+      color: var(--jet-black); padding: 10px 14px;
+      border: 3px solid var(--jet-black); box-shadow: 4px 4px 0 var(--jet-black);
+      will-change: transform; cursor: pointer; user-select: none;
+      transition: background-color 0.2s, box-shadow 0.2s;
     }
-    #interactive-img-mobile:active {
-        cursor: grabbing;
-    }
+    .tech-icon:hover { background: var(--yellow); z-index: 30; box-shadow: 6px 6px 0 var(--jet-black); }
     
-    /* Cursor - Aktif via class JS */
-    .cursor-dot, .cursor-ring { position: fixed; pointer-events: none; z-index: 9998; mix-blend-mode: difference; display: none; }
-    .cursor-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--white); transform: translate(-50%, -50%); }
-    .cursor-ring { width: 40px; height: 40px; border: 2px solid var(--white); border-radius: 50%; transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s; }
-    .cursor-ring.hover { width: 60px; height: 60px; }
-    body.custom-cursor-active * { cursor: none !important; }
-    body.custom-cursor-active .cursor-dot, body.custom-cursor-active .cursor-ring { display: block; }
+    /* Project & Journey Cards */
+    .project-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    .project-card:hover { transform: translateY(-6px) rotate(0deg) !important; z-index: 10; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    .journey-scroll::-webkit-scrollbar { height: 10px; }
+    .journey-scroll::-webkit-scrollbar-track { background: #E2E8F0; border: 2px solid var(--jet-black); border-radius: 99px; }
+    .journey-scroll::-webkit-scrollbar-thumb { background: var(--electric-blue); border-radius: 99px; border: 2px solid var(--jet-black); }
+    
+    .journey-card { transition: transform 0.3s ease; user-select: none; }
+    .journey-card:hover { transform: translateY(-8px) rotate(0deg) !important; }
+    
+    .accordion-content { transition: max-height 0.35s ease, padding 0.35s ease; overflow: hidden; }
+    
+    /* Reveal Animation */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
 
-    /* Custom Scrollbar for Horizontal Journey */
-    .journey-scroll-container::-webkit-scrollbar { height: 8px; display: none; }
-    .journey-scroll-container::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); }
-    .journey-scroll-container::-webkit-scrollbar-thumb { background: #2563EB; border: 2px solid var(--dark-blue); }
-    
-    @media (min-width: 1024px) {
-        .journey-scroll-container::-webkit-scrollbar { display: block; }
-    }
-    
-    @media (max-width: 1023px) {
-      #bottom-nav { display: flex; }
-      body { padding-bottom: 70px; }
-      #navbar .nav-menu, #navbar .nav-cta { display: none; }
-      body.custom-cursor-active * { cursor: auto !important; }
-      /* Snap for mobile journey */
-      .journey-scroll-container {
-          scroll-snap-type: x mandatory;
-          -webkit-overflow-scrolling: touch;
+    /* Loading Screen */
+    #loader { position: fixed; inset: 0; background: var(--dark-blue); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.4s ease; }
+
+    /* =========================================
+       PRINT STYLES FOR CV / RESUME (A4 READY)
+       ========================================= */
+    @media print {
+      body * { visibility: hidden; }
+      body { background: #FFFFFF !important; color: #0B0B0B !important; overflow: visible !important; }
+      #cv-modal, #cv-modal * { visibility: visible; }
+      #cv-modal {
+        position: absolute !important; left: 0 !important; top: 0 !important;
+        width: 100% !important; height: auto !important;
+        background: #FFFFFF !important; padding: 0 !important;
+        display: block !important; overflow: visible !important;
       }
-      .journey-card { scroll-snap-align: center; }
+      #cv-printable-area {
+        box-shadow: none !important; border: 2px solid #0B0B0B !important;
+        max-width: 100% !important; width: 100% !important; margin: 0 !important;
+      }
+      .no-print { display: none !important; }
     }
-
-    /* ============================
-       LIGHT MODE FIX (OVERRIDES)
-       ============================ */
-    body.light { background: #F8FAFC; color: var(--jet-black); }
-    body.light .text-white:not(.keep-white) { color: #0F172A !important; }
-    body.light .text-blue-100\/80, body.light .text-blue-200, body.light .text-blue-300 { color: #334155 !important; }
-    
-    body.light .bg-\[\#001F54\], body.light section[style*="background: #001F54;"] { background: #E2E8F0 !important; }
-    body.light .bg-\[\#0A1128\], body.light section[style*="background: #0A1128;"] { background: #FFFFFF !important; border-color: var(--jet-black) !important; }
-    
-    body.light .brutal-border { border-color: var(--jet-black) !important; }
-    body.light .brutal-border-thick { border-color: var(--jet-black) !important; }
-    
-    body.light .glass, body.light .glass-card { background: rgba(255, 255, 255, 0.85) !important; border-color: rgba(0, 0, 0, 0.15) !important; }
-    body.light .nav-link { color: rgba(0, 0, 0, 0.6) !important; }
-    body.light .nav-link:hover, body.light .nav-link.active { color: var(--jet-black) !important; }
-    body.light .navbar-inner { background: rgba(248, 250, 252, 0.8); border-bottom-color: rgba(0,0,0,0.1); }
-    body.light #bottom-nav { background: rgba(248, 250, 252, 0.95); border-top-color: var(--jet-black); }
-    body.light .bottom-nav-item { color: rgba(0, 0, 0, 0.5); }
-    body.light .bottom-nav-item.active { color: var(--electric-blue); }
-    
-    body.light .bg-grid { background-image: linear-gradient(rgba(37, 99, 235, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(37, 99, 235, 0.06) 1px, transparent 1px) !important; }
-    
-    /* Prevent light mode from breaking buttons and colored badges */
-    body.light .brutal-btn, body.light .bg-\[\#2563EB\], body.light .bg-\[\#10B981\], body.light .bg-\[\#0EA5E9\], body.light .bg-\[\#FACC15\] { border-color: var(--jet-black) !important; }
-    body.light .brutal-btn .text-white, body.light .bg-\[\#2563EB\] .text-white, body.light .bg-\[\#10B981\] .text-white, body.light .bg-\[\#0EA5E9\] .text-white { color: #FFFFFF !important; }
-    body.light .brutal-btn-outline { color: var(--jet-black) !important; border-color: var(--jet-black) !important; }
-    body.light .marquee { border-color: var(--jet-black); }
   </style>
 </head>
-<body class="loading">
+<body class="bg-grid relative loading">
 
-  <!-- ============================
-       CONSOLE LOADING SCREEN
-       ============================ -->
-  <div id="loading-screen">
-    <div id="console-output"></div>
-    <div class="console-loader-bar-container">
-      <div class="console-loader-bar-track">
-        <div id="console-loader-bar"></div>
-      </div>
-      <div class="console-loader-meta">
-        <span>SYS.BOOT_SEQ</span>
-        <span id="console-percent">0%</span>
+  <!-- CUSTOM CURSOR -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- LOADING SCREEN -->
+  <div id="loader" class="no-print">
+    <div class="animate-bounce mb-6">
+      <div class="w-24 h-24 bg-electric-blue brutal-border flex items-center justify-center brutal-shadow-white rounded-2xl transform rotate-6">
+        <span class="font-heading font-black text-4xl text-white keep-white">WN</span>
       </div>
     </div>
+    <div class="text-2xl font-heading font-black mb-4 tracking-widest text-white keep-white">
+      WAHYU NUGROHO
+    </div>
+    <div class="w-64 h-5 brutal-border-white bg-dark-blue keep-dark rounded-full overflow-hidden p-0.5">
+      <div id="loader-bar" class="h-full bg-yellow rounded-full w-0 transition-all duration-300 ease-out"></div>
+    </div>
+    <p id="loader-status" class="mt-3 font-mono text-xs font-bold text-sky uppercase tracking-widest">Memuat Playground...</p>
   </div>
 
-  <div id="scroll-progress"></div>
-  <div class="cursor-dot" id="cursorDot"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
+  <!-- SCROLL PROGRESS -->
+  <div class="fixed top-0 left-0 h-1.5 bg-yellow z-50 transition-all duration-100 border-b border-jet-black no-print" id="scroll-progress" style="width: 0%;"></div>
 
-  <!-- ============================
-       NAVBAR
-       ============================ -->
-  <nav id="navbar">
-    <div class="navbar-inner">
-      <a href="#hero" class="nav-logo text-white keep-white">WN</a>
+  <!-- NAVIGATION -->
+  <nav class="fixed top-0 w-full z-40 bg-dark-blue/90 backdrop-blur-md border-b-2 border-white/10 transition-colors duration-300 no-print" id="navbar">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <a href="#hero" class="font-heading font-black text-2xl bg-electric-blue text-white keep-white px-3 py-1 brutal-border brutal-shadow-sm hover:bg-yellow hover:text-jet-black transition-colors interactive">WN.</a>
       
-      <div class="nav-menu hidden lg:flex items-center gap-8">
-        <a href="#hero" class="nav-link active">Home</a>
-        <a href="#about" class="nav-link">About</a>
-        <a href="#skills" class="nav-link">Skills</a>
-        <a href="#projects" class="nav-link">Projects</a>
-        <a href="#journey" class="nav-link">Journey</a>
-        <a href="#contact" class="nav-link">Contact</a>
+      <div class="hidden lg:flex items-center gap-8 font-heading font-bold text-sm tracking-wide">
+        <a href="#about" class="nav-link hover:text-yellow transition-colors interactive">ABOUT</a>
+        <a href="#skills" class="nav-link hover:text-yellow transition-colors interactive">SKILLS</a>
+        <a href="#projects" class="nav-link hover:text-yellow transition-colors interactive">PROJECTS</a>
+        <a href="#journey" class="nav-link hover:text-yellow transition-colors interactive">JOURNEY</a>
+        <a href="#contact" class="nav-link hover:text-yellow transition-colors interactive">CONTACT</a>
       </div>
-      
-      <div class="nav-cta hidden lg:flex items-center gap-3">
-        <button id="themeToggle" class="brutal-btn brutal-btn-outline text-white keep-white" style="padding: 0.5rem;" aria-label="Toggle theme">
-          <i data-lucide="moon" style="width:18px;height:18px;"></i>
+
+      <div class="flex items-center gap-3">
+        <button onclick="openCVModal()" class="bg-yellow text-jet-black brutal-border brutal-shadow-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all px-4 py-2 font-heading font-black text-xs sm:text-sm flex items-center gap-1.5 rounded-lg interactive">
+          <i data-lucide="file-text" class="w-4 h-4"></i> CV / RESUME
         </button>
-        <a href="https://t.me/ZuriHostingBot" target="_blank" class="brutal-btn text-white keep-white">
-          <i data-lucide="send" style="width:16px;height:16px;"></i> Hire Me
+        <button id="theme-toggle" class="p-2.5 bg-white text-jet-black brutal-border brutal-shadow-sm hover:bg-yellow transition-all interactive rounded-lg" aria-label="Toggle Theme">
+          <i data-lucide="sun" class="w-5 h-5" id="theme-icon"></i>
+        </button>
+        <a href="https://wa.me/6285122900934" target="_blank" class="hidden xl:inline-flex bg-green text-white keep-white brutal-border brutal-shadow-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all px-4 py-2 font-heading font-bold text-sm items-center gap-2 rounded-lg interactive">
+          <i data-lucide="phone" class="w-4 h-4"></i> WHATSAPP
         </a>
       </div>
-      
-      <button id="themeToggleMobile" class="lg:hidden brutal-btn brutal-btn-outline text-white keep-white" style="padding: 0.5rem;" aria-label="Toggle theme">
-        <i data-lucide="moon" style="width:18px;height:18px;"></i>
-      </button>
     </div>
   </nav>
 
-  <nav id="bottom-nav">
-    <a href="#hero" class="bottom-nav-item active" data-section="hero"><i data-lucide="home" style="width:20px;height:20px;"></i><span>Home</span></a>
-    <a href="#about" class="bottom-nav-item" data-section="about"><i data-lucide="user" style="width:20px;height:20px;"></i><span>About</span></a>
-    <a href="#projects" class="bottom-nav-item" data-section="projects"><i data-lucide="folder-code" style="width:20px;height:20px;"></i><span>Work</span></a>
-    <a href="#journey" class="bottom-nav-item" data-section="journey"><i data-lucide="map" style="width:20px;height:20px;"></i><span>Journey</span></a>
-    <button class="bottom-nav-item open-sheet" aria-label="Hire Me"><i data-lucide="mail" style="width:20px;height:20px;"></i><span>Hire Me</span></button>
-  </nav>
-
-  <!-- ============================
-       HERO SECTION
-       ============================ -->
-  <section id="hero" class="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden bg-grid">
-    <div class="blob blob-blue" style="width:400px;height:400px;top:10%;left:-100px;"></div>
-    <div class="blob blob-sky" style="width:300px;height:300px;bottom:10%;right:-80px;"></div>
-    
-    <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
-      <div class="grid lg:grid-cols-5 gap-12 items-center">
-        
-        <!-- MOBILE IMAGE (Ditempatkan Pertama Agar Muncul di Atas pada HP) -->
-        <div class="lg:hidden flex flex-col items-center justify-center mb-6 reveal pt-8">
-          <div class="relative">
-            <!-- Container ber-ID untuk script interaktif -->
-            <div id="interactive-img-mobile" class="brutal-border-thick brutal-shadow overflow-hidden rounded-full" style="width: 180px; height: 180px; background: linear-gradient(135deg, #2563EB, #001F54);">
-              <img src="https://files.catbox.moe/2ygvmz.jpg" alt="Wahyu" class="block w-full h-full object-cover pointer-events-none" />
-            </div>
-            <!-- Badge Tidak ikut berputar (di luar div interaktif) -->
-            <div class="absolute bottom-2 right-2 brutal-border bg-[#10B981] px-2 py-1 text-xs font-bold flex items-center gap-1 text-white keep-white pointer-events-none" style="box-shadow: 3px 3px 0 var(--jet-black); z-index: 10;">
-              <div class="pulse-dot" style="width:6px;height:6px;"></div><span>OPEN</span>
-            </div>
-          </div>
-          <!-- Teks Petunjuk Interaksi -->
-          <div class="text-[10px] text-blue-300 font-bold mt-4 text-center flex items-center justify-center gap-1 opacity-80 animate-pulse tracking-widest uppercase bg-[#0A1128]/50 px-3 py-1 rounded-full border border-blue-500/30">
-            <i data-lucide="rotate-cw" style="width:12px;height:12px;"></i> Sentuh & Putar Gambarnya!
-          </div>
-        </div>
-        
-        <!-- TEXT CONTENT -->
-        <div class="lg:col-span-3 reveal">
-          <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] px-4 py-2 mb-6" style="box-shadow: 4px 4px 0 var(--jet-black);">
-            <i data-lucide="rocket" class="text-white keep-white" style="width:16px;height:16px;"></i>
-            <span class="font-heading font-bold text-sm tracking-widest text-white keep-white">15 Y/O FOUNDER</span>
-          </div>
-          
-          <h1 class="font-heading text-white leading-[0.95] mb-4" style="font-size: clamp(2.75rem, 7vw, 6rem);">
-            WAHYU<br><span style="color: #2563EB;">NUGROHO</span>
-          </h1>
-          
-          <div class="mb-6 min-h-[2rem]">
-            <span id="typingText" class="text-lg md:text-xl text-blue-200 font-medium"></span><span class="typing-cursor"></span>
-          </div>
-          
-          <!-- Dashboard Overview Panel -->
-          <div class="glass-card brutal-border p-5 mb-8 max-w-xl reveal show" style="box-shadow: 6px 6px 0 var(--jet-black); border-color: rgba(255, 255, 255, 0.5);">
-            <div class="flex items-center gap-2 mb-4 border-b border-white/20 pb-3">
-              <i data-lucide="terminal" style="width:18px;height:18px;color:#2563EB;"></i>
-              <span class="text-xs font-bold tracking-widest text-blue-300">SYSTEM.PROFILE_OVERVIEW</span>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 text-sm">
-              <div>
-                <div class="text-white/50 font-bold tracking-wider text-[10px] mb-1">IDENTITAS</div>
-                <div class="font-semibold text-white text-base">Wahyu Nugroho</div>
-              </div>
-              <div>
-                <div class="text-white/50 font-bold tracking-wider text-[10px] mb-1">UMUR</div>
-                <div class="font-semibold text-white text-base">15 Tahun</div>
-              </div>
-              <div>
-                <div class="text-white/50 font-bold tracking-wider text-[10px] mb-1">SPESIALISASI</div>
-                <div class="font-semibold text-white text-base">Fullstack & Cloud Infra</div>
-              </div>
-              <div>
-                <div class="text-white/50 font-bold tracking-wider text-[10px] mb-1">SYSTEM STATUS</div>
-                <div class="font-semibold text-[#10B981] flex items-center gap-2 text-base">
-                  <div class="pulse-dot"></div> Online & Ready
-                </div>
-              </div>
-            </div>
-            <p class="text-sm text-blue-100/80 mt-4 pt-4 border-t border-white/20 leading-relaxed">
-              Membangun infrastruktur hosting berkinerja tinggi (ZuriHost) yang andal untuk developer & bisnis di seluruh Indonesia.
-            </p>
-          </div>
-          
-          <div class="flex flex-wrap gap-4 mb-8">
-            <a href="#projects" class="brutal-btn text-white keep-white"><i data-lucide="folder-code" style="width:18px;height:18px;"></i> Lihat Project</a>
-            <button class="brutal-btn brutal-btn-outline open-sheet"><i data-lucide="download" style="width:18px;height:18px;"></i> Hubungi Saya</button>
-          </div>
-        </div>
-        
-        <!-- DESKTOP IMAGE -->
-        <div class="lg:col-span-2 reveal hidden lg:block">
-          <div class="relative inline-block" style="transform: rotate(-3deg); transition: transform 0.3s;" id="desktop-img-hover">
-            <div class="brutal-border-thick brutal-shadow-blue overflow-hidden" style="background: linear-gradient(135deg, #2563EB, #001F54);">
-              <img src="https://files.catbox.moe/2ygvmz.jpg" alt="Wahyu Nugroho" loading="lazy" class="block w-[320px] h-[380px] object-cover" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 320 380%22><rect width=%22320%22 height=%22380%22 fill=%22%232563EB%22/></svg>';" />
-            </div>
-            <div class="absolute -top-4 -right-4 brutal-border bg-[#2563EB] px-3 py-1 font-heading font-bold text-sm text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);">15 Y/O</div>
-            <div class="absolute -bottom-4 -left-4 glass-card px-3 py-2 flex items-center gap-2 text-sm font-bold text-white"><i data-lucide="crown" style="width:16px;height:16px;color:#FACC15;"></i> Founder</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="marquee">
-    <div class="marquee-content text-white keep-white">
-      FULLSTACK DEVELOPER ★ FOUNDER @ZURIHOST ★ 15 Y/O ★ JAVASCRIPT ★ GOLANG ★ NEXT.JS ★ PYTHON ★ C++ ★ FULLSTACK DEVELOPER ★ FOUNDER @ZURIHOST ★ 15 Y/O ★ JAVASCRIPT ★ GOLANG ★ NEXT.JS ★ PYTHON ★ C++ ★ 
+  <!-- MOBILE BOTTOM NAV -->
+  <div class="lg:hidden fixed bottom-0 w-full z-40 bg-dark-blue keep-dark border-t-4 border-jet-black no-print">
+    <div class="flex justify-around items-center h-16 px-2">
+      <a href="#hero" class="p-2 text-white keep-white hover:text-yellow active:scale-90 transition-all flex flex-col items-center gap-1"><i data-lucide="home" class="w-5 h-5"></i><span class="text-[10px] font-bold">Home</span></a>
+      <a href="#about" class="p-2 text-white keep-white hover:text-yellow active:scale-90 transition-all flex flex-col items-center gap-1"><i data-lucide="id-card" class="w-5 h-5"></i><span class="text-[10px] font-bold">ID Card</span></a>
+      <a href="#projects" class="p-2 text-white keep-white hover:text-yellow active:scale-90 transition-all flex flex-col items-center gap-1"><i data-lucide="folder-kanban" class="w-5 h-5"></i><span class="text-[10px] font-bold">5 Produk</span></a>
+      <button onclick="openCVModal()" class="p-2 text-yellow hover:text-white active:scale-90 transition-all flex flex-col items-center gap-1"><i data-lucide="file-text" class="w-5 h-5"></i><span class="text-[10px] font-bold">CV</span></button>
+      <a href="#contact" class="p-2 text-white keep-white hover:text-yellow active:scale-90 transition-all flex flex-col items-center gap-1"><i data-lucide="message-square" class="w-5 h-5"></i><span class="text-[10px] font-bold">Kontak</span></a>
     </div>
   </div>
 
-  <!-- ============================
-       BIRTHDAY SECTION
-       ============================ -->
-  <section id="birthday" class="relative py-24 bg-grid overflow-hidden" style="background: #001F54;">
-    <div class="blob blob-blue" style="width:400px;height:400px;top:20%;right:-100px;opacity:0.2;"></div>
-    <div class="relative z-10 max-w-6xl mx-auto px-6 text-center">
-      <div class="reveal">
-        <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] px-4 py-2 mb-6 text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="cake" style="width:16px;height:16px;"></i><span class="font-heading font-bold text-sm tracking-widest">BIRTHDAY MODE</span></div>
-        <h2 class="font-heading text-white mb-4" style="font-size: clamp(2rem, 5vw, 4rem);">COUNTDOWN TO MY BIRTHDAY</h2>
-        <p class="text-lg text-blue-300 mb-12">Menuju umur 16 tahun — <span class="font-bold text-white">15 Juni</span></p>
-      </div>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
-        <div class="glass-card brutal-border reveal p-6 md:p-8" style="box-shadow: 6px 6px 0 var(--jet-black);"><i data-lucide="calendar-days" class="mx-auto mb-3" style="width:32px;height:32px;color:#2563EB;"></i><div id="cd-days" class="font-heading font-black text-white" style="font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1;">00</div><div class="text-xs text-blue-300 mt-3 tracking-[0.3em] font-bold">HARI</div></div>
-        <div class="glass-card brutal-border reveal p-6 md:p-8" style="box-shadow: 6px 6px 0 var(--jet-black);"><i data-lucide="clock" class="mx-auto mb-3" style="width:32px;height:32px;color:#2563EB;"></i><div id="cd-hours" class="font-heading font-black text-white" style="font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1;">00</div><div class="text-xs text-blue-300 mt-3 tracking-[0.3em] font-bold">JAM</div></div>
-        <div class="glass-card brutal-border reveal p-6 md:p-8" style="box-shadow: 6px 6px 0 var(--jet-black);"><i data-lucide="timer" class="mx-auto mb-3" style="width:32px;height:32px;color:#2563EB;"></i><div id="cd-minutes" class="font-heading font-black text-white" style="font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1;">00</div><div class="text-xs text-blue-300 mt-3 tracking-[0.3em] font-bold">MENIT</div></div>
-        <div class="glass-card brutal-border reveal p-6 md:p-8" style="box-shadow: 6px 6px 0 var(--jet-black);"><i data-lucide="zap" class="mx-auto mb-3" style="width:32px;height:32px;color:#2563EB;"></i><div id="cd-seconds" class="font-heading font-black text-white" style="font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1;">00</div><div class="text-xs text-blue-300 mt-3 tracking-[0.3em] font-bold">DETIK</div></div>
-      </div>
-
-      <div class="reveal max-w-2xl mx-auto">
-        <div class="flex justify-between text-sm font-bold text-blue-300 mb-3 tracking-widest"><span>PROGRESS MENUJU ULANG TAHUN</span><span id="progress-percent">0%</span></div>
-        <div class="brutal-border p-1 bg-[#0A1128]" style="box-shadow: 6px 6px 0 var(--jet-black);"><div id="birthday-progress" class="h-4 bg-[#2563EB] transition-all duration-1000" style="width: 0%;"></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================
-       ABOUT SECTION
-       ============================ -->
-  <section id="about" class="relative py-24 overflow-hidden bg-grid">
-    <div class="blob blob-sky" style="width:400px;height:400px;bottom:0;left:-100px;"></div>
-    <div class="relative z-10 max-w-7xl mx-auto px-6">
-      <div class="text-center mb-16 reveal">
-        <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] px-4 py-2 mb-4 text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="user" style="width:16px;height:16px;"></i><span class="font-heading font-bold text-sm tracking-widest">ABOUT ME</span></div>
-        <h2 class="font-heading text-white" style="font-size: clamp(2rem, 5vw, 4rem);">SIAPA <span style="color:#2563EB;">WAHYU?</span></h2>
-      </div>
-
-      <div class="grid lg:grid-cols-5 gap-12 items-center">
-        <div class="lg:col-span-2 reveal">
-          <div class="relative inline-block mx-auto" style="transform: rotate(2deg);">
-            <div class="brutal-border-thick brutal-shadow overflow-hidden" style="background: linear-gradient(135deg, #2563EB, #001F54);">
-              <img src="https://files.catbox.moe/2ygvmz.jpg" alt="Wahyu Nugroho" class="block w-full max-w-[400px] aspect-[4/5] object-cover" />
-            </div>
-            <div class="absolute -bottom-4 -right-4 brutal-border bg-[#FACC15] text-black px-4 py-2 font-heading font-bold" style="box-shadow: 4px 4px 0 var(--jet-black);">FOUNDER</div>
-          </div>
-        </div>
-
-        <div class="lg:col-span-3 reveal">
-          <div class="glass-card brutal-border p-8 md:p-10" style="box-shadow: 8px 8px 0 var(--jet-black);">
-            <p class="text-base md:text-lg text-blue-100/90 leading-relaxed mb-5">Halo! Saya <span class="font-bold text-white">Wahyu Nugroho</span>, developer <span class="bg-[#2563EB] px-2 py-0.5 font-bold text-white keep-white">15 tahun</span> dari Indonesia yang passionate di dunia <span class="font-bold text-white">web development</span> dan <span class="font-bold text-white">infrastructure</span>.</p>
-            <p class="text-base md:text-lg text-blue-100/90 leading-relaxed mb-5">Saya Founder & Creator utama <span class="bg-[#2563EB] px-2 py-0.5 font-bold text-white keep-white">ZuriHost</span> — platform layanan hosting yang saya bangun dari nol untuk membantu developer Indonesia punya akses hosting berkualitas dengan harga terjangkau.</p>
-            <p class="text-base md:text-lg text-blue-100/90 leading-relaxed">Perjalanan saya dimulai dari tahun 2019 saat masih iseng belajar coding. Dari rasa penasaran, sekarang jadi passion yang membawa saya membangun perusahaan sendiri.</p>
-
-            <div class="flex flex-wrap gap-3 mt-8">
-              <a href="https://t.me/ZuriHostingBot" target="_blank" class="brutal-btn text-white keep-white"><i data-lucide="send" style="width:16px;height:16px;"></i> Telegram</a>
-              <a href="mailto:ythprofryuga@gmail.com" class="brutal-btn brutal-btn-outline"><i data-lucide="mail" style="width:16px;height:16px;"></i> Email</a>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-            <div class="brutal-border bg-[#2563EB] p-4 text-center text-white keep-white" style="box-shadow: 5px 5px 0 var(--jet-black);"><div class="font-heading font-black text-3xl md:text-4xl text-white keep-white">15</div><div class="text-xs text-blue-100 mt-1 tracking-widest font-bold">YEARS OLD</div></div>
-            <div class="brutal-border bg-[#0A1128] p-4 text-center" style="box-shadow: 5px 5px 0 var(--jet-black);"><div class="font-heading font-black text-3xl md:text-4xl text-white">3+</div><div class="text-xs text-blue-300 mt-1 tracking-widest font-bold">PROJECTS</div></div>
-            <div class="brutal-border bg-[#0A1128] p-4 text-center" style="box-shadow: 5px 5px 0 var(--jet-black);"><div class="font-heading font-black text-3xl md:text-4xl text-white">1</div><div class="text-xs text-blue-300 mt-1 tracking-widest font-bold">COMPANY</div></div>
-            <div class="brutal-border bg-[#0A1128] p-4 text-center" style="box-shadow: 5px 5px 0 var(--jet-black);"><div class="font-heading font-black text-3xl md:text-4xl text-white">5</div><div class="text-xs text-blue-300 mt-1 tracking-widest font-bold">LANGUAGES</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================
-       SKILLS SECTION
-       ============================ -->
-  <section id="skills" class="relative py-24 overflow-hidden bg-grid" style="background: #001F54;">
-    <div class="blob blob-blue" style="width:400px;height:400px;top:20%;right:-100px;opacity:0.2;"></div>
-    <div class="relative z-10 max-w-7xl mx-auto px-6">
-      <div class="text-center mb-16 reveal">
-        <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] px-4 py-2 mb-4 text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="code-2" style="width:16px;height:16px;"></i><span class="font-heading font-bold text-sm tracking-widest">TECH STACK</span></div>
-        <h2 class="font-heading text-white mb-4" style="font-size: clamp(2rem, 5vw, 4rem);">SKILLS & <span style="color:#2563EB;">TOOLS</span></h2>
-      </div>
-
-      <div class="mb-16">
-        <h3 class="font-heading text-white text-xl md:text-2xl mb-6 flex items-center gap-3 reveal"><i data-lucide="terminal" style="width:24px;height:24px;color:#2563EB;"></i> LANGUAGES</h3>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-lg mb-3">JavaScript</div><div class="flex justify-center gap-1"><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div></div></div>
-          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-lg mb-3">TypeScript</div><div class="flex justify-center gap-1"><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-slate-400/50"></div></div></div>
-          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-lg mb-3">Golang</div><div class="flex justify-center gap-1"><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-slate-400/50"></div></div></div>
-          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-lg mb-3">Python</div><div class="flex justify-center gap-1"><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-slate-400/50"></div><div class="w-2 h-2 bg-slate-400/50"></div></div></div>
-          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-lg mb-3">C++</div><div class="flex justify-center gap-1"><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-[#2563EB]"></div><div class="w-2 h-2 bg-slate-400/50"></div><div class="w-2 h-2 bg-slate-400/50"></div></div></div>
-        </div>
-      </div>
-      
-      <div>
-        <h3 class="font-heading text-white text-xl md:text-2xl mb-6 flex items-center gap-3 reveal"><i data-lucide="wrench" style="width:24px;height:24px;color:#2563EB;"></i> FRAMEWORKS & TOOLS</h3>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-sm">Next.js</div></div>
-          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-sm">React</div></div>
-          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-sm">Node.js</div></div>
-          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-sm">Tailwind</div></div>
-          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-sm">Git</div></div>
-          <div class="skill-card glass-card brutal-border reveal p-5 text-center" style="box-shadow: 6px 6px 0 var(--jet-black);"><div class="font-heading font-bold text-white text-sm">Linux</div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================
-       PROJECTS SECTION
-       ============================ -->
-  <section id="projects" class="relative py-24 bg-grid overflow-hidden">
-    <div class="blob blob-blue" style="width:400px;height:400px;top:10%;left:-100px;"></div>
-    <div class="relative z-10 max-w-7xl mx-auto px-6">
-      <div class="text-center mb-16 reveal">
-        <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] px-4 py-2 mb-4 text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="folder-code" style="width:16px;height:16px;"></i><span class="font-heading font-bold text-sm tracking-widest">MY WORK</span></div>
-        <h2 class="font-heading text-white mb-4" style="font-size: clamp(2rem, 5vw, 4rem);">FEATURED <span style="color:#2563EB;">PROJECTS</span></h2>
-      </div>
-
-      <div class="grid lg:grid-cols-2 gap-8">
-        
-        <article class="project-card glass-card brutal-border reveal overflow-hidden flex flex-col" style="box-shadow: 8px 8px 0 var(--jet-black);">
-          <div class="relative h-64 overflow-hidden shrink-0" style="background: linear-gradient(135deg, #2563EB, #001F54);">
-            <div class="absolute inset-0 bg-grid opacity-30"></div>
-            <div class="absolute inset-0 flex items-center justify-center"><i data-lucide="server" style="width:96px;height:96px;color:white;opacity:0.9;"></i></div>
-            <div class="absolute top-4 left-4 brutal-border bg-[#2563EB] px-3 py-1.5 font-heading font-bold text-xs text-white keep-white" style="box-shadow: 3px 3px 0 var(--jet-black);">WEB HOSTING</div>
-          </div>
-          <div class="p-8 flex-1 flex flex-col justify-between">
-            <div>
-              <h3 class="font-heading text-3xl text-white mb-2">ZuriHost</h3>
-              <p class="text-sm text-blue-300 font-bold mb-4 flex items-center gap-2"><i data-lucide="crown" style="width:14px;height:14px;color:#FACC15;"></i>Founder & Lead</p>
-              <p class="text-blue-100/80 mb-6 leading-relaxed">Platform layanan web hosting premium dengan fokus pada performa, uptime 99.9%, dan harga terjangkau.</p>
-            </div>
-            <div class="flex gap-3 mt-auto">
-              <a href="https://zurihost.biz.id" target="_blank" class="brutal-btn text-white keep-white" style="padding: 0.625rem 1.25rem; font-size: 0.75rem;"><i data-lucide="external-link" style="width:14px;height:14px;"></i>Live Demo</a>
-              <button class="brutal-btn brutal-btn-outline project-details" data-project="zurihost" style="padding: 0.625rem 1.25rem; font-size: 0.75rem;"><i data-lucide="info" style="width:14px;height:14px;"></i>Details</button>
-            </div>
-          </div>
-        </article>
-
-        <article class="project-card glass-card brutal-border reveal overflow-hidden flex flex-col" style="box-shadow: 8px 8px 0 var(--jet-black);">
-          <div class="relative h-64 overflow-hidden shrink-0" style="background: linear-gradient(135deg, #10B981, #064E3B);">
-            <div class="absolute inset-0 bg-grid opacity-30"></div>
-            <div class="absolute inset-0 flex items-center justify-center"><i data-lucide="gift" style="width:96px;height:96px;color:white;opacity:0.9;"></i></div>
-            <div class="absolute top-4 left-4 brutal-border bg-[#10B981] px-3 py-1.5 font-heading font-bold text-xs text-white keep-white" style="box-shadow: 3px 3px 0 var(--jet-black);">FREE HOSTING</div>
-          </div>
-          <div class="p-8 flex-1 flex flex-col justify-between">
-            <div>
-              <h3 class="font-heading text-3xl text-white mb-2">ZuriFreeHost</h3>
-              <p class="text-sm text-blue-300 font-bold mb-4 flex items-center gap-2"><i data-lucide="crown" style="width:14px;height:14px;color:#FACC15;"></i>Founder & Dev</p>
-              <p class="text-blue-100/80 mb-6 leading-relaxed">Layanan hosting GRATIS untuk developer pemula yang ingin deploy project tanpa biaya.</p>
-            </div>
-            <div class="flex gap-3 mt-auto">
-              <a href="https://freehost.zurihost.my.id" target="_blank" class="brutal-btn text-white keep-white" style="padding: 0.625rem 1.25rem; font-size: 0.75rem;"><i data-lucide="external-link" style="width:14px;height:14px;"></i>Live Demo</a>
-              <button class="brutal-btn brutal-btn-outline project-details" data-project="zurifreehost" style="padding: 0.625rem 1.25rem; font-size: 0.75rem;"><i data-lucide="info" style="width:14px;height:14px;"></i>Details</button>
-            </div>
-          </div>
-        </article>
-
-        <article class="project-card glass-card brutal-border reveal overflow-hidden lg:col-span-2 lg:max-w-3xl lg:mx-auto w-full flex flex-col md:flex-row" style="box-shadow: 8px 8px 0 var(--jet-black);">
-          <div class="relative h-64 md:h-auto md:w-1/2 overflow-hidden shrink-0" style="background: linear-gradient(135deg, #0EA5E9, #0C4A6E);">
-            <div class="absolute inset-0 bg-grid opacity-30"></div>
-            <div class="absolute inset-0 flex items-center justify-center"><i data-lucide="bot" style="width:96px;height:96px;color:white;opacity:0.9;"></i></div>
-            <div class="absolute top-4 left-4 brutal-border bg-[#0EA5E9] px-3 py-1.5 font-heading font-bold text-xs text-white keep-white" style="box-shadow: 3px 3px 0 var(--jet-black);">TELEGRAM BOT</div>
-          </div>
-          <div class="p-8 md:w-1/2 flex flex-col justify-between">
-            <div>
-              <h3 class="font-heading text-3xl text-white mb-2">ZuriHostingBot</h3>
-              <p class="text-sm text-blue-300 font-bold mb-4 flex items-center gap-2"><i data-lucide="code" style="width:14px;height:14px;color:#FACC15;"></i>Creator & Maintainer</p>
-              <p class="text-blue-100/80 mb-6 leading-relaxed">Bot Telegram all-in-one untuk manajemen layanan ZuriHost. Order hosting, cek status server, dari Telegram.</p>
-            </div>
-            <div class="flex gap-3 mt-auto">
-              <a href="https://t.me/ZuriHostingBot" target="_blank" class="brutal-btn text-white keep-white" style="padding: 0.625rem 1.25rem; font-size: 0.75rem;"><i data-lucide="send" style="width:14px;height:14px;"></i>Open Bot</a>
-              <button class="brutal-btn brutal-btn-outline project-details" data-project="zuribot" style="padding: 0.625rem 1.25rem; font-size: 0.75rem;"><i data-lucide="info" style="width:14px;height:14px;"></i>Details</button>
-            </div>
-          </div>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================
-       EXPERIENCE SECTION
-       ============================ -->
-  <section id="experience" class="relative py-24 bg-grid overflow-hidden" style="background: #001F54;">
-    <div class="blob blob-sky" style="width:400px;height:400px;top:20%;right:-100px;opacity:0.2;"></div>
-    <div class="relative z-10 max-w-4xl mx-auto px-6">
-      <div class="text-center mb-16 reveal">
-        <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] px-4 py-2 mb-4 text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="briefcase" style="width:16px;height:16px;"></i><span class="font-heading font-bold text-sm tracking-widest">EXPERIENCE</span></div>
-        <h2 class="font-heading text-white" style="font-size: clamp(2rem, 5vw, 4rem);">WHERE I'VE <span style="color:#2563EB;">WORKED</span></h2>
-      </div>
-
-      <div class="relative">
-        <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-white -translate-x-1/2"></div>
-        
-        <div class="relative mb-12 reveal">
-          <div class="grid md:grid-cols-2 gap-8 items-center">
-            <div class="md:text-right md:pr-12 pl-12 md:pl-0">
-              <div class="glass-card brutal-border p-6 inline-block md:text-right text-left w-full" style="box-shadow: 6px 6px 0 var(--jet-black);">
-                <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] text-white keep-white px-3 py-1 mb-3 text-xs font-bold" style="box-shadow: 2px 2px 0 var(--jet-black);"><i data-lucide="calendar" style="width:12px;height:12px;"></i>2024 — 2026</div>
-                <h3 class="font-heading text-xl md:text-2xl text-white mb-1">Founder & Lead Developer</h3>
-                <p class="text-blue-300 font-bold text-sm mb-3">ZuriHost</p>
-                <p class="text-blue-100/80 text-sm leading-relaxed">Membangun platform hosting dari fondasi awal hingga siap edar (production). Mengelola arsitektur server, manajemen database, dan optimisasi performa operasional.</p>
-              </div>
-            </div>
-            <div class="hidden md:block"></div>
-          </div>
-          <div class="absolute left-4 md:left-1/2 top-6 -translate-x-1/2 brutal-border bg-[#2563EB] w-5 h-5" style="box-shadow: 3px 3px 0 var(--jet-black);"></div>
-        </div>
-
-        <div class="relative mb-12 reveal">
-          <div class="grid md:grid-cols-2 gap-8 items-center">
-            <div class="hidden md:block"></div>
-            <div class="md:pl-12 pl-12">
-              <div class="glass-card brutal-border p-6 w-full" style="box-shadow: 6px 6px 0 var(--jet-black);">
-                <div class="inline-flex items-center gap-2 brutal-border bg-[#0EA5E9] text-white keep-white px-3 py-1 mb-3 text-xs font-bold" style="box-shadow: 2px 2px 0 var(--jet-black);"><i data-lucide="calendar" style="width:12px;height:12px;"></i>2024</div>
-                <h3 class="font-heading text-xl md:text-2xl text-white mb-1">Automation Developer</h3>
-                <p class="text-blue-300 font-bold text-sm mb-3">ZuriHostingBot</p>
-                <p class="text-blue-100/80 text-sm leading-relaxed">Merekayasa sistem *bot* Telegram interaktif untuk otomatisasi layanan *backend* ZuriHost, terintegrasi secara *real-time* dengan *payment gateway*.</p>
-              </div>
-            </div>
-          </div>
-          <div class="absolute left-4 md:left-1/2 top-6 -translate-x-1/2 brutal-border bg-[#0EA5E9] w-5 h-5" style="box-shadow: 3px 3px 0 var(--jet-black);"></div>
-        </div>
-
-        <div class="relative reveal">
-          <div class="grid md:grid-cols-2 gap-8 items-center">
-            <div class="md:text-right md:pr-12 pl-12 md:pl-0">
-              <div class="glass-card brutal-border p-6 inline-block md:text-right text-left w-full" style="box-shadow: 6px 6px 0 var(--jet-black);">
-                <div class="inline-flex items-center gap-2 brutal-border bg-[#FACC15] text-black px-3 py-1 mb-3 text-xs font-bold" style="box-shadow: 2px 2px 0 var(--jet-black);"><i data-lucide="calendar" style="width:12px;height:12px;"></i>2023 — 2024</div>
-                <h3 class="font-heading text-xl md:text-2xl text-white mb-1">Self-Taught Developer</h3>
-                <p class="text-blue-300 font-bold text-sm mb-3">Personal Journey</p>
-                <p class="text-blue-100/80 text-sm leading-relaxed">Mempelajari fundamental arsitektur *web development* tingkat lanjut (Golang, Python, C++) melalui metodologi otodidak dan implementasi proyek independen.</p>
-              </div>
-            </div>
-            <div class="hidden md:block"></div>
-          </div>
-          <div class="absolute left-4 md:left-1/2 top-6 -translate-x-1/2 brutal-border bg-[#FACC15] w-5 h-5" style="box-shadow: 3px 3px 0 var(--jet-black);"></div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================
-       JOURNEY SECTION
-       ============================ -->
-  <section id="journey" class="relative py-24 bg-grid overflow-hidden">
-    <div class="blob blob-blue" style="width:500px;height:500px;top:20%;left:-150px;"></div>
+  <main class="pt-20 no-print">
     
-    <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
-      <div class="text-center mb-16 reveal">
-        <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] px-4 py-2 mb-4 text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="map" style="width:16px;height:16px;"></i><span class="font-heading font-bold text-sm tracking-widest">MY JOURNEY</span></div>
-        <h2 class="font-heading text-white mb-4" style="font-size: clamp(2rem, 5vw, 4rem);">FROM ZERO <span style="color:#2563EB;">TO HERO</span></h2>
-        <p class="text-blue-200 max-w-2xl mx-auto">Dari fondasi awal hingga membangun infrastruktur berskala besar (2019 - 2026).</p>
-      </div>
+    <!-- 1. HERO SECTION -->
+    <section id="hero" class="relative min-h-[90vh] flex items-center justify-center overflow-hidden px-6 py-12">
+      <!-- Decorative Floating Icons -->
+      <div class="absolute top-20 left-10 text-sky opacity-40 animate-float pointer-events-none hidden md:block"><i data-lucide="code-2" class="w-14 h-14"></i></div>
+      <div class="absolute bottom-20 right-10 text-yellow opacity-40 animate-float-delayed pointer-events-none hidden md:block"><i data-lucide="terminal" class="w-12 h-12"></i></div>
+      <div class="absolute top-1/3 right-1/3 text-purple opacity-20 animate-spin-slow pointer-events-none"><i data-lucide="cpu" class="w-20 h-20"></i></div>
 
-      <!-- HORIZONTAL SWIPE CONTAINER (Mobile & Desktop) -->
-      <div class="reveal w-full">
-        <div id="journey-scroll" class="journey-scroll-container flex gap-6 overflow-x-auto pb-8 cursor-grab active:cursor-grabbing w-full">
-          
-          <div class="journey-card glass-card brutal-border p-6 flex-shrink-0 w-[85vw] md:w-80 relative" style="box-shadow: 8px 8px 0 var(--jet-black);">
-            <div class="absolute -top-4 -left-4 brutal-border bg-[#2563EB] px-4 py-2 font-heading font-black text-2xl text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);">2019</div>
-            <div class="mt-8">
-              <div class="inline-flex items-center justify-center brutal-border bg-white text-black p-3 mb-4" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="layout" style="width:24px;height:24px;"></i></div>
-              <h3 class="font-heading text-xl text-white mb-3">Fundamental Web Dev</h3>
-              <p class="text-blue-100/80 text-sm leading-relaxed">Menguasai fondasi arsitektur web modern (HTML, CSS). Membangun logika dasar pemrograman dan pemahaman struktur awal sebuah website.</p>
-            </div>
-          </div>
-
-          <div class="journey-card glass-card brutal-border p-6 flex-shrink-0 w-[85vw] md:w-80 relative" style="box-shadow: 8px 8px 0 var(--jet-black); border-color: #FACC15;">
-            <div class="absolute -top-4 -left-4 brutal-border bg-[#FACC15] text-black px-4 py-2 font-heading font-black text-2xl" style="box-shadow: 4px 4px 0 var(--jet-black);">2020</div>
-            <div class="mt-8">
-              <div class="inline-flex items-center justify-center brutal-border bg-white text-black p-3 mb-4" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="lightbulb" style="width:24px;height:24px;"></i></div>
-              <h3 class="font-heading text-xl text-white mb-3">ZuriHost Concept & System Arch</h3>
-              <p class="text-blue-100/80 text-sm leading-relaxed">Mendalami JavaScript dan *Backend*. Menemukan masalah aksesabilitas *hosting* di Indonesia, yang memicu tercetusnya ide infrastruktur <b>ZuriHost</b>.</p>
-            </div>
-          </div>
-
-          <div class="journey-card glass-card brutal-border p-6 flex-shrink-0 w-[85vw] md:w-80 relative" style="box-shadow: 8px 8px 0 var(--jet-black);">
-            <div class="absolute -top-4 -left-4 brutal-border bg-[#2563EB] px-4 py-2 font-heading font-black text-2xl text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);">2021</div>
-            <div class="mt-8">
-              <div class="inline-flex items-center justify-center brutal-border bg-white text-black p-3 mb-4" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="server-cog" style="width:24px;height:24px;"></i></div>
-              <h3 class="font-heading text-xl text-white mb-3">Backend Engineering</h3>
-              <p class="text-blue-100/80 text-sm leading-relaxed">Mempelajari *low-level engineering* (C++, Python). Merancang topologi server awal dan proses otomatisasi sistem *deployment* skala kecil.</p>
-            </div>
-          </div>
-
-          <div class="journey-card glass-card brutal-border p-6 flex-shrink-0 w-[85vw] md:w-80 relative" style="box-shadow: 8px 8px 0 var(--jet-black);">
-            <div class="absolute -top-4 -left-4 brutal-border bg-[#2563EB] px-4 py-2 font-heading font-black text-2xl text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);">2022</div>
-            <div class="mt-8">
-              <div class="inline-flex items-center justify-center brutal-border bg-white text-black p-3 mb-4" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="globe" style="width:24px;height:24px;"></i></div>
-              <h3 class="font-heading text-xl text-white mb-3">Modern Cloud Deployment</h3>
-              <p class="text-blue-100/80 text-sm leading-relaxed">Eksplorasi ekosistem React, Node.js, dan lingkungan *production*. Berhasil menguji sistem *deployment* mandiri pada infrastruktur VPS independen.</p>
-            </div>
-          </div>
-
-          <div class="journey-card glass-card brutal-border p-6 flex-shrink-0 w-[85vw] md:w-80 relative" style="box-shadow: 8px 8px 0 var(--jet-black);">
-            <div class="absolute -top-4 -left-4 brutal-border bg-[#2563EB] px-4 py-2 font-heading font-black text-2xl text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);">2023</div>
-            <div class="mt-8">
-              <div class="inline-flex items-center justify-center brutal-border bg-white text-black p-3 mb-4" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="zap" style="width:24px;height:24px;"></i></div>
-              <h3 class="font-heading text-xl text-white mb-3">High-Performance Systems</h3>
-              <p class="text-blue-100/80 text-sm leading-relaxed">Mengadopsi Golang untuk konurensi tingkat tinggi. Mengintegrasikan optimalisasi *web server* (Nginx) & *load balancing* untuk infrastruktur peluncuran.</p>
-            </div>
-          </div>
-
-          <div class="journey-card glass-card brutal-border p-6 flex-shrink-0 w-[85vw] md:w-80 relative" style="box-shadow: 8px 8px 0 var(--jet-black);">
-            <div class="absolute -top-4 -left-4 brutal-border bg-[#2563EB] px-4 py-2 font-heading font-black text-2xl text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);">2024</div>
-            <div class="mt-8">
-              <div class="inline-flex items-center justify-center brutal-border bg-white text-black p-3 mb-4" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="rocket" style="width:24px;height:24px;"></i></div>
-              <h3 class="font-heading text-xl text-white mb-3">Official Launch ZuriHost</h3>
-              <p class="text-blue-100/80 text-sm leading-relaxed">Peluncuran *alpha/beta* platform ZuriHost. Merilis *Telegram Bot* yang terintegrasi secara *native* dengan API manajemen server layanan otomatis.</p>
-            </div>
-          </div>
-
-          <div class="journey-card glass-card brutal-border p-6 flex-shrink-0 w-[85vw] md:w-80 relative" style="box-shadow: 8px 8px 0 var(--jet-black);">
-            <div class="absolute -top-4 -left-4 brutal-border bg-[#2563EB] px-4 py-2 font-heading font-black text-2xl text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);">2025</div>
-            <div class="mt-8">
-              <div class="inline-flex items-center justify-center brutal-border bg-white text-black p-3 mb-4" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="network" style="width:24px;height:24px;"></i></div>
-              <h3 class="font-heading text-xl text-white mb-3">Scaling & Enterprise</h3>
-              <p class="text-blue-100/80 text-sm leading-relaxed">Difokuskan pada penanganan lalu lintas data skala masif, mengeksekusi arsitektur *high-availability*, dan memperbaiki stabilitas *uptime* menjadi 99.99%.</p>
-            </div>
-          </div>
-
-          <div class="journey-card glass-card brutal-border p-6 flex-shrink-0 w-[85vw] md:w-80 relative" style="box-shadow: 8px 8px 0 var(--jet-black); border-color: #2563EB;">
-            <div class="absolute -top-4 -left-4 brutal-border bg-[#2563EB] px-4 py-2 font-heading font-black text-2xl text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);">2026</div>
-            <div class="mt-8">
-              <div class="inline-flex items-center justify-center brutal-border bg-[#2563EB] text-white keep-white p-3 mb-4" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="cpu" style="width:24px;height:24px;"></i></div>
-              <h3 class="font-heading text-xl text-white mb-3">Advanced Cloud Ecosystem</h3>
-              <p class="text-blue-100/80 text-sm leading-relaxed">Ekspansi arsitektur layanan lebih mutakhir. Fokus pada inovasi infrastruktur server generasi terbaru dan memperluas integrasi ekosistem *developer* aktif.</p>
-            </div>
-          </div>
-        </div>
+      <div class="max-w-6xl mx-auto w-full grid lg:grid-cols-12 gap-12 items-center z-10">
         
-        <div class="flex items-center justify-center gap-3 mt-4 text-blue-300 text-xs font-bold tracking-widest">
-          <i data-lucide="mouse-pointer-2" class="hidden md:block" style="width:16px;height:16px;"></i>
-          <i data-lucide="move-horizontal" class="md:hidden" style="width:16px;height:16px;"></i>
-          <span class="hidden md:inline">DRAG UNTUK EXPLORE</span>
-          <span class="md:hidden">GESER UNTUK EXPLORE</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ============================
-       CONTACT SECTION
-       ============================ -->
-  <section id="contact" class="relative py-24 bg-grid overflow-hidden" style="background: #0A1128;">
-    <div class="blob blob-blue" style="width:400px;height:400px;top:10%;right:-100px;opacity:0.2;"></div>
-    <div class="relative z-10 max-w-7xl mx-auto px-6">
-      <div class="text-center mb-16 reveal">
-        <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] px-4 py-2 mb-4 text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);"><i data-lucide="mail" style="width:16px;height:16px;"></i><span class="font-heading font-bold text-sm tracking-widest">CONTACT</span></div>
-        <h2 class="font-heading text-white mb-4" style="font-size: clamp(2rem, 5vw, 4rem);">LET'S WORK <span style="color:#2563EB;">TOGETHER</span></h2>
-      </div>
-
-      <div class="grid lg:grid-cols-5 gap-8">
-        <div class="lg:col-span-2 space-y-4 reveal">
-          <a href="mailto:ythprofryuga@gmail.com" class="glass-card brutal-border p-5 flex items-center gap-4 hover:translate-x-1 transition-transform" style="box-shadow: 6px 6px 0 var(--jet-black); text-decoration: none;">
-            <div class="brutal-border bg-[#2563EB] p-3 shrink-0" style="box-shadow: 3px 3px 0 var(--jet-black);"><i data-lucide="mail" class="text-white keep-white" style="width:20px;height:20px;"></i></div>
-            <div class="min-w-0 flex-1"><div class="text-xs text-blue-300 font-bold tracking-widest mb-1">EMAIL</div><div class="text-white font-semibold text-sm truncate">ythprofryuga@gmail.com</div></div>
-          </a>
+        <!-- Text Content -->
+        <div class="lg:col-span-7 order-2 lg:order-1 text-center lg:text-left reveal active">
+          <div class="sticker-badge mb-6 mx-auto lg:mx-0">
+            <i data-lucide="graduation-cap" class="w-4 h-4 text-electric-blue"></i>
+            <span>SISWA & SELF-TAUGHT DEVELOPER</span>
+          </div>
           
-          <div class="brutal-border bg-[#2563EB] p-5 text-white keep-white mt-4" style="box-shadow: 6px 6px 0 var(--jet-black);">
-            <div class="flex items-center gap-3 mb-3"><div class="pulse-dot bg-white"></div><span class="font-heading font-bold tracking-widest text-sm">AVAILABLE NOW</span></div>
-            <p class="text-white/90 text-sm leading-relaxed">Siap kolaborasi untuk diskusi proyek tingkat lanjut, konsultasi arsitektur cloud, atau peluang *partnership* lainnya.</p>
+          <h1 class="font-heading font-black text-white mb-4" style="font-size: clamp(2.75rem, 7vw, 5.5rem); line-height: 1.05;">
+            Hi, saya <span class="highlight-yellow">Wahyu</span>
+          </h1>
+          
+          <div class="text-xl md:text-3xl font-heading font-bold mb-6 min-h-[2.5rem] flex flex-wrap items-center justify-center lg:justify-start gap-2">
+            <span>Fokus pada</span>
+            <span id="typewriter" class="text-yellow bg-jet-black keep-white px-2 py-0.5 brutal-border">Fullstack Development</span>
+          </div>
+
+          <p class="text-base md:text-lg text-white/80 max-w-xl mx-auto lg:mx-0 mb-8 font-medium leading-relaxed">
+            15 y/o developer crafting bold web experiences & building reliable hosting infrastructure (<span class="font-bold text-yellow underline">ZuriHost Ecosystem</span>) untuk developer Indonesia.
+          </p>
+
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4">
+            <a href="#projects" class="brutal-btn bg-electric-blue text-white keep-white rounded-xl">
+              <i data-lucide="rocket" class="w-5 h-5"></i> 5 Produk Live
+            </a>
+            <button onclick="openCVModal()" class="brutal-btn bg-yellow text-jet-black rounded-xl">
+              <i data-lucide="file-check-2" class="w-5 h-5"></i> Lihat / Download CV
+            </button>
+            <a href="https://wa.me/6285122900934?text=Halo%20Wahyu,%20saya%20lihat%20portfolio%20kamu!" target="_blank" class="brutal-btn bg-green text-white keep-white rounded-xl">
+              <i data-lucide="message-circle" class="w-5 h-5"></i> WhatsApp
+            </a>
           </div>
         </div>
 
-        <div class="lg:col-span-3 reveal">
-          <form id="contact-form" class="glass-card brutal-border p-6 md:p-8" style="box-shadow: 8px 8px 0 var(--jet-black);">
-            <div class="grid md:grid-cols-2 gap-4 mb-4">
-              <div>
-                <label class="block text-xs font-bold text-blue-300 tracking-widest mb-2">NAMA</label>
-                <input type="text" name="name" required class="brutal-border w-full px-4 py-3 bg-transparent text-white placeholder-gray-400 focus:outline-none focus:border-[#2563EB] transition-colors" style="box-shadow: 4px 4px 0 var(--jet-black);" placeholder="Nama Anda">
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-blue-300 tracking-widest mb-2">EMAIL</label>
-                <input type="email" name="email" required class="brutal-border w-full px-4 py-3 bg-transparent text-white placeholder-gray-400 focus:outline-none focus:border-[#2563EB] transition-colors" style="box-shadow: 4px 4px 0 var(--jet-black);" placeholder="email@domain.com">
-              </div>
-            </div>
-            <div class="mb-6">
-              <label class="block text-xs font-bold text-blue-300 tracking-widest mb-2">PESAN</label>
-              <textarea name="message" required rows="4" class="brutal-border w-full px-4 py-3 bg-transparent text-white placeholder-gray-400 focus:outline-none focus:border-[#2563EB] transition-colors resize-none" style="box-shadow: 4px 4px 0 var(--jet-black);" placeholder="Ketik pesan Anda..."></textarea>
-            </div>
-            <button type="submit" class="brutal-btn w-full justify-center text-white keep-white"><i data-lucide="send" style="width:16px;height:16px;"></i>KIRIM PESAN</button>
+        <!-- Photo Avatar -->
+        <div class="lg:col-span-5 order-1 lg:order-2 flex justify-center reveal active">
+          <div class="relative w-64 h-64 md:w-80 md:h-80 interactive group" id="hero-avatar">
+            <div class="absolute inset-0 bg-yellow rounded-3xl rotate-6 brutal-border transition-transform group-hover:rotate-12"></div>
+            <div class="absolute inset-0 bg-electric-blue rounded-3xl -rotate-6 brutal-border transition-transform group-hover:-rotate-12"></div>
             
-            <div id="form-success" class="hidden mt-4 brutal-border bg-[#10B981] p-4 text-center text-white keep-white" style="box-shadow: 4px 4px 0 var(--jet-black);">
-              PESAN TERKIRIM! Saya akan merespons melalui e-mail.
+            <div class="absolute inset-0 brutal-border rounded-3xl overflow-hidden bg-dark-blue flex items-center justify-center z-10 brutal-shadow">
+              <img src="https://files.catbox.moe/2ygvmz.jpg" alt="Wahyu Nugroho" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%25%22 height=%22100%25%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%232563EB%22/><text x=%2250%22 y=%2255%22 font-family=%22Arial%22 font-size=%2240%22 font-weight=%22bold%22 fill=%22white%22 text-anchor=%22middle%22>WN</text></svg>'">
             </div>
-          </form>
+
+            <!-- Floating Badges -->
+            <div class="absolute -top-4 -right-4 bg-yellow text-jet-black brutal-border brutal-shadow-sm px-3 py-1 font-heading font-black text-sm rotate-12 z-20 rounded-lg">
+              15 Y/O
+            </div>
+            <div class="absolute -bottom-5 -left-4 bg-white text-jet-black brutal-border brutal-shadow-sm px-4 py-1.5 font-heading font-black text-sm -rotate-6 z-20 flex items-center gap-1.5 rounded-lg">
+              <i data-lucide="crown" class="w-4 h-4 text-amber fill-amber"></i> FOUNDER @ZURIHOST
+            </div>
+            <div class="absolute top-6 -left-8 bg-jet-black text-white keep-white brutal-border px-3 py-1 font-bold text-xs rounded-full flex items-center gap-2 z-20 shadow-md">
+              <span class="w-2.5 h-2.5 rounded-full bg-green animate-ping absolute"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-green relative"></span>
+              Available
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2. ABOUT (3D ID CARD) -->
+    <section id="about" class="py-24 px-6 relative overflow-hidden border-t-4 border-jet-black bg-dark-blue/50">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16 reveal">
+          <div class="sticker-badge mb-3 mx-auto"><i data-lucide="sparkles" class="w-4 h-4"></i> INTERACTIVE 3D CARD</div>
+          <h2 class="font-heading font-black text-4xl md:text-5xl mb-4 wavy-underline inline-block">KARTU IDENTITAS</h2>
+          <p class="text-white/70 mt-3 font-medium">Tarik, goyang, dan lepas kartunya! (Physics Enabled)</p>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-12 items-center">
+          
+          <!-- Physics ID Card -->
+          <div class="lg:col-span-5 flex justify-center reveal py-10" id="id-card-wrapper">
+            <div id="id-card" class="relative w-72 sm:w-80 rounded-2xl brutal-border-white brutal-shadow-white p-6 cursor-grab active:cursor-grabbing interactive">
+              <div id="lanyard"></div>
+              
+              <!-- Card Header / Hole -->
+              <div class="w-16 h-4 bg-jet-black rounded-full mx-auto mb-6 brutal-border-white"></div>
+              
+              <!-- Avatar -->
+              <div class="w-28 h-28 rounded-2xl brutal-border mx-auto mb-4 overflow-hidden bg-electric-blue relative brutal-shadow-sm">
+                <img src="https://files.catbox.moe/2ygvmz.jpg" alt="WN" class="w-full h-full object-cover pointer-events-none" onerror="this.style.display='none'">
+              </div>
+              
+              <!-- Identity Info -->
+              <div class="text-center text-white keep-white">
+                <span class="bg-yellow text-jet-black font-heading font-black text-xs px-2.5 py-0.5 rounded-full brutal-border inline-block mb-2">
+                  ID: ZURI-2011-WN
+                </span>
+                <h3 class="font-heading font-black text-2xl text-white keep-white">Wahyu Nugroho</h3>
+                <p class="text-sky font-bold text-xs uppercase tracking-wider mb-4">Fullstack Developer & Founder</p>
+                
+                <div class="bg-jet-black/60 rounded-xl p-3 text-left space-y-2 text-xs font-medium border border-white/20 mb-4">
+                  <div class="flex justify-between">
+                    <span class="text-white/60 keep-white">Organization:</span>
+                    <span class="font-bold text-yellow">ZuriHost Ecosystem</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-white/60 keep-white">Age / Status:</span>
+                    <span class="font-bold text-white keep-white">15 Years Old / Student</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-white/60 keep-white">Location:</span>
+                    <span class="font-bold text-white keep-white">Indonesia</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="pt-3 border-t border-white/20 flex justify-between items-center text-[11px] font-mono text-white/70 keep-white">
+                <span>VERIFIED BUILDER</span>
+                <i data-lucide="qr-code" class="w-5 h-5 text-yellow"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bio & Stats -->
+          <div class="lg:col-span-7 reveal">
+            <div class="bg-white/5 brutal-border-white p-6 md:p-8 rounded-2xl mb-8 space-y-4 text-base md:text-lg text-white/90 leading-relaxed font-medium">
+              <p>
+                Halo! Saya <span class="highlight-yellow font-bold">Wahyu Nugroho</span>, seorang siswa dan <i>self-taught developer</i> berusia 15 tahun dari Indonesia yang sangat terobsesi dengan dunia <b>web development</b> serta <b>cloud infrastructure</b>.
+              </p>
+              <p>
+                Berawal dari rasa penasaran mengutak-atik kode HTML di umur 9 tahun (2019), kini saya telah membangun dan mengelola <span class="highlight-yellow font-bold">5 produk live</span> di bawah ekosistem <b>ZuriHost</b> — mulai dari layanan web hosting, platform PaaS deploy ala Vercel, hingga bot otomatisasi Telegram.
+              </p>
+              <p>
+                Misi saya sederhana: membuktikan bahwa usia muda bukan penghalang untuk menciptakan infrastruktur digital yang cepat, terjangkau, dan bisa diandalkan oleh ribuan developer maupun pelajar di Indonesia.
+              </p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div class="bg-electric-blue text-white keep-white brutal-border brutal-shadow p-4 rounded-xl text-center">
+                <div class="font-heading font-black text-3xl md:text-4xl text-yellow mb-1"><span class="counter" data-target="15">0</span></div>
+                <div class="text-xs font-bold uppercase tracking-wider">Years Old</div>
+              </div>
+              <div class="bg-white text-jet-black brutal-border brutal-shadow p-4 rounded-xl text-center">
+                <div class="font-heading font-black text-3xl md:text-4xl text-electric-blue mb-1"><span class="counter" data-target="5">0</span>+</div>
+                <div class="text-xs font-bold uppercase tracking-wider">Projects Live</div>
+              </div>
+              <div class="bg-yellow text-jet-black brutal-border brutal-shadow p-4 rounded-xl text-center">
+                <div class="font-heading font-black text-3xl md:text-4xl text-jet-black mb-1"><span class="counter" data-target="5">0</span></div>
+                <div class="text-xs font-bold uppercase tracking-wider">ZuriHost Products</div>
+              </div>
+              <div class="bg-green text-white keep-white brutal-border brutal-shadow p-4 rounded-xl text-center">
+                <div class="font-heading font-black text-3xl md:text-4xl text-white keep-white mb-1"><span class="counter" data-target="5">0</span></div>
+                <div class="text-xs font-bold uppercase tracking-wider">Core Languages</div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ============================
-       FOOTER & MODALS
-       ============================ -->
-  <footer class="relative bg-black border-t-4 border-white pt-16 pb-8 mt-8">
-    <div class="max-w-7xl mx-auto px-6 text-center text-white keep-white">
-      <h2 class="font-heading font-black text-3xl mb-4">WAHYU NUGROHO</h2>
-      <p class="text-sm opacity-80 mb-6">Building scalable web experiences from Indonesia.</p>
-      <div class="border-t-2 border-white/20 pt-6 mt-8 text-xs opacity-70">© 2026 Wahyu Nugroho. All Rights Reserved.</div>
+    <!-- 3. SKILLS (FLOATING TECH CLOUD & FOLDER) -->
+    <section id="skills" class="py-24 px-6 bg-cream text-jet-black border-y-4 border-jet-black relative overflow-hidden">
+      <div class="max-w-6xl mx-auto relative z-10">
+        <div class="text-center mb-12 reveal">
+          <div class="sticker-badge bg-electric-blue text-white keep-white mb-3 mx-auto" style="transform: rotate(2deg);">
+            <i data-lucide="layers" class="w-4 h-4"></i> TECH STACK & TOOLS
+          </div>
+          <h2 class="font-heading font-black text-4xl md:text-5xl text-jet-black mb-3">ALAT TEMPUR</h2>
+          <p class="text-jet-black/80 font-semibold">Klik folder 3D di bawah untuk melepaskan awan teknologi interaktif, atau klik ikonnya!</p>
+        </div>
+
+        <!-- The 3D Folder Interactive Arena -->
+        <div class="relative w-full max-w-4xl mx-auto h-[420px] bg-white brutal-border brutal-shadow rounded-3xl flex items-center justify-center overflow-hidden mb-12 reveal" id="cloud-arena">
+          <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(#0B0B0B 1.5px, transparent 1.5px); background-size: 24px 24px;"></div>
+
+          <!-- Folder Trigger -->
+          <div id="folder-trigger" class="relative cursor-pointer interactive group flex flex-col items-center z-20 p-6">
+            <div class="relative transform group-hover:scale-110 group-active:scale-95 transition-transform duration-200">
+              <svg width="150" height="120" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="drop-shadow-[6px_6px_0_rgba(11,11,11,1)]">
+                <path d="M14 14C14 8.47715 18.4772 4 24 4H60L72 20H136C141.523 20 146 24.4772 146 30V100C146 105.523 141.523 110 136 110H24C18.4772 110 14 105.523 14 100V14Z" fill="#2563EB" stroke="#0B0B0B" stroke-width="6"/>
+                <rect x="24" y="26" width="112" height="70" rx="4" fill="#FFFFFF" stroke="#0B0B0B" stroke-width="5"/>
+                <path d="M14 40C14 34.4772 18.4772 30 24 30H136C141.523 30 146 34.4772 146 40V100C146 105.523 141.523 110 136 110H24C18.4772 110 14 105.523 14 100V40Z" fill="#FACC15" stroke="#0B0B0B" stroke-width="6"/>
+              </svg>
+              <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/4 font-heading font-black text-lg text-jet-black">18 SKILLS</span>
+            </div>
+            <span class="mt-4 brutal-btn bg-electric-blue text-white keep-white text-xs py-2 px-4 rounded-full">
+              <i data-lucide="mouse-pointer-click" class="w-4 h-4"></i> KLIK BUKA FOLDER
+            </span>
+          </div>
+
+          <!-- Active Cloud Container -->
+          <div id="tech-cloud" class="absolute inset-0 hidden">
+            <!-- Physics icons injected here -->
+            <button id="close-cloud" class="absolute bottom-4 right-4 bg-jet-black text-white keep-white px-4 py-2 font-heading font-bold text-xs rounded-xl brutal-border flex items-center gap-1.5 z-40 hover:bg-electric-blue transition-colors">
+              <i data-lucide="folder-Input" class="w-4 h-4"></i> Tutup Awan
+            </button>
+          </div>
+
+          <!-- Skill Detail Popup inside Arena -->
+          <div id="skill-popup" class="absolute top-4 left-4 bg-white text-jet-black brutal-border brutal-shadow-sm p-4 rounded-xl z-40 hidden max-w-xs">
+            <div class="flex items-center justify-between gap-4 mb-1">
+              <h4 id="popup-skill-name" class="font-heading font-black text-lg">JavaScript</h4>
+              <span id="popup-skill-level" class="text-[10px] font-black uppercase px-2 py-0.5 bg-yellow brutal-border rounded">Mahir</span>
+            </div>
+            <p id="popup-skill-cat" class="text-xs font-bold text-electric-blue uppercase tracking-wider">Kategori: Frontend</p>
+          </div>
+        </div>
+
+        <!-- Categorized Fallback / Full List -->
+        <div class="grid md:grid-cols-3 gap-6 reveal">
+          <div class="bg-white brutal-border brutal-shadow p-6 rounded-2xl">
+            <div class="flex items-center gap-3 mb-4 pb-3 border-b-2 border-jet-black">
+              <div class="p-2.5 bg-yellow brutal-border rounded-xl"><i data-lucide="code" class="w-5 h-5 text-jet-black"></i></div>
+              <h3 class="font-heading font-black text-xl text-jet-black">Languages</h3>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1.5 bg-cream brutal-border rounded-lg font-bold text-xs flex items-center gap-1.5">JavaScript <small class="bg-green text-white keep-white px-1.5 rounded text-[10px]">Mahir</small></span>
+              <span class="px-3 py-1.5 bg-cream brutal-border rounded-lg font-bold text-xs flex items-center gap-1.5">TypeScript <small class="bg-green text-white keep-white px-1.5 rounded text-[10px]">Mahir</small></span>
+              <span class="px-3 py-1.5 bg-cream brutal-border rounded-lg font-bold text-xs flex items-center gap-1.5">Golang <small class="bg-green text-white keep-white px-1.5 rounded text-[10px]">Mahir</small></span>
+              <span class="px-3 py-1.5 bg-cream brutal-border rounded-lg font-bold text-xs flex items-center gap-1.5">Python <small class="bg-electric-blue text-white keep-white px-1.5 rounded text-[10px]">Menengah</small></span>
+              <span class="px-3 py-1.5 bg-cream brutal-border rounded-lg font-bold text-xs flex items-center gap-1.5">C++ <small class="bg-electric-blue text-white keep-white px-1.5 rounded text-[10px]">Menengah</small></span>
+            </div>
+          </div>
+
+          <div class="bg-white brutal-border brutal-shadow p-6 rounded-2xl">
+            <div class="flex items-center gap-3 mb-4 pb-3 border-b-2 border-jet-black">
+              <div class="p-2.5 bg-electric-blue text-white keep-white brutal-border rounded-xl"><i data-lucide="Atom" class="w-5 h-5"></i></div>
+              <h3 class="font-heading font-black text-xl text-jet-black">Frameworks & DB</h3>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1.5 bg-cream brutal-border rounded-lg font-bold text-xs">Next.js (Mahir)</span>
+              <span class="px-3 py-1.5 bg-cream brutal-border rounded-lg font-bold text-xs">React (Mahir)</span>
+              <span class="px-3 py-1.5 bg-cream brutal-border rounded-lg font-bold text-xs">Node.js (Mahir)</span>
+              <span class="px-3 py-1.5 bg-cream brutal-border rounded-lg font-bold text-xs">Tailwind CSS (Mahir)</span>
+              <span class="px-3 py-1.5 bg-cream brutal-border rounded-lg font-bold text-xs">PostgreSQL (Menengah)</span>
+              <span class="px-3 py-1.5 bg-cream brutal-border rounded-lg font-bold text-xs">Prisma (Menengah)</span>
+            </div>
+          </div>
+
+          <div class="bg-white brutal-border brutal-shadow p-6 rounded-2xl">
+            <div class="flex items-center gap-3 mb-4 pb-3 border-b-2 border-jet-black">
+              <div class="p-2.5 bg-green text-white keep-white brutal-border rounded-xl"><i data-lucide="server" class="w-5 h-5"></i></div>
+              <h3 class="font-heading font-black text-xl text-jet-black">Infra, API & Tools</h3>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1.5 bg-cream brutal-border rounded-lg font-bold text-xs">Linux / Server (Mahir)</span>
+              <span class="px-3 py-1.5 bg-cream brutal-border rounded-lg font-bold text-xs">Docker (Menengah)</span>
+              <span class="px-3 py-1.5 bg-cream brutal-border rounded-lg font-bold text-xs">Git & GitHub API (Mahir)</span>
+              <span class="px-3 py-1.5 bg-cream brutal-border rounded-lg font-bold text-xs">Telegram Bot API (Mahir)</span>
+              <span class="px-3 py-1.5 bg-cream brutal-border rounded-lg font-bold text-xs">Let's Encrypt SSL (Mahir)</span>
+              <span class="px-3 py-1.5 bg-cream brutal-border rounded-lg font-bold text-xs">Cloudflare (Menengah)</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. PROJECTS (5 STICKER CARDS) -->
+    <section id="projects" class="py-24 px-6 relative overflow-hidden">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16 reveal">
+          <div class="sticker-badge mb-3 mx-auto"><i data-lucide="rocket" class="w-4 h-4"></i> ZURIHOST ECOSYSTEM</div>
+          <h2 class="font-heading font-black text-4xl md:text-5xl mb-4 wavy-underline inline-block">5 PRODUK LIVE</h2>
+          <p class="text-white/70 mt-3 text-lg">Semua platform ini dibangun dari nol dan dikelola secara aktif.</p>
+        </div>
+
+        <!-- Desktop Layout: 2x2 Grid + 1 Centered -->
+        <div class="hidden md:grid grid-cols-2 gap-8 mb-8" id="project-desktop-grid"></div>
+        <div class="hidden md:flex justify-center" id="project-desktop-center"></div>
+
+        <!-- Mobile Swipe Carousel + Dots -->
+        <div class="md:hidden">
+          <div class="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-6 no-scrollbar" id="project-mobile-carousel"></div>
+          <div class="flex justify-center gap-2 mt-2" id="project-carousel-dots"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. JOURNEY (2019 - 2025 EXPANDED STORYTELLING) -->
+    <section id="journey" class="py-24 px-6 bg-white text-jet-black border-t-4 border-jet-black relative overflow-hidden">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16 reveal">
+          <div class="sticker-badge mb-3 mx-auto bg-electric-blue text-white keep-white" style="transform: rotate(-2deg);">
+            <i data-lucide="book-open" class="w-4 h-4"></i> STORYTELLING TIMELINE
+          </div>
+          <h2 class="font-heading font-black text-4xl md:text-5xl text-jet-black mb-3">PERJALANAN 6 TAHUN</h2>
+          <p class="text-jet-black/70 font-semibold">Dari bocah 9 tahun yang penasaran tag HTML hingga mengelola 5 produk cloud di usia 15 tahun.</p>
+        </div>
+
+        <!-- Desktop Horizontal Drag -->
+        <div class="hidden lg:block relative reveal">
+          <div class="journey-scroll flex gap-8 overflow-x-auto pb-10 pt-4 cursor-grab active:cursor-grabbing px-2" id="journey-scroll-desktop"></div>
+          <div class="text-center text-xs font-black uppercase tracking-widest text-jet-black/60 mt-4 flex items-center justify-center gap-2">
+            <i data-lucide="move-horizontal" class="w-4 h-4 text-electric-blue"></i> KLIK & DRAG KE SAMPING UNTUK EXPLORE CERITA (2019 — 2025)
+          </div>
+        </div>
+
+        <!-- Mobile Vertical Exclusive Accordion -->
+        <div class="lg:hidden space-y-4 reveal" id="journey-accordion-mobile"></div>
+
+      </div>
+    </section>
+
+    <!-- 6. BIRTHDAY COUNTDOWN -->
+    <section id="birthday" class="py-24 px-6 relative border-y-4 border-jet-black bg-electric-blue text-white keep-white overflow-hidden">
+      <div class="max-w-4xl mx-auto relative z-10 text-center">
+        <div class="inline-flex items-center gap-2 bg-yellow text-jet-black brutal-border brutal-shadow-sm px-4 py-1.5 rounded-full font-heading font-black text-sm mb-6 reveal">
+          <i data-lucide="cake" class="w-4 h-4"></i>
+          <span>15 JUNI — BIRTHDAY COUNTDOWN</span>
+        </div>
+
+        <h2 class="font-heading font-black text-3xl md:text-5xl text-white keep-white uppercase mb-10 reveal">
+          Menuju Ulang Tahun Ke-16
+        </h2>
+
+        <div id="bday-normal" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-10 reveal">
+          <div class="bg-white text-jet-black brutal-border brutal-shadow p-6 rounded-2xl rotate-2 hover:rotate-0 transition-transform">
+            <div id="cd-days" class="font-heading font-black text-5xl md:text-6xl text-electric-blue mb-1">00</div>
+            <div class="font-black text-xs uppercase tracking-widest text-jet-black/60">Hari</div>
+          </div>
+          <div class="bg-white text-jet-black brutal-border brutal-shadow p-6 rounded-2xl -rotate-1 hover:rotate-0 transition-transform">
+            <div id="cd-hours" class="font-heading font-black text-5xl md:text-6xl text-electric-blue mb-1">00</div>
+            <div class="font-black text-xs uppercase tracking-widest text-jet-black/60">Jam</div>
+          </div>
+          <div class="bg-white text-jet-black brutal-border brutal-shadow p-6 rounded-2xl rotate-1 hover:rotate-0 transition-transform">
+            <div id="cd-mins" class="font-heading font-black text-5xl md:text-6xl text-electric-blue mb-1">00</div>
+            <div class="font-black text-xs uppercase tracking-widest text-jet-black/60">Menit</div>
+          </div>
+          <div class="bg-yellow text-jet-black brutal-border brutal-shadow p-6 rounded-2xl -rotate-2 hover:rotate-0 transition-transform">
+            <div id="cd-secs" class="font-heading font-black text-5xl md:text-6xl text-jet-black mb-1">00</div>
+            <div class="font-black text-xs uppercase tracking-widest text-jet-black/80">Detik</div>
+          </div>
+        </div>
+
+        <div id="bday-party" class="hidden py-10 bg-yellow text-jet-black brutal-border brutal-shadow rounded-2xl mb-8 reveal">
+          <div class="flex justify-center mb-3"><i data-lucide="party-popper" class="w-12 h-12"></i></div>
+          <h3 class="font-heading font-black text-4xl md:text-6xl mb-2">HAPPY BIRTHDAY WAHYU!</h3>
+          <p class="font-bold text-lg">Resmi bertambah usia hari ini! Level Up!</p>
+        </div>
+
+        <div class="max-w-xl mx-auto reveal">
+          <div class="flex justify-between text-xs font-black uppercase tracking-wider mb-2 text-white keep-white">
+            <span>Progress Tahun Ini</span>
+            <span id="bday-pct">0%</span>
+          </div>
+          <div class="w-full bg-dark-blue keep-dark brutal-border h-6 p-1 rounded-full overflow-hidden">
+            <div id="bday-bar" class="h-full bg-yellow rounded-full w-0 transition-all duration-700"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. CONTACT (WITH WHATSAPP & TELEGRAM) -->
+    <section id="contact" class="py-24 px-6 relative">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16 reveal">
+          <div class="sticker-badge mb-3 mx-auto"><i data-lucide="send" class="w-4 h-4"></i> MARI TERHUBUNG LANGSUNG</div>
+          <h2 class="font-heading font-black text-4xl md:text-5xl mb-4 wavy-underline inline-block">HUBUNGI SAYA</h2>
+          <p class="text-white/70 mt-3 text-lg">Mau diskusi soal web development, order layanan ZuriHost, atau sekadar ngobrol? Gas!</p>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-10">
+          
+          <!-- Direct Message Form (WA / Telegram) -->
+          <div class="lg:col-span-7 bg-white text-jet-black brutal-border brutal-shadow rounded-2xl p-6 md:p-8 reveal relative">
+            <h3 class="font-heading font-black text-2xl mb-6 flex items-center gap-2">
+              <i data-lucide="message-square-plus" class="w-6 h-6 text-electric-blue"></i> Kirim Pesan Instan
+            </h3>
+            
+            <form id="contact-form" class="space-y-4" novalidate>
+              <div>
+                <label class="block font-heading font-bold mb-1.5 text-xs uppercase tracking-wider">Nama Lengkap</label>
+                <input type="text" id="senderName" required class="w-full brutal-border rounded-xl p-3.5 bg-cream/60 font-medium focus:outline-none focus:bg-yellow/20 transition-colors" placeholder="Contoh: Budi Santoso">
+                <p id="err-name" class="text-xs font-bold text-red-600 mt-1 hidden">Nama wajib diisi!</p>
+              </div>
+              <div>
+                <label class="block font-heading font-bold mb-1.5 text-xs uppercase tracking-wider">Pesan / Keperluan</label>
+                <textarea id="senderMsg" required rows="4" class="w-full brutal-border rounded-xl p-3.5 bg-cream/60 font-medium focus:outline-none focus:bg-yellow/20 transition-colors resize-none" placeholder="Halo Wahyu, saya tertarik kolaborasi project / tanya soal ZuriHost..."></textarea>
+                <p id="err-msg" class="text-xs font-bold text-red-600 mt-1 hidden">Pesan tidak boleh kosong!</p>
+              </div>
+
+              <div class="grid sm:grid-cols-2 gap-3 pt-2">
+                <button type="button" id="btn-send-wa" class="w-full bg-green text-white keep-white brutal-btn rounded-xl py-3.5 text-sm">
+                  <i data-lucide="phone-call" class="w-4 h-4"></i> Kirim ke WhatsApp
+                </button>
+                <button type="submit" id="btn-send-tg" class="w-full bg-electric-blue text-white keep-white brutal-btn rounded-xl py-3.5 text-sm">
+                  <i data-lucide="send" class="w-4 h-4"></i> Kirim ke Telegram
+                </button>
+              </div>
+            </form>
+            
+            <div id="form-success" class="hidden mt-4 p-4 bg-yellow text-jet-black brutal-border rounded-xl font-heading font-bold text-center text-sm flex items-center justify-center gap-2">
+              <i data-lucide="check-circle-2" class="w-5 h-5"></i> Membuka aplikasi chat...
+            </div>
+          </div>
+
+          <!-- Contact Cards -->
+          <div class="lg:col-span-5 flex flex-col justify-between space-y-4 reveal">
+            
+            <!-- WhatsApp Card -->
+            <a href="https://wa.me/6285122900934" target="_blank" class="bg-green text-white keep-white brutal-border brutal-shadow p-5 flex items-center gap-4 hover:-translate-y-1 transition-transform rounded-2xl interactive">
+              <div class="bg-white text-jet-black p-3.5 brutal-border rounded-xl shrink-0">
+                <i data-lucide="phone" class="w-6 h-6 text-green"></i>
+              </div>
+              <div class="min-w-0">
+                <p class="font-bold text-white/80 keep-white text-xs uppercase tracking-wider">WhatsApp (Fast Response)</p>
+                <p class="font-heading font-black text-lg md:text-xl truncate">+62 851-2290-0934</p>
+              </div>
+            </a>
+
+            <!-- Telegram Card -->
+            <a href="https://t.me/ZuriHostingBot" target="_blank" class="bg-sky text-white keep-white brutal-border brutal-shadow p-5 flex items-center gap-4 hover:-translate-y-1 transition-transform rounded-2xl interactive">
+              <div class="bg-white text-jet-black p-3.5 brutal-border rounded-xl shrink-0">
+                <i data-lucide="send" class="w-6 h-6 text-sky"></i>
+              </div>
+              <div class="min-w-0">
+                <p class="font-bold text-white/80 keep-white text-xs uppercase tracking-wider">Telegram Bot & Contact</p>
+                <p class="font-heading font-black text-lg md:text-xl truncate">@ZuriHostingBot</p>
+              </div>
+            </a>
+
+            <!-- Email Card -->
+            <a href="mailto:ythprofryuga@gmail.com" class="bg-white text-jet-black brutal-border brutal-shadow p-5 flex items-center gap-4 hover:-translate-y-1 transition-transform rounded-2xl interactive">
+              <div class="bg-yellow text-jet-black p-3.5 brutal-border rounded-xl shrink-0">
+                <i data-lucide="mail" class="w-6 h-6"></i>
+              </div>
+              <div class="min-w-0">
+                <p class="font-bold text-jet-black/60 text-xs uppercase tracking-wider">Email Resmi</p>
+                <p class="font-heading font-black text-base md:text-lg truncate">ythprofryuga@gmail.com</p>
+              </div>
+            </a>
+
+            <!-- Status Card -->
+            <div class="p-5 brutal-border-white bg-white/5 rounded-2xl flex items-center gap-4">
+              <span class="relative flex h-4 w-4 shrink-0">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-4 w-4 bg-green border-2 border-white"></span>
+              </span>
+              <p class="font-bold text-sm">Tersedia untuk <b>Freelance, Kolaborasi, & Diskusi Infrastruktur</b> — Indonesia.</p>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- PROJECT DETAIL MODAL -->
+  <div id="project-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-jet-black/80 backdrop-blur-sm no-print">
+    <div class="bg-white text-jet-black brutal-border brutal-shadow rounded-2xl max-w-lg w-full p-6 md:p-8 relative">
+      <button id="close-modal" class="absolute top-4 right-4 w-9 h-9 bg-yellow brutal-border rounded-lg flex items-center justify-center font-black hover:bg-red-500 hover:text-white transition-colors">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <div id="modal-badge" class="inline-block px-3 py-1 brutal-border rounded-full font-heading font-black text-xs mb-3 bg-cream">CATEGORY</div>
+      <h3 id="modal-title" class="font-heading font-black text-3xl mb-1">Project Name</h3>
+      <p id="modal-role" class="text-xs font-bold text-electric-blue uppercase tracking-wider mb-4">Role</p>
+      <p id="modal-desc" class="text-sm font-medium text-jet-black/80 leading-relaxed mb-6">Description</p>
+      <div class="mb-6">
+        <p class="text-xs font-black uppercase mb-2">Tech Stack:</p>
+        <div id="modal-tech" class="flex flex-wrap gap-1.5"></div>
+      </div>
+      <a id="modal-link" href="#" target="_blank" class="brutal-btn w-full bg-electric-blue text-white keep-white rounded-xl py-3">
+        <i data-lucide="external-link" class="w-4 h-4"></i> Kunjungi Platform
+      </a>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       INTERACTIVE CV / RESUME MODAL (PRINT-READY A4 SYNCED)
+       ========================================================= -->
+  <div id="cv-modal" class="fixed inset-0 z-50 hidden items-start justify-center p-4 sm:p-6 md:p-10 bg-jet-black/85 backdrop-blur-md overflow-y-auto">
+    <div id="cv-printable-area" class="bg-white text-jet-black brutal-border brutal-shadow-white rounded-2xl max-w-4xl w-full p-6 sm:p-10 relative my-auto">
+      
+      <!-- Top Action Bar (Hidden when printing) -->
+      <div class="no-print flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b-4 border-jet-black">
+        <div class="flex items-center gap-2">
+          <span class="bg-yellow text-jet-black brutal-border px-3 py-1 rounded-full font-heading font-black text-xs">CURRICULUM VITAE</span>
+          <span class="text-xs font-bold text-jet-black/60 hidden sm:inline">Updated & Synced (5 Live Products)</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="window.print()" class="brutal-btn bg-electric-blue text-white keep-white text-xs py-2.5 px-4 rounded-xl">
+            <i data-lucide="printer" class="w-4 h-4"></i> Cetak / Save PDF
+          </button>
+          <button onclick="closeCVModal()" class="brutal-btn bg-cream text-jet-black text-xs py-2.5 px-4 rounded-xl hover:bg-red-500 hover:text-white">
+            <i data-lucide="x" class="w-4 h-4"></i> Tutup
+          </button>
+        </div>
+      </div>
+
+      <!-- CV Header -->
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-6 border-b-4 border-jet-black mb-6">
+        <div class="flex items-center gap-4">
+          <div class="w-20 h-20 rounded-2xl brutal-border overflow-hidden bg-electric-blue shrink-0">
+            <img src="https://files.catbox.moe/2ygvmz.jpg" alt="Wahyu Nugroho" class="w-full h-full object-cover" onerror="this.style.display='none'">
+          </div>
+          <div>
+            <h1 class="font-heading font-black text-3xl sm:text-4xl text-jet-black leading-none mb-1">WAHYU NUGROHO</h1>
+            <p class="font-heading font-bold text-sm sm:text-base text-electric-blue uppercase tracking-wide">Fullstack Developer & Founder @ZuriHost</p>
+            <p class="text-xs font-bold text-jet-black/70 mt-1">15 Tahun • Siswa & Self-Taught Developer • Indonesia</p>
+          </div>
+        </div>
+
+        <div class="bg-cream brutal-border p-3.5 rounded-xl text-xs font-bold space-y-1.5 w-full md:w-auto">
+          <div class="flex items-center gap-2"><i data-lucide="phone" class="w-3.5 h-3.5 text-green"></i> <span>+62 851-2290-0934 (WhatsApp)</span></div>
+          <div class="flex items-center gap-2"><i data-lucide="mail" class="w-3.5 h-3.5 text-electric-blue"></i> <span>ythprofryuga@gmail.com</span></div>
+          <div class="flex items-center gap-2"><i data-lucide="send" class="w-3.5 h-3.5 text-sky"></i> <span>t.me/ZuriHostingBot</span></div>
+          <div class="flex items-center gap-2"><i data-lucide="globe" class="w-3.5 h-3.5 text-purple"></i> <span>zurihost.biz.id</span></div>
+        </div>
+      </div>
+
+      <!-- Highlight Achievement Banner -->
+      <div class="bg-yellow brutal-border p-4 rounded-xl mb-6 flex items-center gap-3">
+        <div class="p-2 bg-white brutal-border rounded-lg shrink-0"><i data-lucide="trophy" class="w-5 h-5 text-jet-black"></i></div>
+        <p class="text-xs sm:text-sm font-bold text-jet-black">
+          <span class="font-black uppercase">Key Achievement:</span> Membangun, merilis, dan mengelola <b>5 produk cloud & web live dalam 1 tahun</b> di usia 15 tahun secara mandiri (End-to-End Engineering & Infrastructure).
+        </p>
+      </div>
+
+      <!-- CV Body Grid -->
+      <div class="grid md:grid-cols-12 gap-8">
+        
+        <!-- Left Column: Experience & 5 Live Products -->
+        <div class="md:col-span-7 space-y-6">
+          <div>
+            <h2 class="font-heading font-black text-lg uppercase tracking-wider bg-jet-black text-white keep-white px-3 py-1 inline-block mb-4">Pengalaman & Peran</h2>
+            <div class="border-l-4 border-jet-black pl-4 space-y-4">
+              <div>
+                <div class="flex justify-between items-start">
+                  <h3 class="font-heading font-black text-base">Founder & Lead Infrastructure Developer</h3>
+                  <span class="text-xs font-black bg-cream brutal-border px-2 py-0.5 rounded">2024 — Sekarang</span>
+                </div>
+                <p class="text-xs font-bold text-electric-blue mb-1.5">ZuriHost Ecosystem</p>
+                <p class="text-xs text-jet-black/80 font-medium leading-relaxed">
+                  Mengelola penuh 5 produk live: <b>ZuriHost, ZuriFreeHost, ZuriHostingBot, NustaraDeploy, dan FreeSubdo</b>. Bertanggung jawab atas arsitektur server Linux, manajemen container Docker, integrasi cPanel/Cloudflare API, sistem billing, hingga penanganan teknis pelanggan.
+                </p>
+              </div>
+              <div>
+                <div class="flex justify-between items-start">
+                  <h3 class="font-heading font-black text-base">Self-Taught Fullstack Engineer</h3>
+                  <span class="text-xs font-black bg-cream brutal-border px-2 py-0.5 rounded">2019 — Sekarang</span>
+                </div>
+                <p class="text-xs font-bold text-electric-blue mb-1.5">Independent / Personal R&D</p>
+                <p class="text-xs text-jet-black/80 font-medium leading-relaxed">
+                  6+ tahun perjalanan otodidak mempelajari pemrograman dari dasar HTML/CSS hingga menguasai pengembangan aplikasi web fullstack (Next.js, Golang, Node.js) dan administrasi sistem server.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h2 class="font-heading font-black text-lg uppercase tracking-wider bg-jet-black text-white keep-white px-3 py-1 inline-block mb-4">5 Produk Live (Portfolio)</h2>
+            <div class="space-y-3">
+              <div class="p-3 brutal-border rounded-xl bg-cream/40">
+                <div class="flex justify-between font-heading font-black text-sm">
+                  <span>1. ZuriHost (Web Hosting Platform)</span>
+                  <span class="text-electric-blue text-xs">zurihost.biz.id</span>
+                </div>
+                <p class="text-xs text-jet-black/80 font-medium mt-1">Platform hosting premium (uptime 99.9%) dengan panel modern. <b>Tech:</b> Next.js, Node.js, Tailwind, cPanel API.</p>
+              </div>
+
+              <div class="p-3 brutal-border rounded-xl bg-cream/40">
+                <div class="flex justify-between font-heading font-black text-sm">
+                  <span>2. NustaraDeploy (Free PaaS Deploy)</span>
+                  <span class="text-purple text-xs">nustaradeploy.web.id</span>
+                </div>
+                <p class="text-xs text-jet-black/80 font-medium mt-1">Alternatif Vercel lokal gratis untuk developer Indonesia. Auto SSL & GitHub deploy. <b>Tech:</b> Next.js, Docker, GitHub API, Let's Encrypt.</p>
+              </div>
+
+              <div class="p-3 brutal-border rounded-xl bg-cream/40">
+                <div class="flex justify-between font-heading font-black text-sm">
+                  <span>3. FreeSubdo (Subdomain Service)</span>
+                  <span class="text-amber text-xs">freesubdo.zurihost.my.id</span>
+                </div>
+                <p class="text-xs text-jet-black/80 font-medium mt-1">Layanan subdomain gratis dengan custom DNS & SSL otomatis. <b>Tech:</b> Node.js, Cloudflare API, PostgreSQL, Let's Encrypt.</p>
+              </div>
+
+              <div class="p-3 brutal-border rounded-xl bg-cream/40">
+                <div class="flex justify-between font-heading font-black text-sm">
+                  <span>4. ZuriFreeHost (Free Hosting)</span>
+                  <span class="text-green text-xs">freehost.zurihost.my.id</span>
+                </div>
+                <p class="text-xs text-jet-black/80 font-medium mt-1">Layanan hosting gratis untuk pelajar & pemula. <b>Tech:</b> PHP, Node.js, Nginx, Cloudflare.</p>
+              </div>
+
+              <div class="p-3 brutal-border rounded-xl bg-cream/40">
+                <div class="flex justify-between font-heading font-black text-sm">
+                  <span>5. ZuriHostingBot (Telegram Automation)</span>
+                  <span class="text-sky text-xs">@ZuriHostingBot</span>
+                </div>
+                <p class="text-xs text-jet-black/80 font-medium mt-1">Bot Telegram manajemen order hosting, cek status server, & domain. <b>Tech:</b> Node.js, Telegraf, Telegram API, Prisma.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Skills & Timeline Summary -->
+        <div class="md:col-span-5 space-y-6">
+          <div>
+            <h2 class="font-heading font-black text-lg uppercase tracking-wider bg-jet-black text-white keep-white px-3 py-1 inline-block mb-4">Keahlian Teknis</h2>
+            
+            <div class="space-y-3 text-xs">
+              <div class="p-3 brutal-border rounded-xl">
+                <p class="font-heading font-black uppercase text-electric-blue mb-1.5">Programming Languages</p>
+                <p class="font-bold text-jet-black">JavaScript (Mahir), TypeScript (Mahir), Golang (Mahir), Python (Menengah), C++ (Menengah)</p>
+              </div>
+
+              <div class="p-3 brutal-border rounded-xl">
+                <p class="font-heading font-black uppercase text-electric-blue mb-1.5">Frameworks & Database</p>
+                <p class="font-bold text-jet-black">Next.js, React, Node.js, Tailwind CSS, PostgreSQL, Prisma ORM</p>
+              </div>
+
+              <div class="p-3 brutal-border rounded-xl">
+                <p class="font-heading font-black uppercase text-electric-blue mb-1.5">DevOps, Cloud & APIs</p>
+                <p class="font-bold text-jet-black">Linux Server (Arch/Ubuntu), Docker, Nginx, Git & GitHub API, Cloudflare API, Let's Encrypt SSL, Telegram Bot API, cPanel API</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h2 class="font-heading font-black text-lg uppercase tracking-wider bg-jet-black text-white keep-white px-3 py-1 inline-block mb-4">Ringkasan Perjalanan</h2>
+            <ul class="space-y-2 text-xs font-medium border-l-2 border-jet-black pl-3">
+              <li><b>2019:</b> Mulai belajar HTML & CSS secara otodidak di usia 9 tahun.</li>
+              <li><b>2020:</b> Mendalami logika JavaScript & komunitas developer.</li>
+              <li><b>2021:</b> Eksplorasi Python, C++, algoritma, dan struktur data.</li>
+              <li><b>2022:</b> Fokus ke React, Node.js, Git, dan deployment server.</li>
+              <li><b>2023:</b> Menguasai Golang, Linux Server, Docker, & perumusan ide ZuriHost.</li>
+              <li><b>2024:</b> Rilis ZuriHost & ekspansi 5 produk live dalam 1 tahun.</li>
+              <li><b>2025:</b> Scaling infrastruktur, arsitektur cloud, & pertumbuhan komunitas.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. FOOTER -->
+  <footer class="bg-jet-black text-white keep-white border-t-4 border-jet-black relative overflow-hidden pb-20 lg:pb-0 no-print">
+    <!-- Marquee -->
+    <div class="border-b-4 border-jet-black py-3 bg-yellow text-jet-black overflow-hidden">
+      <div class="marquee-track font-heading font-black text-lg tracking-wider">
+        <span class="mx-4">FULLSTACK DEVELOPER ★ FOUNDER @ZURIHOST ★ 5 PRODUCTS LIVE ★ ZURIHOST ★ ZURIFREEHOST ★ ZURIHOSTINGBOT ★ NUSTARADEPLOY ★ FREESUBDO ★ 15 Y/O ★ JAVASCRIPT ★ GOLANG ★ NEXT.JS ★ PYTHON ★ C++ ★</span>
+        <span class="mx-4">FULLSTACK DEVELOPER ★ FOUNDER @ZURIHOST ★ 5 PRODUCTS LIVE ★ ZURIHOST ★ ZURIFREEHOST ★ ZURIHOSTINGBOT ★ NUSTARADEPLOY ★ FREESUBDO ★ 15 Y/O ★ JAVASCRIPT ★ GOLANG ★ NEXT.JS ★ PYTHON ★ C++ ★</span>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 py-16">
+      <div class="text-center mb-14">
+        <p class="text-xs font-mono uppercase tracking-widest text-sky mb-3">Ready to ship something awesome?</p>
+        <a href="#contact" class="font-heading font-black text-4xl sm:text-6xl md:text-7xl leading-none hover:text-yellow transition-colors inline-block">
+          LET'S BUILD SOMETHING<br/>
+          <span class="highlight-yellow inline-block mt-2">BOLD TOGETHER</span>
+        </a>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-10 border-t-2 border-white/15 pt-12 mb-12 text-sm">
+        <div>
+          <div class="font-heading font-black text-2xl text-yellow mb-2">WAHYU NUGROHO</div>
+          <p class="text-white/70 keep-white mb-4 leading-relaxed">
+            15 y/o Fullstack Developer & Founder ZuriHost. Membangun layanan web dan infrastruktur cloud dari Indonesia.
+          </p>
+          <button onclick="openCVModal()" class="brutal-btn bg-yellow text-jet-black text-xs py-2 px-4 rounded-lg">
+            <i data-lucide="file-text" class="w-4 h-4"></i> Buka CV Lengkap
+          </button>
+        </div>
+
+        <div>
+          <div class="font-heading font-black text-sm uppercase tracking-wider text-yellow mb-3">5 Produk ZuriHost (Live)</div>
+          <ul class="space-y-2 font-medium">
+            <li><a href="https://zurihost.biz.id" target="_blank" class="hover:text-yellow flex items-center gap-2"><i data-lucide="server" class="w-4 h-4 text-sky"></i> ZuriHost (Web Hosting)</a></li>
+            <li><a href="https://freehost.zurihost.my.id" target="_blank" class="hover:text-yellow flex items-center gap-2"><i data-lucide="gift" class="w-4 h-4 text-green"></i> ZuriFreeHost (Gratis)</a></li>
+            <li><a href="https://t.me/ZuriHostingBot" target="_blank" class="hover:text-yellow flex items-center gap-2"><i data-lucide="bot" class="w-4 h-4 text-sky"></i> ZuriHostingBot (Telegram)</a></li>
+            <li><a href="https://nustaradeploy.web.id" target="_blank" class="hover:text-yellow flex items-center gap-2"><i data-lucide="rocket" class="w-4 h-4 text-purple"></i> NustaraDeploy (PaaS Deploy)</a></li>
+            <li><a href="https://freesubdo.zurihost.my.id" target="_blank" class="hover:text-yellow flex items-center gap-2"><i data-lucide="globe" class="w-4 h-4 text-amber"></i> FreeSubdo (Subdomain Gratis)</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-heading font-black text-sm uppercase tracking-wider text-yellow mb-3">Kontak Cepat</div>
+          <ul class="space-y-2 font-medium">
+            <li><a href="https://wa.me/6285122900934" target="_blank" class="hover:text-yellow flex items-center gap-2"><i data-lucide="phone" class="w-4 h-4 text-green"></i> +62 851-2290-0934 (WA)</a></li>
+            <li><a href="https://t.me/ZuriHostingBot" target="_blank" class="hover:text-yellow flex items-center gap-2"><i data-lucide="send" class="w-4 h-4 text-sky"></i> @ZuriHostingBot</a></li>
+            <li><a href="mailto:ythprofryuga@gmail.com" class="hover:text-yellow flex items-center gap-2"><i data-lucide="mail" class="w-4 h-4 text-yellow"></i> ythprofryuga@gmail.com</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t-2 border-white/10 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-bold text-white/60 keep-white">
+        <p>© 2025 Wahyu Nugroho. Built with coffee & chaos. <span class="text-yellow">(Ketik "WAHYU" di keyboard untuk Easter Egg!)</span></p>
+        <div class="flex items-center gap-1.5">
+          <i data-lucide="map-pin" class="w-4 h-4 text-yellow"></i> Indonesia
+        </div>
+      </div>
     </div>
   </footer>
 
-  <button id="back-to-top" class="fixed bottom-24 lg:bottom-8 right-6 brutal-border bg-[#2563EB] p-3 z-50 opacity-0 pointer-events-none transition-all text-white keep-white" style="box-shadow: 6px 6px 0 var(--jet-black);" aria-label="Back to top">
-    <i data-lucide="arrow-up" style="width:24px;height:24px;"></i>
+  <!-- FAB Back to Top -->
+  <button id="fab-top" class="fixed bottom-20 lg:bottom-8 right-6 w-12 h-12 bg-yellow text-jet-black brutal-border brutal-shadow-sm rounded-full flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 z-40 hover:bg-white interactive no-print" aria-label="Back to top">
+    <i data-lucide="arrow-up" class="w-5 h-5"></i>
   </button>
 
-  <!-- MODAL PROJECT DETAILS -->
-  <div id="project-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center p-4">
-    <div id="modal-bg" class="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-pointer"></div>
-    <div id="modal-panel" class="relative w-full max-w-lg glass-card brutal-border p-6 md:p-8 z-10 transform scale-95 opacity-0 transition-all duration-300" style="box-shadow: 8px 8px 0 var(--jet-black);">
-      <div class="inline-flex items-center gap-2 brutal-border bg-[#2563EB] px-3 py-1 mb-4 text-xs font-bold text-white keep-white" style="box-shadow: 2px 2px 0 var(--jet-black);"><i data-lucide="info" style="width:14px;height:14px;"></i> INFO PROJECT</div>
-      <h3 id="modal-title" class="font-heading text-2xl md:text-3xl text-white mb-3">Project Title</h3>
-      <p id="modal-desc" class="text-blue-100/90 text-sm md:text-base leading-relaxed mb-6">Description loading...</p>
-      <button id="modal-close" class="brutal-btn w-full justify-center text-white keep-white">TUTUP KEMBALI</button>
-    </div>
-  </div>
-
-  <!-- BOTTOM SHEET MOBILE HIRE ME -->
-  <div id="bottom-sheet" class="fixed inset-0 z-[9999] hidden lg:hidden">
-    <div id="sheet-overlay" class="absolute inset-0 bg-black/70 opacity-0 transition-opacity"></div>
-    <div id="sheet-content" class="absolute bottom-0 left-0 right-0 glass-card brutal-border border-b-0 p-6 translate-y-full transition-transform" style="border-radius: 0;">
-      <h3 class="font-heading text-xl text-white mb-4 text-center">HUBUNGI SAYA</h3>
-      <div class="space-y-3">
-        <a href="mailto:ythprofryuga@gmail.com" class="brutal-btn w-full justify-center brutal-btn-white"><i data-lucide="mail" style="width:16px;height:16px;"></i> Email Sekarang</a>
-        <a href="https://t.me/ZuriHostingBot" target="_blank" class="brutal-btn w-full justify-center text-white keep-white"><i data-lucide="send" style="width:16px;height:16px;"></i> Chat di Telegram</a>
-        <button id="close-sheet-btn" class="brutal-btn brutal-btn-outline w-full justify-center"><i data-lucide="x" style="width:16px;height:16px;"></i> Batal</button>
-      </div>
-    </div>
-  </div>
-
+  <!-- SCRIPTS -->
   <script>
-    // 1. Inisialisasi Icon Lucide
-    function initIcons() { if (typeof lucide !== 'undefined') lucide.createIcons(); }
-
-    // 2. CONSOLE LOADING SCREEN (15 Seconds)
-    window.addEventListener('load', () => {
-        const screen = document.getElementById('loading-screen');
-        const output = document.getElementById('console-output');
-        const bar = document.getElementById('console-loader-bar');
-        const percent = document.getElementById('console-percent');
-        
-        const logs = [
-            { text: "> Initializing system core...", delay: 500, type: "info" },
-            { text: "OK: Kernel loaded successfully.", delay: 800, type: "info" },
-            { text: "> Mounting virtual file systems...", delay: 400, type: "info" },
-            { text: "OK: /dev, /proc, /sys mounted.", delay: 600, type: "info" },
-            { text: "> Loading environment variables...", delay: 300, type: "info" },
-            { text: "WARN: WN_API_KEY is not set. Using fallback.", delay: 700, type: "warn" },
-            { text: "> Connecting to database cluster...", delay: 1200, type: "info" },
-            { text: "OK: Connection established (45ms).", delay: 500, type: "info" },
-            { text: "> Starting ZuriHost microservices...", delay: 1500, type: "info" },
-            { text: "ERR: Service 'legacy_auth' failed to start.", delay: 800, type: "error" },
-            { text: "> Restarting 'legacy_auth' module...", delay: 1000, type: "info" },
-            { text: "OK: Service running on port 8080.", delay: 600, type: "info" },
-            { text: "> Compiling UI assets...", delay: 1200, type: "info" },
-            { text: "OK: Bundling complete (2.1s).", delay: 400, type: "info" },
-            { text: "> Fetching user profile: Wahyu Nugroho...", delay: 900, type: "info" },
-            { text: "OK: Profile loaded.", delay: 300, type: "info" },
-            { text: "> Establishing secure connection...", delay: 1100, type: "info" },
-            { text: "OK: SSL handshake verified.", delay: 500, type: "info" },
-            { text: "> Launching interface sequence...", delay: 800, type: "info" },
-            { text: "SYSTEM READY.", delay: 400, type: "info" }
-        ];
-
-        let totalTime = 15000; // 15 seconds
-        let elapsed = 0;
-        let logIndex = 0;
-        
-        const updateInterval = 50; 
-        const progressTimer = setInterval(() => {
-            elapsed += updateInterval;
-            let currentPercent = (elapsed / totalTime) * 100;
-            if (currentPercent > 100) currentPercent = 100;
-            
-            bar.style.width = currentPercent + '%';
-            percent.textContent = Math.floor(currentPercent) + '%';
-            
-            if (elapsed >= totalTime) {
-                clearInterval(progressTimer);
-                finishLoading();
-            }
-        }, updateInterval);
-
-        function printNextLog() {
-            if (logIndex < logs.length) {
-                const log = logs[logIndex];
-                const p = document.createElement('p');
-                p.className = `log-line ${log.type}`;
-                
-                const cursor = document.createElement('span');
-                cursor.className = 'blinking-cursor';
-                
-                let charIndex = 0;
-                const typingSpeed = log.delay / log.text.length;
-                
-                output.appendChild(p);
-                p.appendChild(cursor);
-
-                function typeChar() {
-                    if (charIndex < log.text.length) {
-                        p.insertBefore(document.createTextNode(log.text.charAt(charIndex)), cursor);
-                        charIndex++;
-                        output.scrollTop = output.scrollHeight; 
-                        setTimeout(typeChar, typingSpeed * 0.5); 
-                    } else {
-                        p.removeChild(cursor); 
-                        logIndex++;
-                        if (logIndex < logs.length) {
-                             setTimeout(printNextLog, logs[logIndex].delay * 0.7);
-                        }
-                    }
-                }
-                typeChar();
-            }
-        }
-        
-        printNextLog();
-
-        function finishLoading() {
-            screen.classList.add('hide');
-            document.body.classList.remove('loading');
-            setTimeout(() => {
-                screen.remove();
-                initIcons();
-                startTypingEffect();
-                initInteractiveImageMobile(); // panggil script interaktif gambar HP
-                
-                if (window.matchMedia('(min-width: 1024px)').matches && !('ontouchstart' in window)) {
-                    document.body.classList.add('custom-cursor-active');
-                    initCursor();
-                }
-            }, 500);
-        }
-    });
-
-    // 3. Custom Cursor Logic
-    function initCursor() {
-      const dot = document.getElementById('cursorDot');
-      const ring = document.getElementById('cursorRing');
-      let mx = 0, my = 0, rx = 0, ry = 0;
-      
-      document.addEventListener('mousemove', (e) => {
-        mx = e.clientX; my = e.clientY;
-        dot.style.left = mx + 'px'; dot.style.top = my + 'px';
-      });
-      function animateCursor() {
-        rx += (mx - rx) * 0.2; ry += (my - ry) * 0.2;
-        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-        requestAnimationFrame(animateCursor);
-      }
-      animateCursor();
-      
-      document.querySelectorAll('a, button, .project-card, .journey-card, #interactive-img-mobile').forEach(el => {
-        el.addEventListener('mouseenter', () => ring.classList.add('hover'));
-        el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
-      });
+    function refreshIcons() {
+      if (window.lucide) lucide.createIcons();
     }
+    refreshIcons();
 
-    // 3.5 MOBILE INTERACTIVE IMAGE (PUTER-PUTERIN)
-    function initInteractiveImageMobile() {
-        const imgContainer = document.getElementById('interactive-img-mobile');
-        if (!imgContainer) return;
-
-        let isDragging = false;
-        let currentAngle = 0;
-        let startAngle = 0;
-        let center = { x: 0, y: 0 };
-
-        function getCenter(element) {
-            const rect = element.getBoundingClientRect();
-            return {
-                x: rect.left + rect.width / 2,
-                y: rect.top + rect.height / 2
-            };
-        }
-
-        function onStart(e) {
-            // Hanya aktif jika menyentuh div gambar langsung
-            if (e.target !== imgContainer && !imgContainer.contains(e.target)) return;
-            isDragging = true;
-            center = getCenter(imgContainer);
-            
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            
-            const x = clientX - center.x;
-            const y = clientY - center.y;
-            startAngle = Math.atan2(y, x) * (180 / Math.PI) - currentAngle;
-            
-            imgContainer.style.transition = 'none'; // hapus transisi agar responsif
-            if(e.type === 'touchstart') e.preventDefault(); // cegah scroll
-        }
-
-        function onMove(e) {
-            if (!isDragging) return;
-            e.preventDefault(); // cegah scroll/pull-to-refresh saat memutar
-            
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            
-            const x = clientX - center.x;
-            const y = clientY - center.y;
-            const angle = Math.atan2(y, x) * (180 / Math.PI);
-            currentAngle = angle - startAngle;
-            
-            imgContainer.style.transform = `rotate(${currentAngle}deg)`;
-        }
-
-        function onEnd() {
-            if (!isDragging) return;
-            isDragging = false;
-            // Fisika: bounce halus saat dilepas
-            imgContainer.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-        }
-
-        imgContainer.addEventListener('mousedown', onStart);
-        document.addEventListener('mousemove', onMove, { passive: false });
-        document.addEventListener('mouseup', onEnd);
-        
-        imgContainer.addEventListener('touchstart', onStart, { passive: false });
-        document.addEventListener('touchmove', onMove, { passive: false });
-        document.addEventListener('touchend', onEnd);
-    }
-
-    // 4. Typing Effect Hero
-    function startTypingEffect() {
-      const el = document.getElementById('typingText');
-      const phrases = ["Fullstack Developer", "Founder @ ZuriHost", "15 y/o Tech Enthusiast"];
-      let pIdx = 0, cIdx = 0, del = false;
-      function type() {
-        const cur = phrases[pIdx];
-        if (!del) {
-          el.textContent = cur.substring(0, cIdx + 1); cIdx++;
-          if (cIdx === cur.length) { del = true; setTimeout(type, 2000); return; }
-        } else {
-          el.textContent = cur.substring(0, cIdx - 1); cIdx--;
-          if (cIdx === 0) { del = false; pIdx = (pIdx + 1) % phrases.length; }
-        }
-        setTimeout(type, del ? 40 : 80);
-      }
-      type();
-    }
-
-    // 5. Observer & Scroll (Nav/Reveal)
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if(e.isIntersecting) {
-          document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
-          document.querySelectorAll('.bottom-nav-item[data-section]').forEach(l => l.classList.toggle('active', l.dataset.section === e.target.id));
-        }
-      });
-    }, { rootMargin: '-40% 0px -40% 0px' });
-    document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
-
-    window.addEventListener('scroll', () => {
-      const sp = document.getElementById('scroll-progress');
-      if(sp) sp.style.width = ((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100) + '%';
-      if(window.scrollY > 50) document.getElementById('navbar').classList.add('scrolled');
-      else document.getElementById('navbar').classList.remove('scrolled');
-      
-      const btt = document.getElementById('back-to-top');
-      if(window.scrollY > 500) { btt.style.opacity = '1'; btt.style.pointerEvents = 'auto'; }
-      else { btt.style.opacity = '0'; btt.style.pointerEvents = 'none'; }
-    });
-
-    const revObserver = new IntersectionObserver(ents => ents.forEach((e, i) => {
-      if(e.isIntersecting) { setTimeout(() => e.target.classList.add('show'), i * 80); revObserver.unobserve(e.target); }
-    }), { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => revObserver.observe(el));
-    document.getElementById('back-to-top').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-    // 6. Theme Toggle Dark/Light Mode Animasi Halus
-    function toggleTheme() {
-        document.body.classList.add('theme-transitioning');
-        
-        // Putar Ikon Senter
-        const icons = document.querySelectorAll('#themeToggle i, #themeToggleMobile i');
-        icons.forEach(i => i.style.transform = 'rotate(360deg)');
-        
-        document.body.classList.toggle('light');
-        const isLight = document.body.classList.contains('light');
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-        
-        // Ubah Ikon di tengah putaran
-        setTimeout(() => {
-            icons.forEach(i => {
-                i.setAttribute('data-lucide', isLight ? 'moon' : 'sun');
-                initIcons();
-                i.style.transform = 'rotate(0deg)'; // reset rotasi
-            });
-        }, 200);
-
-        setTimeout(() => {
-            document.body.classList.remove('theme-transitioning');
-        }, 450);
-    }
-    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-    document.getElementById('themeToggleMobile').addEventListener('click', toggleTheme);
-    if(localStorage.getItem('theme') === 'light') document.body.classList.add('light');
-
-    // 7. Modal Project Details
-    const modal = document.getElementById('project-modal');
-    const modalPanel = document.getElementById('modal-panel');
-    const projectData = {
-      'zurihost': { title: 'ZuriHost Premium', desc: 'Platform hosting dengan uptime tinggi, teknologi terdepan dan dukungan pelanggan maksimal yang saya kelola sepenuhnya sejak 2024.'},
-      'zurifreehost': { title: 'ZuriFreeHost', desc: 'Versi gratis dari ZuriHost, didesain untuk komunitas developer dan pelajar agar dapat bereksperimen mendeploy website mereka ke internet.'},
-      'zuribot': { title: 'ZuriHosting Telegram Bot', desc: 'Bot otomatisasi via Telegram yang terintegrasi dengan backend API untuk pemesanan, pengecekan, dan manajemen server.'}
+    // --- CV MODAL FUNCTIONS ---
+    window.openCVModal = function() {
+      const modal = document.getElementById('cv-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      refreshIcons();
     };
 
-    function openModal(projectKey) {
-      const data = projectData[projectKey] || { title: 'Info', desc: 'Detail akan segera hadir.' };
-      document.getElementById('modal-title').textContent = data.title;
-      document.getElementById('modal-desc').textContent = data.desc;
-      modal.classList.remove('hidden'); modal.classList.add('flex');
-      setTimeout(() => { modalPanel.classList.remove('scale-95', 'opacity-0'); modalPanel.classList.add('scale-100', 'opacity-100'); }, 10);
-    }
-    
-    function closeModal() {
-      modalPanel.classList.remove('scale-100', 'opacity-100'); modalPanel.classList.add('scale-95', 'opacity-0');
-      setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
-    }
+    window.closeCVModal = function() {
+      const modal = document.getElementById('cv-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    };
 
-    document.querySelectorAll('.project-details').forEach(btn => btn.addEventListener('click', () => openModal(btn.dataset.project)));
-    document.getElementById('modal-close').addEventListener('click', closeModal);
-    document.getElementById('modal-bg').addEventListener('click', closeModal);
-
-    // 8. Mobile Bottom Sheet
-    const sheet = document.getElementById('bottom-sheet');
-    const sheetContent = document.getElementById('sheet-content');
-    const sheetOverlay = document.getElementById('sheet-overlay');
-
-    document.querySelectorAll('.open-sheet').forEach(btn => {
-      btn.addEventListener('click', () => {
-        sheet.classList.remove('hidden');
-        setTimeout(() => { sheetContent.style.transform = 'translateY(0)'; sheetOverlay.style.opacity = '1'; }, 10);
-      });
+    // Close CV modal on backdrop click
+    document.getElementById('cv-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'cv-modal') closeCVModal();
     });
 
-    function closeSheet() {
-      sheetContent.style.transform = 'translateY(100%)'; sheetOverlay.style.opacity = '0';
-      setTimeout(() => sheet.classList.add('hidden'), 300);
-    }
-    sheetOverlay.addEventListener('click', closeSheet);
-    document.getElementById('close-sheet-btn').addEventListener('click', closeSheet);
-
-    // 9. Journey Drag Scroll Desktop
-    const journeyScroll = document.getElementById('journey-scroll');
-    if(journeyScroll && window.matchMedia('(min-width: 1024px)').matches) {
-      let isDown = false, startX, scrollLeft;
-      journeyScroll.addEventListener('mousedown', (e) => {
-        isDown = true; journeyScroll.style.cursor = 'grabbing';
-        startX = e.pageX - journeyScroll.offsetLeft; scrollLeft = journeyScroll.scrollLeft;
-      });
-      journeyScroll.addEventListener('mouseleave', () => { isDown = false; journeyScroll.style.cursor = 'grab'; });
-      journeyScroll.addEventListener('mouseup', () => { isDown = false; journeyScroll.style.cursor = 'grab'; });
-      journeyScroll.addEventListener('mousemove', (e) => {
-        if(!isDown) return; e.preventDefault();
-        const x = e.pageX - journeyScroll.offsetLeft; const walk = (x - startX) * 1.5;
-        journeyScroll.scrollLeft = scrollLeft - walk;
-      });
-    }
-
-    // 11. Formulir Kontak Interaktif
-    document.getElementById('contact-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      document.getElementById('form-success').classList.remove('hidden');
-      e.target.reset();
-      setTimeout(() => document.getElementById('form-success').classList.add('hidden'), 5000);
-    });
-
-    // 12. Countdown Timer Otomatis (Mendukung Dynamic Year)
-    function initCountdown() {
-      const dEl = document.getElementById('cd-days');
-      const hEl = document.getElementById('cd-hours');
-      const mEl = document.getElementById('cd-minutes');
-      const sEl = document.getElementById('cd-seconds');
-      const prog = document.getElementById('birthday-progress');
-      const pctTxt = document.getElementById('progress-percent');
-      
-      if (!dEl) return;
-
-      function updateTimer() {
-        const now = new Date();
-        const currentYear = now.getFullYear();
-        let targetBday = new Date(currentYear, 5, 15, 0, 0, 0); 
-        
-        if (now.getTime() > targetBday.getTime()) {
-          targetBday = new Date(currentYear + 1, 5, 15, 0, 0, 0);
-        }
-        
-        const diff = targetBday.getTime() - now.getTime();
-        const days = Math.floor(diff / 86400000);
-        const hours = Math.floor((diff % 86400000) / 3600000);
-        const minutes = Math.floor((diff % 3600000) / 60000);
-        const seconds = Math.floor((diff % 60000) / 1000);
-        
-        const pad = n => String(n).padStart(2, '0');
-        
-        dEl.textContent = pad(days);
-        hEl.textContent = pad(hours);
-        mEl.textContent = pad(minutes);
-        sEl.textContent = pad(seconds);
-        
-        let lastBday = new Date(currentYear, 5, 15, 0, 0, 0);
-        if (now.getTime() < lastBday.getTime()) {
-            lastBday = new Date(currentYear - 1, 5, 15, 0, 0, 0);
-        }
-        
-        const total = targetBday.getTime() - lastBday.getTime();
-        const elapsed = now.getTime() - lastBday.getTime();
-        const pct = Math.min(100, (elapsed / total) * 100);
-        
-        if (prog) prog.style.width = pct.toFixed(2) + '%';
-        if (pctTxt) pctTxt.textContent = Math.floor(pct) + '%';
+    // --- DATA: 5 PROJECTS ---
+    const projects = [
+      {
+        id: "zurihost", title: "ZuriHost", role: "Founder & Lead Developer",
+        desc: "Platform layanan web hosting premium dengan fokus pada performa, uptime 99.9%, dan harga terjangkau untuk developer & bisnis Indonesia. Menyediakan shared hosting, VPS, dan domain dengan panel kontrol modern.",
+        tech: ["Next.js", "Node.js", "Tailwind", "cPanel API"],
+        url: "https://zurihost.biz.id", color: "#2563EB", textColor: "#FFFFFF", icon: "server", category: "Web Hosting Platform", rot: -2
+      },
+      {
+        id: "zurifreehost", title: "ZuriFreeHost", role: "Founder & Developer",
+        desc: "Layanan hosting GRATIS dari ekosistem ZuriHost untuk developer pemula, pelajar, dan siapapun yang ingin deploy project tanpa biaya. Support PHP, Node.js, static site, dan subdomain gratis.",
+        tech: ["PHP", "Node.js", "Nginx", "Cloudflare"],
+        url: "https://freehost.zurihost.my.id", color: "#10B981", textColor: "#FFFFFF", icon: "gift", category: "Free Hosting Service", rot: 2
+      },
+      {
+        id: "zurihostingbot", title: "ZuriHostingBot", role: "Creator & Maintainer",
+        desc: "Bot Telegram all-in-one untuk manajemen layanan ZuriHost. User bisa order hosting, cek status server, renew domain, dan kelola akun langsung dari Telegram tanpa buka dashboard web.",
+        tech: ["Node.js", "Telegraf", "Telegram API", "Prisma"],
+        url: "https://t.me/ZuriHostingBot", color: "#0EA5E9", textColor: "#FFFFFF", icon: "bot", category: "Telegram Bot", rot: 1
+      },
+      {
+        id: "nustaradeploy", title: "NustaraDeploy", role: "Founder & Lead Developer",
+        desc: "Platform deploy web GRATIS ala Vercel — khusus untuk developer Indonesia. Support deploy dari GitHub, auto SSL, custom domain, dan instant deployment dengan latency rendah ke Asia.",
+        tech: ["Next.js", "Node.js", "Docker", "GitHub API", "Let's Encrypt", "Cloudflare"],
+        url: "https://nustaradeploy.web.id", color: "#8B5CF6", textColor: "#FFFFFF", icon: "rocket", category: "Free Deploy Platform", rot: -1.5
+      },
+      {
+        id: "freesubdo", title: "FreeSubdo", role: "Founder & Lead Developer",
+        desc: "Layanan subdomain GRATIS untuk developer, pelajar, dan kreator yang butuh domain instan tanpa biaya. Support custom DNS, SSL otomatis, dan manajemen subdomain via dashboard.",
+        tech: ["Node.js", "Cloudflare API", "PostgreSQL", "Let's Encrypt"],
+        url: "https://freesubdo.zurihost.my.id", color: "#F59E0B", textColor: "#0B0B0B", icon: "globe", category: "Free Subdomain Service", rot: 1.5
       }
-      
-      updateTimer();
-      setInterval(updateTimer, 1000);
-    }
-    initCountdown();
+    ];
 
+    // --- DATA: 7 JOURNEY MILESTONES ---
+    const journey = [
+      {
+        year: "2019", icon: "lightbulb", title: "Iseng-Iseng Belajar Coding",
+        story: "Semua dimulai dari rasa penasaran. Umur 9 tahun, iseng buka YouTube dan mulai belajar HTML & CSS dari channel tutorial random. Bikin web sederhana 'Hello World' aja udah seneng banget, rasanya kayak bisa bikin apapun. Gak nyangka dari iseng-iseng itu, jadi titik awal segalanya. Malam-malam di depan laptop cuma buat ngulik tag <div> sama <span>, tanpa tau bakal jadi passion 6 tahun ke depan.",
+        tags: ["FirstStep", "HTML", "CSS", "Curiosity"]
+      },
+      {
+        year: "2020", icon: "zap", title: "Kenalan sama JavaScript",
+        story: "Mulai serius belajar JavaScript. Bikin game kecil-kecilan, kalkulator sederhana, dan web-web random yang isinya cuma buat belajar. Mulai paham logic programming dan kenapa coding itu seru — setiap error adalah puzzle yang harus dipecahin. Dengerin podcast developer Indonesia dan mulai kenal komunitas online. Tahun ini adalah tahun dimana 'iseng' mulai berubah jadi 'serius'.",
+        tags: ["JavaScript", "Logic", "FirstGame", "Community"]
+      },
+      {
+        year: "2021", icon: "flask-conical", title: "Eksplorasi Bahasa Baru",
+        story: "Coba Python buat automation, C++ buat competitive programming, dan mulai kenalan sama backend development. Belajar dari Stack Overflow, dokumentasi resmi, dan komunitas Discord. Mulai paham konsep algoritma, data structures, dan kenapa performance itu penting. Tahun ini adalah tahun 'upgrade' — dari HTML/CSS doang, jadi multi-language programmer.",
+        tags: ["Python", "Cpp", "Backend", "Algorithm"]
+      },
+      {
+        year: "2022", icon: "globe", title: "Deeper into Web Development",
+        story: "Fokus ke web development modern: React, Node.js, dan mulai pakai Git. Bangun project personal pertama yang serius — bukan cuma 'Hello World' tapi project fungsional. Belajar cara deploy ke server, manage domain, dan basic DevOps. Mulai ngerti bahwa 'ngoding' itu cuma 30% — 70% lainnya adalah deployment, maintenance, dan debugging production. Tahun ini ngajarin bahwa real engineering itu jauh lebih kompleks dari tutorial.",
+        tags: ["React", "NodeJS", "Git", "Deployment"]
+      },
+      {
+        year: "2023", icon: "server", title: "Golang & Infrastructure Era",
+        story: "Belajar Golang dan mulai tertarik dengan server infrastructure. Ngulik Linux (Arch btw), Nginx, VPS, dan semua hal tentang hosting. Install Ubuntu Server puluhan kali, sampe hafal command terminal yang sering dipakai. Debug server yang crash jam 3 pagi, manage memory, dan ngulik Docker. Dari sini, ide ZuriHost muncul — kenapa gak bikin platform hosting sendiri yang fokus ke developer Indonesia? Tahun ini adalah turning point — dari consumer jadi builder.",
+        tags: ["Golang", "Linux", "Server", "Docker", "ZuriHostIde"]
+      },
+      {
+        year: "2024", icon: "rocket", title: "Lahirnya ZuriHost",
+        story: "Launching ZuriHost! Platform hosting yang dibangun dari nol dengan misi bantu developer Indonesia punya akses hosting berkualitas dengan harga terjangkau. Bangun dari 0 — pilih server, setup billing, bikin dashboard, handle customer support, semuanya sendiri. Setelah ZuriHost stabil, langsung ekspansi: ZuriFreeHost untuk developer pemula gratis, ZuriHostingBot untuk manajemen via Telegram, NustaraDeploy sebagai alternatif Vercel lokal, dan FreeSubdo untuk subdomain gratis. 5 produk live dalam 1 tahun — gila, tapi seru. Umur 15 tahun, udah handle customer real, solve real problem, dan manage real server. Tahun paling gila dalam hidup.",
+        tags: ["ZuriHost", "5Products", "Founder", "Shipping"]
+      },
+      {
+        year: "2025", icon: "sprout", title: "Growing & Building More",
+        story: "Sekarang masih terus belajar dan develop ekosistem ZuriHost. Fokus improve layanan, tambah fitur, dan bangun komunitas developer Indonesia. Lagi deep dive ke system design, scaling, dan cloud architecture. Mimpinya? Bikin ZuriHost jadi platform hosting nomor 1 yang developer-first di Indonesia, dengan ekosistem lengkap dari deploy, subdomain, hosting, sampai monitoring. Journey masih panjang — tapi justru itu yang bikin seru. This is just the beginning.",
+        tags: ["Growing", "Community", "SystemDesign", "Future"]
+      }
+    ];
+
+    // --- DATA: 18 TECH STACK ---
+    const techStack = [
+      { name: "JavaScript", type: "Frontend", level: "Mahir", icon: "file-code" },
+      { name: "TypeScript", type: "Frontend", level: "Mahir", icon: "code-2" },
+      { name: "Golang", type: "Backend", level: "Mahir", icon: "cpu" },
+      { name: "Python", type: "Backend", level: "Menengah", icon: "terminal" },
+      { name: "C++", type: "Backend", level: "Menengah", icon: "binary" },
+      { name: "Next.js", type: "Frontend", level: "Mahir", icon: "layout" },
+      { name: "React", type: "Frontend", level: "Mahir", icon: "atom" },
+      { name: "Node.js", type: "Backend", level: "Mahir", icon: "server" },
+      { name: "Tailwind CSS", type: "Frontend", level: "Mahir", icon: "palette" },
+      { name: "Git & GitHub", type: "Tools", level: "Mahir", icon: "git-branch" },
+      { name: "Linux / Server", type: "Tools", level: "Mahir", icon: "terminal-square" },
+      { name: "Telegram API", type: "Backend", level: "Mahir", icon: "bot" },
+      { name: "Prisma", type: "Backend", level: "Menengah", icon: "database" },
+      { name: "Cloudflare", type: "Tools", level: "Menengah", icon: "cloud" },
+      { name: "Docker", type: "Tools & Infra", level: "Menengah", icon: "box" },
+      { name: "Let's Encrypt", type: "Tools & Infra", level: "Mahir", icon: "lock" },
+      { name: "PostgreSQL", type: "Backend", level: "Menengah", icon: "hard-drive" },
+      { name: "GitHub API", type: "Backend", level: "Mahir", icon: "webhook" }
+    ];
+
+    // Helper Escape HTML
+    function escapeHTML(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    // --- 1. LOADING SCREEN ---
+    (function initLoader() {
+      const bar = document.getElementById('loader-bar');
+      const status = document.getElementById('loader-status');
+      const loader = document.getElementById('loader');
+      let progress = 0;
+
+      const timer = setInterval(() => {
+        progress += 25;
+        if (progress > 100) progress = 100;
+        if (bar) bar.style.width = progress + '%';
+        if (progress === 50 && status) status.innerText = 'Menyiapkan 5 Produk & 3D Physics...';
+        if (progress >= 100) {
+          clearInterval(timer);
+          if (status) status.innerText = 'Siap! Selamat Datang!';
+          setTimeout(() => {
+            if (loader) loader.style.opacity = '0';
+            document.body.classList.remove('loading');
+            setTimeout(() => { if (loader) loader.style.display = 'none'; }, 400);
+          }, 250);
+        }
+      }, 180);
+    })();
+
+    // --- 2. TYPEWRITER EFFECT ---
+    const roles = ["Fullstack Development", "Hosting Infrastructure", "UI Engineering", "Problem Solving"];
+    let roleIdx = 0, charIdx = 0, isDel = false;
+    const typeEl = document.getElementById('typewriter');
+
+    function runTypewriter() {
+      if (!typeEl) return;
+      const curr = roles[roleIdx];
+      typeEl.innerText = isDel ? curr.substring(0, charIdx--) : curr.substring(0, charIdx++);
+      let speed = isDel ? 40 : 90;
+      if (!isDel && charIdx > curr.length) { speed = 1800; isDel = true; charIdx = curr.length; }
+      else if (isDel && charIdx < 0) { isDel = false; roleIdx = (roleIdx + 1) % roles.length; charIdx = 0; speed = 400; }
+      setTimeout(runTypewriter, speed);
+    }
+    setTimeout(runTypewriter, 1500);
+
+    // --- 3. SAFE CUSTOM CURSOR ---
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorRing = document.getElementById('cursor-ring');
+    if (window.matchMedia("(min-width: 1024px) and (pointer: fine)").matches) {
+      let mx = -100, my = -100, rx = -100, ry = -100;
+      window.addEventListener('mousemove', (e) => {
+        document.body.classList.add('custom-cursor-ready');
+        mx = e.clientX; my = e.clientY;
+        cursorDot.style.left = mx + 'px';
+        cursorDot.style.top = my + 'px';
+      });
+      function loopCursor() {
+        rx += (mx - rx) * 0.2;
+        ry += (my - ry) * 0.2;
+        cursorRing.style.left = rx + 'px';
+        cursorRing.style.top = ry + 'px';
+        requestAnimationFrame(loopCursor);
+      }
+      requestAnimationFrame(loopCursor);
+
+      document.body.addEventListener('mouseover', (e) => {
+        if (e.target.closest('a, button, .interactive, .tech-icon')) document.body.classList.add('cursor-hover');
+      });
+      document.body.addEventListener('mouseout', (e) => {
+        if (e.target.closest('a, button, .interactive, .tech-icon')) document.body.classList.remove('cursor-hover');
+      });
+    }
+
+    // --- 4. 3D ID CARD PHYSICS & LANYARD ---
+    const card = document.getElementById('id-card');
+    const lanyard = document.getElementById('lanyard');
+    let draggingCard = false, startX = 0, startY = 0;
+    let rotX = 0, rotY = 0, targetRotX = 0, targetRotY = 0, velX = 0, velY = 0;
+    let dragOffsetX = 0, dragOffsetY = 0, targetOffsetX = 0, targetOffsetY = 0;
+
+    if (card) {
+      card.addEventListener('mousemove', (e) => {
+        if (draggingCard) return;
+        const r = card.getBoundingClientRect();
+        const x = e.clientX - r.left - r.width / 2;
+        const y = e.clientY - r.top - r.height / 2;
+        targetRotY = (x / (r.width / 2)) * 15;
+        targetRotX = -(y / (r.height / 2)) * 15;
+      });
+      card.addEventListener('mouseleave', () => {
+        if (!draggingCard) { targetRotX = 0; targetRotY = 0; }
+      });
+
+      const startDrag = (cx, cy) => { draggingCard = true; startX = cx; startY = cy; };
+      const moveDrag = (cx, cy) => {
+        if (!draggingCard) return;
+        const dx = Math.max(-120, Math.min(120, cx - startX));
+        const dy = Math.max(-80, Math.min(120, cy - startY));
+        targetOffsetX = dx;
+        targetOffsetY = dy;
+        targetRotY = dx * 0.25;
+        targetRotX = -dy * 0.15;
+      };
+      const endDrag = () => {
+        if (!draggingCard) return;
+        draggingCard = false;
+        targetOffsetX = 0; targetOffsetY = 0; targetRotX = 0; targetRotY = 0;
+      };
+
+      card.addEventListener('mousedown', e => startDrag(e.clientX, e.clientY));
+      window.addEventListener('mousemove', e => moveDrag(e.clientX, e.clientY));
+      window.addEventListener('mouseup', endDrag);
+
+      card.addEventListener('touchstart', e => startDrag(e.touches[0].clientX, e.touches[0].clientY), {passive: true});
+      window.addEventListener('touchmove', e => moveDrag(e.touches[0].clientX, e.touches[0].clientY), {passive: true});
+      window.addEventListener('touchend', endDrag);
+
+      function animateCardPhysics() {
+        const spring = 0.12, damping = 0.80;
+        velX = (velX + (targetRotX - rotX) * spring) * damping;
+        velY = (velY + (targetRotY - rotY) * spring) * damping;
+        rotX += velX; rotY += velY;
+        dragOffsetX += (targetOffsetX - dragOffsetX) * 0.18;
+        dragOffsetY += (targetOffsetY - dragOffsetY) * 0.18;
+
+        card.style.transform = `translate3d(${dragOffsetX}px, ${dragOffsetY}px, 0) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+        if (lanyard) lanyard.style.transform = `rotateZ(${-dragOffsetX * 0.15}deg)`;
+        requestAnimationFrame(animateCardPhysics);
+      }
+      animateCardPhysics();
+    }
+
+    // --- 5. FLOATING TECH CLOUD FOLDER ---
+    const folderTrigger = document.getElementById('folder-trigger');
+    const techCloud = document.getElementById('tech-cloud');
+    const closeCloudBtn = document.getElementById('close-cloud');
+    const cloudArena = document.getElementById('cloud-arena');
+    const skillPopup = document.getElementById('skill-popup');
+    let cloudActive = false, cloudItems = [], cloudRaf;
+
+    if (folderTrigger) {
+      folderTrigger.addEventListener('click', () => {
+        folderTrigger.classList.add('hidden');
+        techCloud.classList.remove('hidden');
+        cloudActive = true;
+        spawnTechIcons();
+      });
+    }
+
+    if (closeCloudBtn) {
+      closeCloudBtn.addEventListener('click', () => {
+        cloudActive = false;
+        cancelAnimationFrame(cloudRaf);
+        techCloud.classList.add('hidden');
+        skillPopup.classList.add('hidden');
+        folderTrigger.classList.remove('hidden');
+        techCloud.querySelectorAll('.tech-icon').forEach(el => el.remove());
+      });
+    }
+
+    function spawnTechIcons() {
+      cloudItems = [];
+      const W = cloudArena.clientWidth;
+      const H = cloudArena.clientHeight;
+
+      techStack.forEach((t, i) => {
+        const el = document.createElement('div');
+        el.className = 'tech-icon flex items-center gap-2 font-heading font-bold text-xs';
+        el.innerHTML = `<i data-lucide="${t.icon}" class="w-4 h-4 text-electric-blue"></i><span>${t.name}</span>`;
+        el.addEventListener('click', (e) => {
+          e.stopPropagation();
+          document.getElementById('popup-skill-name').innerText = t.name;
+          document.getElementById('popup-skill-level').innerText = t.level;
+          document.getElementById('popup-skill-cat').innerText = `Kategori: ${t.type}`;
+          skillPopup.classList.remove('hidden');
+        });
+        techCloud.appendChild(el);
+
+        const x = Math.max(20, Math.min(W - 140, (W / 2 - 60) + (Math.random() - 0.5) * 160));
+        const y = Math.max(20, Math.min(H - 60, (H / 2 - 20) + (Math.random() - 0.5) * 120));
+        const angle = (i / techStack.length) * Math.PI * 2;
+        const speed = 1.2 + Math.random() * 1.2;
+
+        cloudItems.push({ el, x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, w: 125, h: 42 });
+      });
+      refreshIcons();
+      loopTechCloud();
+    }
+
+    function loopTechCloud() {
+      if (!cloudActive) return;
+      const W = cloudArena.clientWidth;
+      const H = cloudArena.clientHeight;
+
+      cloudItems.forEach(item => {
+        item.x += item.vx;
+        item.y += item.vy;
+        if (item.x <= 8) { item.x = 8; item.vx *= -1; }
+        if (item.x + item.w >= W - 8) { item.x = W - 8 - item.w; item.vx *= -1; }
+        if (item.y <= 8) { item.y = 8; item.vy *= -1; }
+        if (item.y + item.h >= H - 55) { item.y = H - 55 - item.h; item.vy *= -1; }
+        item.el.style.transform = `translate3d(${item.x}px, ${item.y}px, 0)`;
+      });
+      cloudRaf = requestAnimationFrame(loopTechCloud);
+    }
+
+    // --- 6. RENDER 5 PROJECTS & MODAL ---
+    function renderProjects() {
+      const desktopGrid = document.getElementById('project-desktop-grid');
+      const desktopCenter = document.getElementById('project-desktop-center');
+      const mobileCarousel = document.getElementById('project-mobile-carousel');
+      const dotsContainer = document.getElementById('project-carousel-dots');
+
+      projects.forEach((p, idx) => {
+        const cardHTML = `
+          <article class="project-card brutal-border brutal-shadow rounded-2xl overflow-hidden flex flex-col justify-between h-full min-w-[85vw] sm:min-w-[340px] md:min-w-0 snap-center relative" style="background-color: ${p.color}; color: ${p.textColor}; transform: rotate(${p.rot}deg);">
+            <div class="p-6 md:p-8 relative z-10">
+              <div class="flex justify-between items-start gap-2 mb-6">
+                <span class="bg-white text-jet-black brutal-border px-3 py-1 rounded-full font-heading font-black text-xs shadow-sm">
+                  ${p.category}
+                </span>
+                <div class="w-12 h-12 bg-white text-jet-black brutal-border rounded-xl flex items-center justify-center shrink-0">
+                  <i data-lucide="${p.icon}" class="w-6 h-6"></i>
+                </div>
+              </div>
+              
+              <h3 class="font-heading font-black text-3xl mb-1" style="color: ${p.textColor}">${p.title}</h3>
+              <p class="font-bold text-xs uppercase tracking-wider opacity-90 mb-4 flex items-center gap-1.5">
+                <i data-lucide="award" class="w-4 h-4"></i> ${p.role}
+              </p>
+              <p class="text-sm font-medium opacity-95 leading-relaxed mb-6">${p.desc}</p>
+              
+              <div class="flex flex-wrap gap-1.5 mb-2">
+                ${p.tech.map(t => `<span class="text-[11px] font-bold px-2.5 py-1 bg-jet-black text-white keep-white rounded-lg border border-white/30">${t}</span>`).join('')}
+              </div>
+            </div>
+
+            <div class="p-6 md:px-8 pt-0 flex gap-3 z-10">
+              <a href="${p.url}" target="_blank" class="flex-1 brutal-btn bg-white text-jet-black rounded-xl py-3 text-xs">
+                <i data-lucide="external-link" class="w-4 h-4"></i> Kunjungi
+              </a>
+              <button type="button" onclick="openProjectModal('${p.id}')" class="brutal-btn bg-yellow text-jet-black rounded-xl py-3 px-4 text-xs">
+                <i data-lucide="info" class="w-4 h-4"></i> Detail
+              </button>
+            </div>
+          </article>
+        `;
+
+        mobileCarousel.innerHTML += cardHTML;
+        dotsContainer.innerHTML += `<button class="proj-dot w-3 h-3 rounded-full brutal-border ${idx === 0 ? 'bg-yellow' : 'bg-white'}" data-idx="${idx}" aria-label="Slide ${idx+1}"></button>`;
+
+        if (idx < 4) desktopGrid.innerHTML += cardHTML;
+        else desktopCenter.innerHTML = `<div class="w-full max-w-2xl">${cardHTML}</div>`;
+      });
+
+      // Mobile Carousel Dots Sync
+      const dots = dotsContainer.querySelectorAll('.proj-dot');
+      mobileCarousel.addEventListener('scroll', () => {
+        const cardW = mobileCarousel.children[0].offsetWidth + 20;
+        const activeIdx = Math.round(mobileCarousel.scrollLeft / cardW);
+        dots.forEach((d, i) => {
+          d.classList.toggle('bg-yellow', i === activeIdx);
+          d.classList.toggle('bg-white', i !== activeIdx);
+        });
+      }, {passive: true});
+
+      refreshIcons();
+    }
+    renderProjects();
+
+    window.openProjectModal = function(id) {
+      const p = projects.find(item => item.id === id);
+      if (!p) return;
+      document.getElementById('modal-badge').innerText = p.category;
+      document.getElementById('modal-title').innerText = p.title;
+      document.getElementById('modal-role').innerText = p.role;
+      document.getElementById('modal-desc').innerText = p.desc;
+      document.getElementById('modal-link').href = p.url;
+      document.getElementById('modal-tech').innerHTML = p.tech.map(t => `<span class="px-2.5 py-1 bg-cream brutal-border rounded-lg font-bold text-xs">${t}</span>`).join('');
+      const modal = document.getElementById('project-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    };
+
+    document.getElementById('close-modal').addEventListener('click', () => {
+      const modal = document.getElementById('project-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    });
+
+    // --- 7. RENDER JOURNEY (DESKTOP DRAG + MOBILE ACCORDION) ---
+    function renderJourney() {
+      const desktop = document.getElementById('journey-scroll-desktop');
+      const mobile = document.getElementById('journey-accordion-mobile');
+
+      journey.forEach((j, idx) => {
+        const rot = idx % 2 === 0 ? -1.5 : 1.5;
+        const safeStory = escapeHTML(j.story);
+
+        // Desktop Card (400px wide)
+        desktop.innerHTML += `
+          <div class="journey-card flex-shrink-0 w-[400px] bg-cream text-jet-black brutal-border brutal-shadow rounded-2xl p-8 relative flex flex-col justify-between" style="transform: rotate(${rot}deg);">
+            <div>
+              <div class="flex justify-between items-center mb-6">
+                <div class="w-12 h-12 bg-electric-blue text-white keep-white brutal-border rounded-xl flex items-center justify-center brutal-shadow-sm">
+                  <i data-lucide="${j.icon}" class="w-6 h-6"></i>
+                </div>
+                <span class="px-3 py-1 bg-white brutal-border rounded-full font-mono font-bold text-xs">${idx + 1} / ${journey.length}</span>
+              </div>
+              
+              <div class="font-heading font-black text-4xl text-electric-blue mb-2">${j.year}</div>
+              <h3 class="font-heading font-black text-xl text-jet-black mb-3">${j.title}</h3>
+              <p class="text-sm text-jet-black/80 font-medium leading-relaxed min-h-[180px]">${safeStory}</p>
+            </div>
+            
+            <div class="flex flex-wrap gap-1.5 mt-6 pt-4 border-t-2 border-jet-black/15">
+              ${j.tags.map(t => `<span class="text-[11px] font-bold px-2.5 py-0.5 bg-white brutal-border rounded-full flex items-center gap-0.5"><i data-lucide="hash" class="w-3 h-3 text-electric-blue"></i>${t}</span>`).join('')}
+            </div>
+          </div>
+        `;
+
+        // Mobile Accordion
+        mobile.innerHTML += `
+          <div class="bg-cream text-jet-black brutal-border brutal-shadow-sm rounded-2xl overflow-hidden">
+            <button type="button" class="w-full p-4 flex items-center gap-3 text-left font-heading" onclick="toggleJourneyAcc(this)">
+              <span class="bg-electric-blue text-white keep-white brutal-border px-3 py-1 rounded-lg font-black text-sm shrink-0">${j.year}</span>
+              <span class="font-black text-base flex-grow text-jet-black">${j.title}</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 shrink-0 transition-transform duration-300 acc-chevron"></i>
+            </button>
+            <div class="accordion-content max-h-0 px-4 bg-white">
+              <div class="py-4 border-t-2 border-jet-black/10 space-y-3">
+                <p class="text-sm font-medium text-jet-black/85 leading-relaxed">${safeStory}</p>
+                <div class="flex flex-wrap gap-1.5 pt-1">
+                  ${j.tags.map(t => `<span class="text-[10px] font-bold px-2 py-0.5 bg-yellow brutal-border rounded-full">#${t}</span>`).join('')}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      refreshIcons();
+    }
+    renderJourney();
+
+    window.toggleJourneyAcc = function(btn) {
+      const content = btn.nextElementSibling;
+      const icon = btn.querySelector('.acc-chevron');
+      const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+      document.querySelectorAll('#journey-accordion-mobile .accordion-content').forEach(el => el.style.maxHeight = '0px');
+      document.querySelectorAll('#journey-accordion-mobile .acc-chevron').forEach(ic => ic.style.transform = 'rotate(0deg)');
+
+      if (!isOpen) {
+        content.style.maxHeight = content.scrollHeight + 'px';
+        icon.style.transform = 'rotate(180deg)';
+      }
+    };
+
+    // Desktop Horizontal Drag Scroll
+    const jScroll = document.getElementById('journey-scroll-desktop');
+    if (jScroll) {
+      let isDown = false, startX, scrollLeft;
+      jScroll.addEventListener('mousedown', e => { isDown = true; startX = e.pageX - jScroll.offsetLeft; scrollLeft = jScroll.scrollLeft; });
+      jScroll.addEventListener('mouseleave', () => isDown = false);
+      jScroll.addEventListener('mouseup', () => isDown = false);
+      jScroll.addEventListener('mousemove', e => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - jScroll.offsetLeft;
+        jScroll.scrollLeft = scrollLeft - (x - startX) * 1.8;
+      });
+    }
+
+    // --- 8. BIRTHDAY COUNTDOWN (15 JUNI) ---
+    function updateBirthday() {
+      const now = new Date();
+      const yr = now.getFullYear();
+      let nextBday = new Date(yr, 5, 15, 0, 0, 0);
+      const isTodayBday = (now.getMonth() === 5 && now.getDate() === 15);
+
+      if (isTodayBday) {
+        document.getElementById('bday-normal').classList.add('hidden');
+        document.getElementById('bday-party').classList.remove('hidden');
+        document.getElementById('bday-bar').style.width = '100%';
+        document.getElementById('bday-pct').innerText = '100%';
+        return;
+      }
+
+      if (now > nextBday) nextBday = new Date(yr + 1, 5, 15, 0, 0, 0);
+      const prevBday = new Date(nextBday.getFullYear() - 1, 5, 15, 0, 0, 0);
+
+      const diff = nextBday - now;
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+
+      document.getElementById('cd-days').innerText = String(d).padStart(2, '0');
+      document.getElementById('cd-hours').innerText = String(h).padStart(2, '0');
+      document.getElementById('cd-mins').innerText = String(m).padStart(2, '0');
+      document.getElementById('cd-secs').innerText = String(s).padStart(2, '0');
+
+      const pct = Math.min(100, Math.max(0, ((now - prevBday) / (nextBday - prevBday)) * 100));
+      document.getElementById('bday-bar').style.width = pct.toFixed(1) + '%';
+      document.getElementById('bday-pct').innerText = pct.toFixed(1) + '%';
+    }
+    setInterval(updateBirthday, 1000);
+    updateBirthday();
+
+    // --- 9. CONTACT FORM (WHATSAPP & TELEGRAM) ---
+    const contactForm = document.getElementById('contact-form');
+    const btnSendWa = document.getElementById('btn-send-wa');
+
+    function validateContact() {
+      const name = document.getElementById('senderName').value.trim();
+      const msg = document.getElementById('senderMsg').value.trim();
+      document.getElementById('err-name').classList.toggle('hidden', !!name);
+      document.getElementById('err-msg').classList.toggle('hidden', !!msg);
+      if (!name || !msg) return null;
+      return { name, msg };
+    }
+
+    if (btnSendWa) {
+      btnSendWa.addEventListener('click', () => {
+        const data = validateContact();
+        if (!data) return;
+        const text = encodeURIComponent(`Halo Wahyu, saya *${data.name}*.\n\n${data.msg}`);
+        document.getElementById('form-success').classList.remove('hidden');
+        setTimeout(() => {
+          window.open(`https://wa.me/6285122900934?text=${text}`, '_blank');
+          contactForm.reset();
+          document.getElementById('form-success').classList.add('hidden');
+        }, 600);
+      });
+    }
+
+    if (contactForm) {
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = validateContact();
+        if (!data) return;
+        const text = encodeURIComponent(`Halo Wahyu, saya ${data.name}.\n\n${data.msg}`);
+        document.getElementById('form-success').classList.remove('hidden');
+        setTimeout(() => {
+          window.open(`https://t.me/ZuriHostingBot?text=${text}`, '_blank');
+          contactForm.reset();
+          document.getElementById('form-success').classList.add('hidden');
+        }, 600);
+      });
+    }
+
+    // --- 10. DARK / LIGHT THEME TOGGLE ---
+    const themeBtn = document.getElementById('theme-toggle');
+    if (localStorage.getItem('wn-theme') === 'light') {
+      document.body.classList.add('light');
+    }
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        document.body.classList.toggle('light');
+        const isLight = document.body.classList.contains('light');
+        localStorage.setItem('wn-theme', isLight ? 'light' : 'dark');
+        const icon = document.getElementById('theme-icon');
+        if (icon) icon.setAttribute('data-lucide', isLight ? 'moon' : 'sun');
+        refreshIcons();
+      });
+    }
+
+    // --- 11. SCROLL PROGRESS, REVEAL & STATS COUNTER ---
+    const scrollBar = document.getElementById('scroll-progress');
+    const fabTop = document.getElementById('fab-top');
+    const reveals = document.querySelectorAll('.reveal');
+    const counters = document.querySelectorAll('.counter');
+    let counted = false;
+
+    function handleScroll() {
+      const winScroll = window.scrollY;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollBar && height > 0) scrollBar.style.width = ((winScroll / height) * 100) + '%';
+
+      if (fabTop) {
+        fabTop.classList.toggle('opacity-0', winScroll < 400);
+        fabTop.classList.toggle('pointer-events-none', winScroll < 400);
+      }
+
+      reveals.forEach(el => {
+        if (el.getBoundingClientRect().top < window.innerHeight - 60) {
+          el.classList.add('active');
+          if (!counted && el.querySelector('.counter')) {
+            counted = true;
+            counters.forEach(c => {
+              const target = +c.getAttribute('data-target');
+              let curr = 0;
+              const step = Math.max(1, Math.ceil(target / 30));
+              const timer = setInterval(() => {
+                curr += step;
+                if (curr >= target) { c.innerText = target; clearInterval(timer); }
+                else c.innerText = curr;
+              }, 40);
+            });
+          }
+        }
+      });
+    }
+    window.addEventListener('scroll', handleScroll, {passive: true});
+    setTimeout(handleScroll, 200);
+
+    if (fabTop) fabTop.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+
+    // --- 12. EASTER EGG ("WAHYU") ---
+    let keyBuffer = '';
+    window.addEventListener('keydown', (e) => {
+      if (!e.key || e.key.length !== 1) return;
+      keyBuffer = (keyBuffer + e.key.toUpperCase()).slice(-5);
+      if (keyBuffer === 'WAHYU') {
+        const colors = ['#2563EB', '#FACC15', '#10B981', '#8B5CF6', '#F59E0B'];
+        for (let i = 0; i < 60; i++) {
+          const conf = document.createElement('div');
+          conf.className = 'fixed z-[9999] w-4 h-4 brutal-border pointer-events-none';
+          conf.style.backgroundColor = colors[i % colors.length];
+          conf.style.left = (Math.random() * 100) + 'vw';
+          conf.style.top = '-20px';
+          document.body.appendChild(conf);
+          const dur = 2000 + Math.random() * 1500;
+          conf.animate([
+            { transform: 'translate3d(0,0,0) rotate(0deg)', opacity: 1 },
+            { transform: `translate3d(${(Math.random() - 0.5) * 250}px, 100vh, 0) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+          ], { duration: dur, easing: 'cubic-bezier(.37,0,.63,1)' });
+          setTimeout(() => conf.remove(), dur);
+        }
+      }
+    });
   </script>
 </body>
 </html>
